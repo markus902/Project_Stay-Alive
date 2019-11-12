@@ -1,9 +1,10 @@
 var express = require("express");
-var mySQL = require("sequelize");
+// var mySQL = require("sequelize");
 // var db = require("./models");
 
-var PORT = process.env.PORT || 3000;
-
+// Middleware
+const path = require("path");
+var PORT = process.env.PORT || 3001;
 var app = express();
 
 app.use(express.urlencoded({
@@ -11,10 +12,10 @@ app.use(express.urlencoded({
 }));
 app.use(express.json());
 
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "public")));
 
 // Routes
-// app.use("/", require("./routes/routes"));
+app.use("/api", require("./routes/routes.js"));
 
 // Start the server
 app.listen(PORT, function () {
