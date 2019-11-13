@@ -1,6 +1,8 @@
+require("dotenv").config();
 var express = require("express");
-// var mySQL = require("sequelize");
-// var db = require("./models");
+
+// Database Models
+var db = require("./models");
 
 // Middleware
 const path = require("path");
@@ -15,9 +17,12 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
 // Routes
-app.use("/api", require("./routes/routes.js"));
+app.use("/api", require("./routes/apiRoutes"));
 
 // Start the server
-app.listen(PORT, function () {
-    console.log("App running on port " + PORT + "!");
+
+db.sequelize.sync().then(function () {
+    app.listen(PORT, () => {
+        console.log("App listening on port 3001");
+    });
 });
