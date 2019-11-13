@@ -1,16 +1,16 @@
-module.exports = function(sequelize, DataTypes) {
-    const powerUp = sequelize.define("powerUp", {
-        powerUpName: {
-            type: DataTypes.STRING,
-            allowNull: false
-          },
-          powerUpType: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-              isIn: ["HealthRecovery", "ExperienceBoost", "ResetTimer"]
-            }
-          }
+module.exports = function (sequelize, DataTypes) {
+  const powerUp = sequelize.define("powerUp", {
+    powerUpName: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    powerUpType: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        isIn: ["HealthRecovery", "ExperienceBoost", "ResetTimer"]
+      }
+    }
     //   armorName: {
     //     type: DataTypes.STRING,
     //     allowNull: false
@@ -59,12 +59,11 @@ module.exports = function(sequelize, DataTypes) {
     //       ]
     //     }
     //   }
-    });
-    powerUp.associate = function(models) {
-      powerUp.hasMany(models.character, {
-        onDelete: "cascade"
-      });
-    };
-    return powerUp;
-  };
-  
+  });
+  // powerUp.associate = function(models) {
+  //   powerUp.hasMany(models.character, {
+  //     onDelete: "cascade"
+  //   });
+  // };
+  return powerUp;
+};
