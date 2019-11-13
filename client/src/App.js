@@ -6,7 +6,7 @@ import Login from "./Components/Login"
 import CharacterDashboard from "./Components/CharacterDashboard"
 import SignUp from "./Components/Signup"
 import NoMatch from "./Components/NoMatch"
-
+//Router Setup
 function App() {
   return (
     <Router>
