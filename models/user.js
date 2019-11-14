@@ -32,10 +32,10 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: false
     },
   });
-  // user.associate = function(models) {
-  //   user.hasMany(models.character, {
-  //     onDelete: "cascade"
-  //   });
-  // };
+  User.associate = function(models) {
+    User.hasMany(models.Character, {
+      onDelete: "cascade"
+    });
+  };
   return User;
 };

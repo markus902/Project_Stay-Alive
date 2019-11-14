@@ -29,17 +29,17 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: true
     }
   });
-  // character.associate = function (models) {
-  //   character.belongsTo(models.user, {
-  //     foreignKey: {
-  //       allowNull: false
-  //     }
-  //   });
-  //   character.belongsTo(models.inventory, {
-  //     foreignKey: {
-  //       allowNull: false
-  //     }
-  //   });
-  // };
+  Character.associate = function (models) {
+    character.belongsTo(models.User, {
+      foreignKey: {
+        allowNull: false
+      }
+    });
+    Character.belongsTo(models.PowerUp, {
+      foreignKey: {
+        allowNull: false
+      }
+    });
+  };
   return Character;
 };

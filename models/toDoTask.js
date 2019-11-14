@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  const toDoTask = sequelize.define("toDoTask", {
+  const ToDoTasks = sequelize.define("ToDoTasks", {
     taskName: {
       type: DataTypes.STRING,
       allowNull: false
@@ -15,7 +15,7 @@ module.exports = function (sequelize, DataTypes) {
     // characterID: {
 
     // },
-    // toDoTaskID: {
+    // ToDoTasksID: {
 
     // },
     // frequency: {
@@ -26,10 +26,10 @@ module.exports = function (sequelize, DataTypes) {
     //   }
     // },
   });
-  // toDoTask.associate = function(models) {
-  //   toDoTask.hasMany(models.character, {
-  //     onDelete: "cascade"
-  //   });
-  // };
-  return toDoTask;
+  ToDoTasks.associate = function(models) {
+    ToDoTasks.hasMany(models.Character, {
+      onDelete: "cascade"
+    });
+  };
+  return ToDoTasks;
 };
