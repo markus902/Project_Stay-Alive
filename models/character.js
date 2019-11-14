@@ -30,7 +30,7 @@ module.exports = function (sequelize, DataTypes) {
     }
   });
   Character.associate = function (models) {
-    character.belongsTo(models.User, {
+    Character.belongsTo(models.User, {
       foreignKey: {
         allowNull: false
       }
