@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  const toDoTask = sequelize.define("toDoTask", {
+  const ToDoTasks = sequelize.define("ToDoTasks", {
     taskName: {
       type: DataTypes.STRING,
       allowNull: false
@@ -8,28 +8,37 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        //   Need to add experience rewarded?
-        isIn: ["Challenge Rating 1-5"]
+        // Needs Review.
+        isIn: ["Challenge Rating 1-5"] // Need to add experience rewarded
+      }
+    },
+    createdAt: {
+      type: DataTypes.DATETIME,
+      allowNull: false,
+    },
+    upDatedAt: {
+      type: DataTypes.DATETIME,
+      allowNull: false
+    },
+    frequency: {
+      type: DataTypes.DATETIME,
+      allowNull: false,
+      validate: {
+        isIn: ["Daily", "Weekly", "Monthly"]
       }
     },
     // characterID: {
 
     // },
-    // toDoTaskID: {
+    // ToDoTasksID: {
 
     // },
-    // frequency: {
-    //   type: DataTypes.DATETIME,
-    //   allowNull: false,
-    //   validate: {
-    //     isIn: ["Daily", "Weekly", "Monthly"]
-    //   }
-    // },
+
   });
-  // toDoTask.associate = function(models) {
-  //   toDoTask.hasMany(models.character, {
-  //     onDelete: "cascade"
-  //   });
-  // };
-  return toDoTask;
+  ToDoTasks.associate = function (models) {
+    ToDoTasks.hasMany(models.Character, {
+      onDelete: "cascade"
+    });
+  };
+  return ToDoTasks;
 };
