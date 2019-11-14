@@ -12,27 +12,14 @@ module.exports = function (sequelize, DataTypes) {
         isIn: ["Challenge Rating 1-5"] // Need to add experience rewarded
       }
     },
-    createdAt: {
-      type: DataTypes.DATETIME,
-      allowNull: false,
-    },
-    upDatedAt: {
-      type: DataTypes.DATETIME,
-      allowNull: false
-    },
     frequency: {
-      type: DataTypes.DATETIME,
+      type: DataTypes.DATE,
       allowNull: false,
       validate: {
         isIn: ["Daily", "Weekly", "Monthly"]
       }
     },
-    // characterID: {
-
-    // },
-    // ToDoTasksID: {
-
-    // },
+    
 
   });
   ToDoTasks.associate = function (models) {
