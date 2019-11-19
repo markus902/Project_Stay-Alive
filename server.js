@@ -1,6 +1,14 @@
 require("dotenv").config();
 var express = require("express");
 
+//Requirements for Authorization
+const morgan = require("morgan");
+const helmet = require("helmet");
+const jwt = require("express-jwt");
+const jwksRsa = require("jwks-rsa");
+const { join } = require("path");
+const authConfig = require("./src/auth_config.json");
+
 // Database Models
 var db = require("./models");
 
