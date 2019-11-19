@@ -1,14 +1,37 @@
 {
-  "name": "stayalive",
+  "name": "auth0-react-03-calling-an-api",
   "version": "0.1.0",
   "private": true,
+  "scripts": {
+    "start": "npm-run-all --parallel spa server",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "spa": "react-scripts start",
+    "server": "node server.js",
+    "server:dev": "nodemon server.js",
+    "dev": "npm-run-all --parallel spa server:dev"
+  },
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.5.0",
+    "@fortawesome/fontawesome-svg-core": "^1.2.17",
+    "@fortawesome/free-solid-svg-icons": "^5.8.1",
+    "@fortawesome/react-fontawesome": "^0.1.4",
+    "@material-ui/core": "^4.6.1",
+    "@material-ui/icons": "^4.5.1",
+    "@mdi/js": "^4.5.95",
+    "@mdi/react": "^1.2.1",
     "auth0-js": "^9.11.3",
     "axios": "^0.19.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-jwt": "^5.3.1",
+    "helmet": "^3.18.0",
+    "highlight.js": "^9.15.6",
+    "jwks-rsa": "^1.4.0",
+    "morgan": "^1.9.1",
     "mysql2": "^2.0.0",
+    "npm-run-all": "^4.1.5",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "react-router-dom": "^5.1.2",
@@ -16,15 +39,8 @@
     "sequelize": "^5.21.2",
     "sql": "^0.78.0"
   },
-  "scripts": {
-    "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
-    "start:prod": "node server.js",
-    "start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"npm run client\"",
-    "client": "cd client && npm run start",
-    "seed": "node scripts/seedDB.js",
-    "install": "cd client && npm install",
-    "build": "cd client && npm run build",
-    "heroku-postbuild": "npm run build"
+  "devDependencies": {
+    "nodemon": "^1.19.0"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -41,7 +57,5 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {
-    "concurrently": "^5.0.0"
-  }
+  "proxy": "http://localhost:3001"
 }

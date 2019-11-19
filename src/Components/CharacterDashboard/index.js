@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import NoMatch from "../NoMatch"
 import Inventory from "../Inventory"
 import CharacterUpdate from "../CharacterUpdate"
 import ChartsAndAnalytics from "../ChartsAndAnalytics"
@@ -14,16 +13,17 @@ class CharacterDashboard extends Component {
   }
 
   render() {
-    return ( 
-      <div>
+    return (
+      <Router>
         <h1>CharacterDashboard</h1>
-
-            <Inventory />
-            <CharacterUpdate />
-            <ChartsAndAnalytics />
-            <LevelUp />
-            <TaskManager />
-      </div>
+        <Switch>
+          <Route path="/character/inventory" component={Inventory} />
+          <Route path="/character/taskmanager" component={TaskManager} />
+          <Route path="/character/chartsandanalytics" component={ChartsAndAnalytics} />
+          <Route path="/character/characterupdate" component={CharacterUpdate} />
+          <Route path="/character/levelup" component={LevelUp} />
+        </Switch>
+      </Router>
     )
   }
 }
