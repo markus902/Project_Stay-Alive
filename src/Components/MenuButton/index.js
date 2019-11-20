@@ -3,12 +3,11 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import MenuIcon from '@material-ui/icons/Menu';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Icon from '@mdi/react'
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import { mdiCheckOutline, mdiFaceProfile, mdiBagPersonal, mdiAccountCardDetails } from '@mdi/js';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
@@ -33,32 +32,16 @@ const StyledMenu = withStyles({
   />
 ));
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
-  },
-}));
-
 
 
 
 // eslint-disable-next-line no-unused-vars
-const MenuButton = (props) => {
-
-
-  const classes = useStyles();
-
+const MenuButton = ({logout}) => {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
-    
+
   };
 
   const handleClose = () => {
@@ -109,7 +92,7 @@ const MenuButton = (props) => {
               color="gray"
             />
           </ListItemIcon>
-          <Button component={Link} to="/character/taskmanger" onClickCapture={handleClose} color="success">
+          <Button component={Link} to="/character/taskmanager" onClickCapture={handleClose} color="success">
             Task Manager
           </Button>
         </StyledMenuItem>
@@ -144,7 +127,7 @@ const MenuButton = (props) => {
           <ListItemIcon>
             <ExitToAppIcon />
           </ListItemIcon>
-          <Button onClick={() => this.props.logoutWithRedirect()} color="success">
+          <Button onClick={() => logout()} color="success">
             Log Off
           </Button>
         </StyledMenuItem>

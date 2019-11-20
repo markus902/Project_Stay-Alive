@@ -36,7 +36,7 @@ export default function ButtonAppBar(props) {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <MenuButton logoutWithRedirect={logoutWithRedirect}/>
+          <MenuButton logout={()=>logoutWithRedirect}/>
           <Typography variant="h6" className={classes.title}>
             Stay Alive
           </Typography>
