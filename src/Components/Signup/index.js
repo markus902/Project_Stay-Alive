@@ -1,5 +1,6 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
-import { Paper, withStyles, Grid, TextField, Button, FormControlLabel, Checkbox } from '@material-ui/core';
+import { Paper, withStyles, Grid, TextField, Button} from '@material-ui/core';
 // import { Face, Fingerprint } from '@material-ui/icons'
 
 const styles = theme => ({

@@ -1,5 +1,5 @@
 {
-  "name": "auth0-react-03-calling-an-api",
+  "name": "stay_alive",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -40,6 +40,8 @@
     "sql": "^0.78.0"
   },
   "devDependencies": {
+    "eslint": "^6.6.0",
+    "eslint-plugin-react": "^7.16.0",
     "nodemon": "^1.19.0"
   },
   "eslintConfig": {
