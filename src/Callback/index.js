@@ -15,15 +15,16 @@ class Callback extends Component {
       password:profile.password || "",
       idToken:profile.idToken || ""
     }
-    axios.post("/user",user).then(data=>{
+    axios.post("/user",user).then(()=>{
     }).catch(err=>console.log(err)).finally(()=>{
+      // eslint-disable-next-line react/prop-types
       this.props.history.replace('/');
     })
   }
 
   render() {
     return (
-      <p>Loading profile...</p>
+      <Loading />
     );
   }
 }

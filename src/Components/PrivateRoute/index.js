@@ -3,6 +3,7 @@ import { Route } from 'react-router-dom';
 import auth0Client from '../../Auth';
 
 function PrivateRoute(props) {
+  // eslint-disable-next-line react/prop-types
   const { component: Component, path } = props;
   return (
     <Route path={path} render={() => {

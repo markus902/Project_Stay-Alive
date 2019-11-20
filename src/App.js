@@ -21,6 +21,7 @@ class App extends Component {
 
 
   async componentDidMount() {
+    // eslint-disable-next-line react/prop-types
     if (this.props.location.pathname === '/callback') {
       this.setState({ checkingSession: false });
       return;

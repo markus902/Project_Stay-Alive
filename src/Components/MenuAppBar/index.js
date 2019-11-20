@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import MenuButton from "../MenuButton"
 import auth0Client from '../../Auth';
 
+// eslint-disable-next-line no-unused-vars
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
@@ -22,6 +23,7 @@ export default function ButtonAppBar(props) {
 
   const logoutWithRedirect = () => {
     auth0Client.signOut();
+    // eslint-disable-next-line react/prop-types
     props.history.replace('/');
   };
 

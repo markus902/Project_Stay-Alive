@@ -9,8 +9,11 @@ import PrivateRoute from "../PrivateRoute";
 
 
 class CharacterDashboard extends Component {
-  state = {
-
+  constructor(props) {
+    super(props);
+    this.state = {
+      checkingSession: true,
+    }
   }
 
   render() {
