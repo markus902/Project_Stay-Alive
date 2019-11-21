@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const db = require("../models");
 
-
 // GET Routes all characters
 router.get("/getdata", (req, res) => {
 
@@ -17,6 +16,8 @@ router.get("/getdata", (req, res) => {
         });
 });
 
+
+
 // router.get("/user/:id"), (req, res) => {
 //     console.log("Getting User")
 
@@ -27,5 +28,7 @@ router.get("/getdata", (req, res) => {
 
 
 // Post route to push current data and calculate time that passed
+
+
 
 module.exports = router;
