@@ -1,6 +1,9 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 function TaskManager(...props){
+  useEffect(()=>{
+    console.log("hello taskmanager")
+  },[])
   console.log(props)
   return(
     <div>
