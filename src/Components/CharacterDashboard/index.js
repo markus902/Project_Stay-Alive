@@ -18,16 +18,8 @@ class CharacterDashboard extends Component {
 
   render() {
     return (
-      <Router>
         <h1>CharacterDashboard</h1>
-        <Switch>
-          <PrivateRoute path="/character/inventory" component={Inventory} />
-          <PrivateRoute path="/character/taskmanager" component={TaskManager}/>
-          <PrivateRoute path="/character/chartsandanalytics" component={ChartsAndAnalytics} />
-          <PrivateRoute path="/character/characterupdate" component={CharacterUpdate}/>
-          <PrivateRoute path="/character/levelup" component={LevelUp}/>
-        </Switch>
-      </Router>
+    
     )
   }
 }
