@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch, withRouter } from "react-router-dom";
 import './App.css';
 import MenuAppBar from "./Components/MenuAppBar"
@@ -8,6 +8,11 @@ import SignUp from "./Components/Signup"
 import NoMatch from "./Components/NoMatch"
 import PrivateRoute from "./Components/PrivateRoute"
 import auth0Client from './Auth';
+import Inventory from "./Components/Inventory"
+import CharacterUpdate from "./Components/CharacterUpdate"
+import ChartsAndAnalytics from "./Components/ChartsAndAnalytics"
+import LevelUp from "./Components/LevelUp"
+import TaskManager from "./Components/TaskManager"
 
 
 
@@ -45,7 +50,12 @@ class App extends Component {
             <Route exact path="/" component={Login} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={SignUp} />
-            <PrivateRoute path="/character" checkingSession={this.state.checkingSession}  component={CharacterDashboard} />
+            <PrivateRoute path="/character/inventory" component={Inventory} />
+            <PrivateRoute path="/character/taskmanager" component={TaskManager} />
+            <PrivateRoute path="/character/chartsandanalytics" component={ChartsAndAnalytics} />
+            <PrivateRoute path="/character/characterupdate" component={CharacterUpdate} />
+            <PrivateRoute path="/character/levelup" component={LevelUp} />
+            <PrivateRoute path="/character" checkingSession={this.state.checkingSession} component={CharacterDashboard} />
             <Route component={NoMatch} />
           </Switch>
         </div>

@@ -1,35 +1,58 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router, Switch } from "react-router-dom";
-import Inventory from "../Inventory"
-import CharacterUpdate from "../CharacterUpdate"
-import ChartsAndAnalytics from "../ChartsAndAnalytics"
-import LevelUp from "../LevelUp"
-import TaskManager from "../TaskManager"
-import PrivateRoute from "../PrivateRoute";
+import React from 'react';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Typography from '@material-ui/core/Typography';
+import Container from '@material-ui/core/Container';
+import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Grid from '@material-ui/core/Grid';
 
+const useStyles = makeStyles(theme => ({
+  root: {
+    padding: theme.spacing(3, 2),
+  },
+}));
 
-class CharacterDashboard extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      checkingSession: true,
-    }
-  }
+function CharacterDashboard() {
 
-  render() {
-    return (
-      <Router>
-        <h1>CharacterDashboard</h1>
-        <Switch>
-          <PrivateRoute path="/character/inventory" component={Inventory} />
-          <PrivateRoute path="/character/taskmanager" component={TaskManager}/>
-          <PrivateRoute path="/character/chartsandanalytics" component={ChartsAndAnalytics} />
-          <PrivateRoute path="/character/characterupdate" component={CharacterUpdate}/>
-          <PrivateRoute path="/character/levelup" component={LevelUp}/>
-        </Switch>
-      </Router>
-    )
-  }
+  const classes = useStyles();
+
+  return (
+    <React.Fragment>
+      <CssBaseline />
+      <Container maxWidth="md">
+        <Paper className={classes.root}>
+          <Grid
+            container
+            direction="row"
+            justify="flex-start"
+            alignItems="stretch"
+          >
+            <img src="https://via.placeholder.com/150x150" />
+            <List >
+              <ListItem>
+                <ListItemText primary="Name: " />
+                <ListItemText primary="Muric" />
+              </ListItem>
+              <ListItem>
+                <ListItemText primary="Gender: " />
+                <ListItemText primary="Male" />
+              </ListItem>
+              <ListItem>
+                <ListItemText primary="Experience:  " />
+                <ListItemText primary="1000/2000" />
+              </ListItem>
+            </List>
+
+          </Grid>
+
+        </Paper>
+      </Container>
+    </React.Fragment>
+
+  )
 }
 
 export default CharacterDashboard;

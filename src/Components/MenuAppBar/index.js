@@ -42,7 +42,7 @@ export default function ButtonAppBar(props) {
           </Typography>
           {auth0Client.isAuthenticated() ?
             (
-              <Typography variant="h6" className={auth0Client.getProfile().name}>{auth0Client.getProfile().name} <Button color="inherit" onClick={() => logoutWithRedirect()} changeState={()=>changeState()}>Log Out</Button></Typography>
+              <Typography variant="h6" className={auth0Client.getProfile().name}>{auth0Client.getProfile().name} <Button color="inherit" onClick={() => logoutWithRedirect()} >Log Out</Button></Typography>
               
             ) : (
               <Button color="inherit" onClick={auth0Client.signIn}>Log In</Button>
