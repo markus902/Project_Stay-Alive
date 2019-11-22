@@ -31,9 +31,6 @@ function Inventory(...props){
           <Typography variant="h2">
             Inventory:
           </Typography>
-          <Grid>
-            
-          </Grid>
         </Paper>
       </Container>
   )
