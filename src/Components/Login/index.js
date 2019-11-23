@@ -34,6 +34,7 @@ const useStyles = makeStyles(theme => ({
   
   title: {
     fontSize: 120,
+    fontStyle: 'italic',
     padding: 25,
     color: 'indigo',
     fontFamily: 'Permanent Marker',
@@ -47,10 +48,10 @@ const useStyles = makeStyles(theme => ({
 
 const ColorButton = withStyles(theme => ({
   root: {
-    color: theme.palette.getContrastText(purple[500]),
-    backgroundColor: purple[500],
+    color: theme.palette.getContrastText(deepPurple[500]),
+    backgroundColor: deepPurple[500],
     '&:hover': {
-      backgroundColor: purple[700],
+      backgroundColor: deepPurple[700],
     },
   },
 }))(Button);
