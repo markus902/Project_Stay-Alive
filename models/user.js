@@ -33,29 +33,6 @@ module.exports = function (sequelize, DataTypes) {
     },
   });
 
-  User.sync().then(() => {
-    User.create({
-      userName: 'markus902',
-      password: "test password",
-      email: "test@testmail.com",
-      firstName: "Markus",
-      lastName: "Kühn",
-      characterID: "0",
-      lastLogin: "0",
-    });
-  });
-
-  User.sync().then(() => {
-    User.create({
-      userName: 'Jeremias',
-      password: "appleJunky",
-      email: "test@mailer.net",
-      firstName: "Jeremy",
-      lastName: "Muniak",
-      characterID: "2",
-      lastLogin: "5",
-    });
-  });
 
   User.associate = function (models) {
     User.hasMany(models.Character, {
