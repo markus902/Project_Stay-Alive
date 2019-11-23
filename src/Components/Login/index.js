@@ -12,6 +12,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import NavigationIcon from '@material-ui/icons/Navigation';
 import { green, purple, blue, indigo, deepPurple } from '@material-ui/core/colors';
 import { createMuiTheme, withStyles, ThemeProvider } from '@material-ui/core/styles';
+import { Animated } from 'react-animated-css';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -30,13 +31,17 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'center',
     position: 'fixed',
   },
+  
   title: {
-    fontSize: 100,
+    fontSize: 120,
     padding: 25,
+    fontFamily: 'Permanent Marker',
   },
   margin: {
-    fontSize: 50,
+    fontSize: 60,
+    fontFamily: 'Permanent Marker',
   }
+
 }));
 
 const ColorButton = withStyles(theme => ({
@@ -63,11 +68,15 @@ export default function ComplexGrid() {
           <Grid item xl={12} lg container>
             <Grid item xl container direction="column" spacing={2}>
               <Grid item xs>
+                <Animated animationIn='fadeIn' animationOut='fadeOut' isVisible={true}>
                 <Typography className={classes.title} gutterBottom variant="subtitle1">
                   Stay Alive
                 </Typography>
+                </Animated>
                 <Typography variant="body2" gutterBottom>
+                <Animated animationInDelay='fadeIn' animationOut='fadeOut' isVisible={true}>
                 <ColorButton variant="contained" color="primary" className={classes.margin}>Enter</ColorButton>
+                </Animated>
                 </Typography>
                 <Typography variant="body2" color="textSecondary">
                   {/* ID: 1030114 */}
