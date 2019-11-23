@@ -10,7 +10,7 @@ import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import NavigationIcon from '@material-ui/icons/Navigation';
-import { green, purple, blue, indigo, deepPurple } from '@material-ui/core/colors';
+import { green, purple, blue, indigo, deepPurple, lavender, } from '@material-ui/core/colors';
 import { createMuiTheme, withStyles, ThemeProvider } from '@material-ui/core/styles';
 import { Animated } from 'react-animated-css';
 
@@ -21,8 +21,8 @@ const useStyles = makeStyles(theme => ({
   },
   paper: {
     backgroundColor: '#3f51b5',
-    background: '-webkit-linear-gradient(to bottom, #D7DDE8, #3f51b5)',
-    background: 'linear-gradient(to bottom, #D7DDE8, #3f51b5)',
+    background: '-webkit-linear-gradient(to bottom, #D7DDE8, indigo)',
+    background: 'linear-gradient(to bottom, #D7DDE8, indigo)',
     margin: 'auto',
     minHeight: '100%',
     minWidth: '100%',
@@ -35,21 +35,22 @@ const useStyles = makeStyles(theme => ({
   title: {
     fontSize: 120,
     padding: 25,
+    color: 'indigo',
     fontFamily: 'Permanent Marker',
   },
   margin: {
     fontSize: 60,
     fontFamily: 'Permanent Marker',
-  }
+  },
 
 }));
 
 const ColorButton = withStyles(theme => ({
   root: {
-    color: theme.palette.getContrastText(indigo[500]),
-    backgroundColor: indigo[500],
+    color: theme.palette.getContrastText(purple[500]),
+    backgroundColor: purple[500],
     '&:hover': {
-      backgroundColor: indigo[700],
+      backgroundColor: purple[700],
     },
   },
 }))(Button);
@@ -67,14 +68,14 @@ export default function ComplexGrid() {
           </Grid>
           <Grid item xl={12} lg container>
             <Grid item xl container direction="column" spacing={2}>
-              <Grid item xs>
+              <Grid item xl>
                 <Animated animationIn='fadeIn' animationOut='fadeOut' isVisible={true}>
                 <Typography className={classes.title} gutterBottom variant="subtitle1">
                   Stay Alive
                 </Typography>
                 </Animated>
                 <Typography variant="body2" gutterBottom>
-                <Animated animationInDelay='fadeIn' animationOut='fadeOut' isVisible={true}>
+                <Animated animationInDelay='fadeIn' animationOutDelay='fadeOut' isVisible={true}>
                 <ColorButton variant="contained" color="primary" className={classes.margin}>Enter</ColorButton>
                 </Animated>
                 </Typography>
