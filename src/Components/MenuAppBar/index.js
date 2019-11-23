@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -20,6 +20,7 @@ const useStyles = makeStyles(theme => ({
 export default function ButtonAppBar(props) {
   // const [isOpen, setIsOpen] = useState(false);
   const classes = useStyles();
+  const [page, setPage] = useState(null)
 
   const logoutWithRedirect = () => {
     auth0Client.signOut();
@@ -27,17 +28,21 @@ export default function ButtonAppBar(props) {
     props.history.replace('/');
   };
 
+  const changeState = () => {
+    setPage(true)
+  }
+
   return (
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <MenuButton />
+          <MenuButton logout={()=>logoutWithRedirect}/>
           <Typography variant="h6" className={classes.title}>
             Stay Alive
           </Typography>
           {auth0Client.isAuthenticated() ?
             (
-              <Typography variant="h6" className={auth0Client.getProfile().name}>{auth0Client.getProfile().name} <Button color="inherit" onClick={() => logoutWithRedirect()}>Log Out</Button></Typography>
+              <Typography variant="h6" className={auth0Client.getProfile().name}>{auth0Client.getProfile().name} <Button color="inherit" onClick={() => logoutWithRedirect()} >Log Out</Button></Typography>
               
             ) : (
               <Button color="inherit" onClick={auth0Client.signIn}>Log In</Button>
