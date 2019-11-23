@@ -1,62 +1,90 @@
 import React from 'react';
-// import { Paper, withStyles, Grid, TextField, Button, FormControlLabel, Checkbox } from '@material-ui/core';
-// // import { Face, Fingerprint } from '@material-ui/icons'
+import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import ButtonBase from '@material-ui/core/ButtonBase';
+import Button from '@material-ui/core/Button';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+import EditIcon from '@material-ui/icons/Edit';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import NavigationIcon from '@material-ui/icons/Navigation';
+import { green, purple, blue, indigo, deepPurple } from '@material-ui/core/colors';
+import { createMuiTheme, withStyles, ThemeProvider } from '@material-ui/core/styles';
 
-// const styles = theme => ({
-//   margin: {
-//     margin: theme.spacing.unit * 2,
-//   },
-//   padding: {
-//     padding: theme.spacing.unit
-//   }
-// });
-
-class Login extends React.Component {
-  render() {
-    return <div>Hi</div>
-    // const { classes } = this.props;
-    // return (
-    //   <Paper className={classes.padding}>
-    //     <div className={classes.margin}>
-    //       <Grid container spacing={8} alignItems="flex-end">
-    //         <Grid item>
-    //           {/* <Face /> */}
-    //         </Grid>
-    //         <Grid item md={true} sm={true} xs={true}>
-    //           <TextField id="username" label="Username" type="email" fullWidth autoFocus required />
-    //         </Grid>
-    //       </Grid>
-    //       <Grid container spacing={8} alignItems="flex-end">
-    //         <Grid item>
-    //           {/* <Fingerprint /> */}
-    //         </Grid>
-    //         <Grid item md={true} sm={true} xs={true}>
-    //           <TextField id="username" label="Password" type="password" fullWidth required />
-    //         </Grid>
-    //       </Grid>
-    //       <Grid container alignItems="center" justify="space-between">
-    //         {/* <Grid item>
-    //                         <FormControlLabel control={
-    //                             <Checkbox
-    //                                 color="primary"
-    //                             />
-    //                         } label="Remember me" />
-    //                     </Grid> */}
-    //         <Grid item>
-    //           {/* <Button disableFocusRipple disableRipple style={{ textTransform: "none" }} variant="text" color="primary">Forgot password ?</Button> */}
-    //         </Grid>
-    //       </Grid>
-    //       <Grid container justify="center" style={{ marginTop: '10px' }}>
-    //         <Button variant="outlined" color="primary" style={{ textTransform: "none" }}>Login</Button>
-    //       </Grid>
-    //       <Grid container justify="center" style={{ marginTop: '10px' }}>
-    //         <Button variant="outlined" color="primary" style={{ textTransform: "none" }}>Register</Button>
-    //       </Grid>
-    //     </div>
-    //   </Paper>
-    // );
+const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1,
+    
+  },
+  paper: {
+    backgroundColor: '#3f51b5',
+    background: '-webkit-linear-gradient(to bottom, #D7DDE8, #3f51b5)',
+    background: 'linear-gradient(to bottom, #D7DDE8, #3f51b5)',
+    margin: 'auto',
+    minHeight: '100%',
+    minWidth: '100%',
+    maxWidth: '100%',
+    maxHeight: '100%',
+    textAlign: 'center',
+    position: 'fixed',
+  },
+  title: {
+    fontSize: 100,
+    padding: 25,
+  },
+  margin: {
+    fontSize: 50,
   }
-}
+}));
 
-// export default withStyles(styles)(Login);
-export default Login;
+const ColorButton = withStyles(theme => ({
+  root: {
+    color: theme.palette.getContrastText(indigo[500]),
+    backgroundColor: indigo[500],
+    '&:hover': {
+      backgroundColor: indigo[700],
+    },
+  },
+}))(Button);
+
+export default function ComplexGrid() {
+  const classes = useStyles();
+
+  return (
+    <div className={classes.root}>
+      <Paper className={classes.paper}>
+        <Grid container spacing={2}>
+          <Grid item>
+            <ButtonBase className={classes.image}>
+            </ButtonBase>
+          </Grid>
+          <Grid item xl={12} lg container>
+            <Grid item xl container direction="column" spacing={2}>
+              <Grid item xs>
+                <Typography className={classes.title} gutterBottom variant="subtitle1">
+                  Stay Alive
+                </Typography>
+                <Typography variant="body2" gutterBottom>
+                <ColorButton variant="contained" color="primary" className={classes.margin}>Enter</ColorButton>
+                </Typography>
+                <Typography variant="body2" color="textSecondary">
+                  {/* ID: 1030114 */}
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Typography variant="body2" style={{ cursor: 'pointer' }}>
+                  {/* Remove */}
+                </Typography>
+              </Grid>
+            </Grid>
+            <Grid item>
+              <Typography variant="subtitle1"></Typography>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Paper>
+    </div>
+  );
+}
