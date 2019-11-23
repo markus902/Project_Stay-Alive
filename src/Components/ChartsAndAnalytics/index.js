@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function ChartsAndAnalytics(...props) {
+function ChartsAndAnalytics() {
 
   const classes = useStyles();
   const [checked1, setChecked1] = React.useState(false);
