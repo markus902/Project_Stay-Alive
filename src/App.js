@@ -21,6 +21,14 @@ class App extends Component {
     super(props);
     this.state = {
       checkingSession: true,
+      task: 
+        [
+          {name:"Task 1 Max Characters 30",description:"Description goes here",frequency:"Daily",challenge:4,completed:false},
+          {name:"task2",description:"Description goes here",frequency:"Weekly",challenge:2,completed:false},
+          {name:"task3",description:"Description goes here",frequency:"Daily",challenge:5,completed:true},
+          {name:"task4",description:"Description goes here",frequency:"Weekly",challenge:3,completed:false},
+          {name:"task5",description:"Description goes here",frequency:"Monthly",challenge:1,completed:false},
+        ]
     }
   }
 
@@ -51,7 +59,7 @@ class App extends Component {
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={SignUp} />
             <PrivateRoute path="/character/inventory" component={Inventory} />
-            <PrivateRoute path="/character/taskmanager" component={TaskManager} />
+            <PrivateRoute path="/character/taskmanager" task={this.state.task} component={TaskManager} />
             <PrivateRoute path="/character/chartsandanalytics" component={ChartsAndAnalytics} />
             <PrivateRoute path="/character/characterupdate" component={CharacterUpdate} />
             <PrivateRoute path="/character/levelup" component={LevelUp} />
