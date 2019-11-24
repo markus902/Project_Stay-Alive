@@ -24,7 +24,7 @@ module.exports = function (sequelize, DataTypes) {
         min: 0
       }
     },
-    PowerUp: {
+    inventory: {
       type: DataTypes.JSON,
       allowNull: true
     }
