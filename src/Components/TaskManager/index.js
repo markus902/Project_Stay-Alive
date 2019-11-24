@@ -1,12 +1,13 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import { Typography, Box } from '@material-ui/core';
+import { Typography} from '@material-ui/core';
 import { Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import List from '@material-ui/core/List';
 import TaskItems from "./TaskItems";
 import CompletedItem from "./CompletedItem";
 
+// eslint-disable-next-line no-unused-vars
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',

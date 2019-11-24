@@ -31,6 +31,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+// eslint-disable-next-line no-unused-vars
 const marks = [
   {
     value: 1,
@@ -60,6 +61,7 @@ function valuetext(value) {
 
 function TaskItems(props) {
   const classes = useStyles();
+  // eslint-disable-next-line no-unused-vars
   const [task, setTask] = React.useState(props.taskInfo);
   const [openAdd, setOpenAdd] = React.useState(false);
   const [openRemove, setOpenRemove] = React.useState(false);
