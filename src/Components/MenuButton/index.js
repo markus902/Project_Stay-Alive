@@ -125,6 +125,19 @@ const MenuButton = ({logout}) => {
 
         <StyledMenuItem >
           <ListItemIcon>
+            <Icon path={mdiAccountCardDetails}
+              title="Character Creator Test"
+              size={1}
+              color="gray"
+            />
+          </ListItemIcon>
+          <Button component={Link} to="/charactercreation" onClickCapture={handleClose} color="inherit">
+            Character Creator Test
+        </Button>
+        </StyledMenuItem>
+
+        <StyledMenuItem >
+          <ListItemIcon>
             <ExitToAppIcon />
           </ListItemIcon>
           <Button onClick={() => logout()} color="inherit">
