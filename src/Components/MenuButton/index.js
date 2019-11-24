@@ -19,7 +19,6 @@ const StyledMenu = withStyles({
 })(props => (
   <Menu
     elevation={0}
-    getContentAnchorE2={null}
     anchorOrigin={{
       vertical: 'top',
       horizontal: 'left',
@@ -36,6 +35,7 @@ const StyledMenu = withStyles({
 
 
 // eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line react/prop-types
 const MenuButton = ({logout}) => {
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -79,7 +79,7 @@ const MenuButton = ({logout}) => {
               color="gray"
             />
           </ListItemIcon>
-          <Button component={Link} to="/character" onClickCapture={handleClose} color="success">
+          <Button component={Link} to="/character" onClickCapture={handleClose} color="inherit">
             Character Profile
           </Button>
         </StyledMenuItem>
@@ -92,7 +92,7 @@ const MenuButton = ({logout}) => {
               color="gray"
             />
           </ListItemIcon>
-          <Button component={Link} to="/character/taskmanager" onClickCapture={handleClose} color="success">
+          <Button component={Link} to="/character/taskmanager" onClickCapture={handleClose} color="inherit">
             Task Manager
           </Button>
         </StyledMenuItem>
@@ -105,7 +105,7 @@ const MenuButton = ({logout}) => {
               color="gray"
             />
           </ListItemIcon>
-          <Button component={Link} to="/character/inventory" onClickCapture={handleClose} color="success">
+          <Button component={Link} to="/character/inventory" onClickCapture={handleClose} color="inherit">
             Inventory
         </Button>
         </StyledMenuItem>
@@ -118,7 +118,7 @@ const MenuButton = ({logout}) => {
               color="gray"
             />
           </ListItemIcon>
-          <Button component={Link} to="/character/chartsandanalytics" onClickCapture={handleClose} color="success">
+          <Button component={Link} to="/character/chartsandanalytics" onClickCapture={handleClose} color="inherit">
             Character Stats
         </Button>
         </StyledMenuItem>
@@ -127,7 +127,7 @@ const MenuButton = ({logout}) => {
           <ListItemIcon>
             <ExitToAppIcon />
           </ListItemIcon>
-          <Button onClick={() => logout()} color="success">
+          <Button onClick={() => logout()} color="inherit">
             Log Off
           </Button>
         </StyledMenuItem>

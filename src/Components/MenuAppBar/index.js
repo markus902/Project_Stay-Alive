@@ -20,6 +20,7 @@ const useStyles = makeStyles(theme => ({
 export default function ButtonAppBar(props) {
   // const [isOpen, setIsOpen] = useState(false);
   const classes = useStyles();
+  // eslint-disable-next-line no-unused-vars
   const [page, setPage] = useState(null)
 
   const logoutWithRedirect = () => {
@@ -28,6 +29,7 @@ export default function ButtonAppBar(props) {
     props.history.replace('/');
   };
 
+  // eslint-disable-next-line no-unused-vars
   const changeState = () => {
     setPage(true)
   }
