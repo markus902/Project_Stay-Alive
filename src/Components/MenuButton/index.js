@@ -85,7 +85,7 @@ const MenuButton = ({logout}) => {
         </StyledMenuItem>
 
         <StyledMenuItem>
-          <ListItemIcon>
+          <ListItemIcon> 
             <Icon path={mdiCheckOutline}
               title="User Profile"
               size={1}
