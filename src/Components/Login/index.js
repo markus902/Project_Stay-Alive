@@ -38,10 +38,15 @@ const useStyles = makeStyles(theme => ({
     padding: 25,
     color: 'indigo',
     fontFamily: 'Permanent Marker',
+    textShadow: 'horizontal-offset vertical-offset blur color',
+    textShadow: '8px 16px 12px rgba(0,0,0,0.3)',
   },
   margin: {
     fontSize: 60,
     fontFamily: 'Permanent Marker',
+    textShadow: 'horizontal-offset vertical-offset blur color',
+    textShadow: '8px 16px 12px rgba(0,0,0,0.3)',
+    boxShadow: '8px 16px 12px rgba(0,0,0,0.3)',
   },
 
 }));
