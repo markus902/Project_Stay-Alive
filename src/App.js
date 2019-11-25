@@ -13,6 +13,7 @@ import CharacterUpdate from "./Components/CharacterUpdate"
 import ChartsAndAnalytics from "./Components/ChartsAndAnalytics"
 import LevelUp from "./Components/LevelUp"
 import TaskManager from "./Components/TaskManager"
+import CharacterCreation from './Components/CharacterCreation';
 
 
 
@@ -62,6 +63,7 @@ class App extends Component {
             <PrivateRoute path="/character/taskmanager" task={this.state.task} component={TaskManager} />
             <PrivateRoute path="/character/chartsandanalytics" component={ChartsAndAnalytics} />
             <PrivateRoute path="/character/characterupdate" component={CharacterUpdate} />
+            <PrivateRoute path="/charactercreation" component={CharacterCreation} />
             <PrivateRoute path="/character/levelup" component={LevelUp} />
             <PrivateRoute path="/character" checkingSession={this.state.checkingSession} component={CharacterDashboard} />
             <Route component={NoMatch} />
