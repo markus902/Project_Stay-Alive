@@ -85,7 +85,7 @@ const MenuButton = ({logout}) => {
         </StyledMenuItem>
 
         <StyledMenuItem>
-          <ListItemIcon>
+          <ListItemIcon> 
             <Icon path={mdiCheckOutline}
               title="User Profile"
               size={1}
@@ -120,6 +120,19 @@ const MenuButton = ({logout}) => {
           </ListItemIcon>
           <Button component={Link} to="/character/chartsandanalytics" onClickCapture={handleClose} color="inherit">
             Character Stats
+        </Button>
+        </StyledMenuItem>
+
+        <StyledMenuItem >
+          <ListItemIcon>
+            <Icon path={mdiAccountCardDetails}
+              title="Character Creator Test"
+              size={1}
+              color="gray"
+            />
+          </ListItemIcon>
+          <Button component={Link} to="/charactercreation" onClickCapture={handleClose} color="inherit">
+            Character Creator Test
         </Button>
         </StyledMenuItem>
 
