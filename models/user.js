@@ -31,6 +31,14 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: false
     },
+    acessToken: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    fitBitUserID: {
+      type: DataTypes.STRING,
+      allowNull: true
+    }
   });
 
 

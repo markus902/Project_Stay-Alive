@@ -1,5 +1,6 @@
 import auth0 from 'auth0-js';
 import config from "./auth_config.json"
+import axios from 'axios';
 require("dotenv").config();
 
 class Auth {
@@ -51,6 +52,29 @@ class Auth {
   }
 
   setSession(authResult) {
+    console.log(authResult.idToken);
+    console.log(authResult.idTokenPayload);
+
+    ///// test the fitbit call
+    console.log(process.env.REACT_APP_JeremyTOKEN); // not working
+    console.log(process.env.REACT_APP_JeremyUSERID); // not working
+    console.log(process.env.REACT_APP_JeremyUSERID); // Need a refresh token that doesnt change.
+    let config = {
+      headers: {
+        'Authorization': "bearer " + authResult.idToken
+      }
+    };
+    axios.get(
+      'https://api.fitbit.com/1/user/7WTJLB/profile.json',
+      config
+    ).then((response) => {
+      console.log(response)
+    }).catch((error) => {
+      console.log(error)
+    });
+
+
+    /////
     this.idToken = authResult.idToken;
     this.profile = authResult.idTokenPayload;
     // set the time that the id token will expire at
