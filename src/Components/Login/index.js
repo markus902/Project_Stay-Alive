@@ -5,14 +5,10 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import Button from '@material-ui/core/Button';
-import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
-import EditIcon from '@material-ui/icons/Edit';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import NavigationIcon from '@material-ui/icons/Navigation';
-import { green, purple, blue, indigo, deepPurple, lavender, } from '@material-ui/core/colors';
-import { createMuiTheme, withStyles, ThemeProvider } from '@material-ui/core/styles';
+import { deepPurple} from '@material-ui/core/colors';
+import { withStyles } from '@material-ui/core/styles';
 import { Animated } from 'react-animated-css';
+import auth0Client from '../../Auth';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -38,14 +34,12 @@ const useStyles = makeStyles(theme => ({
     padding: 25,
     color: 'indigo',
     fontFamily: 'Permanent Marker',
-    textShadow: 'horizontal-offset vertical-offset blur color',
-    textShadow: '8px 16px 12px rgba(0,0,0,0.3)',
+    textShadow: 'horizontal-offset vertical-offset blur color 8px 16px 12px rgba(0,0,0,0.3)',
   },
   margin: {
     fontSize: 60,
     fontFamily: 'Permanent Marker',
-    textShadow: 'horizontal-offset vertical-offset blur color',
-    textShadow: '8px 16px 12px rgba(0,0,0,0.3)',
+    textShadow: 'horizontal-offset vertical-offset blur color 8px 16px 12px rgba(0,0,0,0.3)',
     boxShadow: '8px 16px 12px rgba(0,0,0,0.3)',
   },
 
@@ -63,6 +57,7 @@ const ColorButton = withStyles(theme => ({
 
 export default function ComplexGrid() {
   const classes = useStyles();
+  console.log(auth0Client.getAccessToken())
 
   return (
     <div className={classes.root}>
