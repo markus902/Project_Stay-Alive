@@ -19,12 +19,20 @@ module.exports = function (sequelize, DataTypes) {
         isIn: ["Daily", "Weekly", "Monthly"]
       }
     },
-    
+    complete: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      validate: {
+        //   isIn: ["Daily", "Weekly", "Monthly"]
+      }
+    }
 
   });
   ToDoTasks.associate = function (models) {
-    ToDoTasks.hasMany(models.Character, {
-      onDelete: "cascade"
+    ToDoTasks.belongsTo(models.Character, {
+      foreignKey: {
+        allowNull: false
+      }
     });
   };
   return ToDoTasks;
