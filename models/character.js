@@ -27,8 +27,41 @@ module.exports = function (sequelize, DataTypes) {
     inventory: {
       type: DataTypes.JSON,
       allowNull: true
-    }
+    },
+    bodyType: {
+      type: DataTypes.INTEGER,
+      default: 0,
+      validiate: {
+        min: 0,
+        max: 4
+      }
+    },
+    hairType: {
+      hairType: DataTypes.INTEGER,
+      default: 0,
+      validiate: {
+        min: 0,
+        max: 4
+      }
+    },
+    color1: {
+      hairType: DataTypes.INTEGER,
+      default: 0,
+      validiate: {
+        min: 0,
+        max: 4
+      }
+    },
+    color2: {
+      hairType: DataTypes.INTEGER,
+      default: 0,
+      validiate: {
+        min: 0,
+        max: 4
+      }
+    },
   });
+
 
   Character.associate = function (models) {
     Character.belongsTo(models.User, {
