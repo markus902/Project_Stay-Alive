@@ -57,12 +57,14 @@ class Auth {
 
   setSession(authResult) {
     console.log(authResult.idToken);
+    console.log(authResult.accessToken);
     console.log(authResult.idTokenPayload);
-
+    // Also Need a refresh token that doesnt change.
     ///// test the fitbit call
     console.log(process.env.REACT_APP_JeremyTOKEN); // not working
     console.log(process.env.REACT_APP_JeremyUSERID); // not working
-    console.log(process.env.REACT_APP_JeremyUSERID); // Need a refresh token that doesnt change.
+    console.log(process.env.REACT_APP_JeremyUSERID);
+
     let config = {
       headers: {
         'Authorization': "bearer " + authResult.idToken
