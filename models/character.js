@@ -29,6 +29,7 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: true
     }
   });
+
   Character.associate = function (models) {
     Character.belongsTo(models.User, {
       foreignKey: {
@@ -39,6 +40,9 @@ module.exports = function (sequelize, DataTypes) {
       foreignKey: {
         allowNull: false
       }
+    });
+    Character.hasMany(models.ToDoTasks, {
+      onDelete: "cascade"
     });
   };
   return Character;
