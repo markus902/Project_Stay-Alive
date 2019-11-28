@@ -1,62 +1,101 @@
 import React from 'react';
-// import { Paper, withStyles, Grid, TextField, Button, FormControlLabel, Checkbox } from '@material-ui/core';
-// // import { Face, Fingerprint } from '@material-ui/icons'
+import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import ButtonBase from '@material-ui/core/ButtonBase';
+import Button from '@material-ui/core/Button';
+import { deepPurple} from '@material-ui/core/colors';
+import { withStyles } from '@material-ui/core/styles';
+import { Animated } from 'react-animated-css';
+import auth0Client from '../../Auth';
 
-// const styles = theme => ({
-//   margin: {
-//     margin: theme.spacing.unit * 2,
-//   },
-//   padding: {
-//     padding: theme.spacing.unit
-//   }
-// });
+const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1,
+    
+  },
+  paper: {
+    backgroundColor: '#3f51b5',
+    background: '-webkit-linear-gradient(to bottom, #D7DDE8, indigo)',
+    background: 'linear-gradient(to bottom, #D7DDE8, indigo)',
+    margin: 'auto',
+    minHeight: '100%',
+    minWidth: '100%',
+    maxWidth: '100%',
+    maxHeight: '100%',
+    textAlign: 'center',
+    position: 'fixed',
+  },
+  
+  title: {
+    fontSize: 120,
+    fontStyle: 'italic',
+    padding: 25,
+    color: 'indigo',
+    fontFamily: 'Permanent Marker',
+    textShadow: 'horizontal-offset vertical-offset blur color 8px 16px 12px rgba(0,0,0,0.3)',
+  },
+  margin: {
+    fontSize: 60,
+    fontFamily: 'Permanent Marker',
+    textShadow: 'horizontal-offset vertical-offset blur color 8px 16px 12px rgba(0,0,0,0.3)',
+    boxShadow: '8px 16px 12px rgba(0,0,0,0.3)',
+  },
 
-class Login extends React.Component {
-  render() {
-    return <div>Hi</div>
-    // const { classes } = this.props;
-    // return (
-    //   <Paper className={classes.padding}>
-    //     <div className={classes.margin}>
-    //       <Grid container spacing={8} alignItems="flex-end">
-    //         <Grid item>
-    //           {/* <Face /> */}
-    //         </Grid>
-    //         <Grid item md={true} sm={true} xs={true}>
-    //           <TextField id="username" label="Username" type="email" fullWidth autoFocus required />
-    //         </Grid>
-    //       </Grid>
-    //       <Grid container spacing={8} alignItems="flex-end">
-    //         <Grid item>
-    //           {/* <Fingerprint /> */}
-    //         </Grid>
-    //         <Grid item md={true} sm={true} xs={true}>
-    //           <TextField id="username" label="Password" type="password" fullWidth required />
-    //         </Grid>
-    //       </Grid>
-    //       <Grid container alignItems="center" justify="space-between">
-    //         {/* <Grid item>
-    //                         <FormControlLabel control={
-    //                             <Checkbox
-    //                                 color="primary"
-    //                             />
-    //                         } label="Remember me" />
-    //                     </Grid> */}
-    //         <Grid item>
-    //           {/* <Button disableFocusRipple disableRipple style={{ textTransform: "none" }} variant="text" color="primary">Forgot password ?</Button> */}
-    //         </Grid>
-    //       </Grid>
-    //       <Grid container justify="center" style={{ marginTop: '10px' }}>
-    //         <Button variant="outlined" color="primary" style={{ textTransform: "none" }}>Login</Button>
-    //       </Grid>
-    //       <Grid container justify="center" style={{ marginTop: '10px' }}>
-    //         <Button variant="outlined" color="primary" style={{ textTransform: "none" }}>Register</Button>
-    //       </Grid>
-    //     </div>
-    //   </Paper>
-    // );
-  }
+}));
+
+const ColorButton = withStyles(theme => ({
+  root: {
+    color: theme.palette.getContrastText(deepPurple[500]),
+    backgroundColor: deepPurple[500],
+    '&:hover': {
+      backgroundColor: deepPurple[700],
+    },
+  },
+}))(Button);
+
+export default function ComplexGrid() {
+  const classes = useStyles();
+  console.log(auth0Client.getAccessToken())
+
+  return (
+    <div className={classes.root}>
+      <Paper className={classes.paper}>
+        <Grid container spacing={2}>
+          <Grid item>
+            <ButtonBase className={classes.image}>
+            </ButtonBase>
+          </Grid>
+          <Grid item xl={12} lg container>
+            <Grid item xl container direction="column" spacing={2}>
+              <Grid item xl>
+                <Animated animationIn='fadeIn' animationOut='fadeOut' isVisible={true}>
+                <Typography className={classes.title} gutterBottom variant="subtitle1">
+                  Stay Alive
+                </Typography>
+                </Animated>
+                <Typography variant="body2" gutterBottom>
+                <Animated animationInDelay='fadeIn' animationOutDelay='fadeOut' isVisible={true}>
+                <ColorButton variant="contained" color="primary" className={classes.margin}>Enter</ColorButton>
+                </Animated>
+                </Typography>
+                <Typography variant="body2" color="textSecondary">
+                  {/* ID: 1030114 */}
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Typography variant="body2" style={{ cursor: 'pointer' }}>
+                  {/* Remove */}
+                </Typography>
+              </Grid>
+            </Grid>
+            <Grid item>
+              <Typography variant="subtitle1"></Typography>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Paper>
+    </div>
+  );
 }
-
-// export default withStyles(styles)(Login);
-export default Login;
