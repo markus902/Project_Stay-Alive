@@ -27,7 +27,10 @@ module.exports = function (sequelize, DataTypes) {
       }
     }
 
-  });
+  },
+    { freezeTableName: true });
+
+
   ToDoTasks.associate = function (models) {
     ToDoTasks.belongsTo(models.Character, {
       foreignKey: {

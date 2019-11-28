@@ -23,18 +23,20 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false
     },
-    characterID: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
+    // character_id: {
+    //   type: DataTypes.INTEGER,
+    //   allowNull: false
+    // },
     lastLogin: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-  });
+  },
+    { freezeTableName: true });
+
 
   User.associate = function (models) {
-    User.belongsTo(models.characters, {
+    User.belongsTo(models.Character, {
       foreignKey: {
         allowNull: false
       }
