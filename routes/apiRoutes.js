@@ -8,9 +8,28 @@ router.get("/character/:id", (req, res) => {
     console.log("getting character");
     console.log(req.params.id);
 
-    db.Character.findAll({ where: { characterID: req.params.id } })
-        .then(data => { res.json(data) })
-        .catch(err => { console.log(err); });
+    db.Character.findAll({
+        where: { id: req.params.id },
+        include: [
+            { model: db.User },
+            { model: db.PowerUp },
+            { model: db.ToDoTasks }
+        ]
+
+    })
+        .then(
+            data => {
+                // return Object.assign(
+                //     {},
+                //     {
+                //         characterName: data.characterName,
+                //         health: data.health,
+                //         email: data.email
+                //     }
+                // )
+                res.json(data);
+            })
+        .catch(err => { console.log(err) });
 });
 
 router.post("/character", (req, res) => {
@@ -112,17 +131,4 @@ router.post("/user", (req, res) => {
 module.exports = router;
 
 
-// Calls needed
-
-
-// Body Type:
-
-// 2
-// Hair Type:
-
-// 2
-// Color 1:
-
-// 2
-// Color 2:
 
