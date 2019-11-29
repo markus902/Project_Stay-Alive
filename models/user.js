@@ -23,20 +23,23 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false
     },
-    characterID: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
+    // character_id: {
+    //   type: DataTypes.INTEGER,
+    //   allowNull: false
+    // },
     lastLogin: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-  });
+  },
+    { freezeTableName: true });
 
 
   User.associate = function (models) {
-    User.hasMany(models.Character, {
-      onDelete: "cascade"
+    User.belongsTo(models.Character, {
+      foreignKey: {
+        allowNull: false
+      }
     });
   };
   return User;
