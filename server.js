@@ -60,7 +60,9 @@ app.use("/api", require("./routes/apiRoutes"));
 
 // Start the server
 
-db.sequelize.sync().then(function () {
+db.sequelize.sync({
+    // force: true
+}).then(function () {
     app.listen(PORT, () => {
         console.log("App listening on port 3001");
     });

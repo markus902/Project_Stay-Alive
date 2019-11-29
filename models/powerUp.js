@@ -11,11 +11,16 @@ module.exports = function (sequelize, DataTypes) {
         isIn: ["HealthRecovery", "ExperienceBoost"]
       }
     }
-  });
+  },
+    { freezeTableName: true });
+
+
   PowerUp.associate = function (models) {
-    PowerUp.hasMany(models.Character, {
-      onDelete: "cascade"
+    PowerUp.belongsTo(models.Character, {
+      foreignKey: {
+        allowNull: false
+      }
     });
-  };
+  }
   return PowerUp;
 };
