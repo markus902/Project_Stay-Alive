@@ -1,9 +1,10 @@
 module.exports = function (sequelize, DataTypes) {
   const Character = sequelize.define("Character", {
-    characterID:
+    id:
     {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      primaryKey: true
     },
     characterName:
     {
@@ -27,18 +28,52 @@ module.exports = function (sequelize, DataTypes) {
     inventory: {
       type: DataTypes.JSON,
       allowNull: true
-    }
-  });
+    },
+    bodyType: {
+      type: DataTypes.INTEGER,
+      default: 0,
+      validiate: {
+        min: 0,
+        max: 3
+      }
+    },
+    hairType: {
+      type: DataTypes.INTEGER,
+      default: 0,
+      validiate: {
+        min: 0,
+        max: 3
+      }
+    },
+    color1: {
+      type: DataTypes.INTEGER,
+      default: 0,
+      validiate: {
+        min: 0,
+        max: 3
+      }
+    },
+    color2: {
+      type: DataTypes.INTEGER,
+      default: 0,
+      validiate: {
+        min: 0,
+        max: 3
+      }
+    },
+  },
+    { freezeTableName: true });
+
+
   Character.associate = function (models) {
-    Character.belongsTo(models.User, {
-      foreignKey: {
-        allowNull: false
-      }
+    Character.hasOne(models.User, {
+      onDelete: "cascade"
     });
-    Character.belongsTo(models.PowerUp, {
-      foreignKey: {
-        allowNull: false
-      }
+    Character.hasMany(models.PowerUp, {
+      onDelete: "cascade"
+    });
+    Character.hasMany(models.ToDoTasks, {
+      onDelete: "cascade"
     });
   };
   return Character;
