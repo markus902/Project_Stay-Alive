@@ -47,7 +47,7 @@ function CharacterCreation() {
       <Container className={classes.root}>
         <Grid container>
           <Grid item sm={12} md={6}>
-            <img src="https://via.placeholder.com/350x350" />
+            <img src="https://via.placeholder.com/350x350" alt="current character"/>
           </Grid>
           <Grid item sm={12} md={6}>
             <FormControl component="fieldset" className={classes.formControl}>

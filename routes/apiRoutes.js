@@ -111,19 +111,40 @@ router.get("/getuser/:id", (req, res) => {
         .then(data => { res.json(data) })
         .catch(err => { console.log(err) })
 })
+router.get("/getuserbyusername/:username", (req, res) => {
+    console.log("Get User")
+    console.log(req.params.username);
+    db.User.findAll({ where: { userName: req.params.username } })
+        .then((data) => {
+            console.log(data)
+            res.json(data)
+        })
+        .catch(err => { console.log(err) })
+})
+
 
 router.post("/user", (req, res) => {
-    console.log("pust user info")
+    console.log("post user info")
 
     let user = req.body;
-    db.User.create({
-        userName: user.userName,
+    console.log(user)
+    db.User.findOrCreate({
+        where:{
+            userName: user.username
+        }
+        ,
+        defaults:{
+        userName: user.username,
         password: user.password,
         email: user.email,
         firstName: user.firstName,
         lastName: user.lastName
+        }
     })
-        .then(data => { res.json(data) })
+        .then(data => { 
+            console.log(data.User.dataValues)
+            res.json(data.User.dataValues) 
+        })
         .catch(err => { console.log(err) })
 })
 

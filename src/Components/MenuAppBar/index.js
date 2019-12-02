@@ -38,7 +38,9 @@ export default function ButtonAppBar(props) {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <MenuButton logout={()=>logoutWithRedirect}/>
+        {auth0Client.isAuthenticated() ?
+          <MenuButton logout={()=>logoutWithRedirect}/>:<div></div>
+        }
           <Typography variant="h6" className={classes.title}>
             Stay Alive
           </Typography>

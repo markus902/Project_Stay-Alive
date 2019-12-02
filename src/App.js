@@ -14,7 +14,7 @@ import ChartsAndAnalytics from "./Components/ChartsAndAnalytics"
 import LevelUp from "./Components/LevelUp"
 import TaskManager from "./Components/TaskManager"
 import CharacterCreation from './Components/CharacterCreation';
-
+import Callback from "./Callback"
 
 
 class App extends Component {
@@ -59,6 +59,7 @@ class App extends Component {
             <Route exact path="/" component={Login} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={SignUp} />
+            <Route exact path="/callback" component={Callback} />
             <PrivateRoute path="/character/inventory" component={Inventory} />
             <PrivateRoute path="/character/taskmanager" task={this.state.task} component={TaskManager} />
             <PrivateRoute path="/character/chartsandanalytics" component={ChartsAndAnalytics} />

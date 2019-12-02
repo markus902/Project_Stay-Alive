@@ -1,32 +1,64 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
-import auth0Client from './Auth';
-import axios from "axios";
-import Loading from "../Components/Loading"
+import auth0Client from '../Auth';
+import SignUp from "../Components/Signup";
+import Container from '@material-ui/core/Container'
+import Axios from 'axios';
+
 
 
 class Callback extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: null,
+    };
+  }
   async componentDidMount() {
     await auth0Client.handleAuthentication();
     const profile = auth0Client.getProfile()
-    let user={
-      name: profile.name,
-      email: profile.email || "",
-      password:profile.password || "",
-      idToken:profile.idToken || ""
+    if(profile.sub.split("|")[0]==="fitbit"){
+        this.setState({ 
+          user:{
+            username:profile.name,
+            password:profile.password || "",
+            email:profile.email || "",
+            firstName:profile.name.split(" ")[0],
+            lastName:profile.name.split(" ")[1]
+          }
+        })
     }
-    axios.post("/user",user).then(()=>{
-    }).catch(err=>console.log(err)).finally(()=>{
-      // eslint-disable-next-line react/prop-types
-      this.props.history.replace('/');
-    })
+    else if(profile.sub.split("|")[0]==="google-oauth2"){
+      this.setState({ 
+        user:{
+          username:profile.nickname,
+          password:profile.password || "",
+          email:profile.email || "",
+          firstName:profile.given_name || "",
+          lastName:profile.family_name || ""
+        }
+      })
+    }
+    else{
+      this.setState({ 
+        user:{
+          username:profile.nickname,
+          password:profile.password || "",
+          email:profile.email || "",
+          firstName:profile.name || "",
+          lastName:profile.name|| ""
+        }
+      })
+    }
   }
 
-  render() {
-    return (
-      <Loading />
-    );
+  render(){
+      return (
+        <Container maxWidth="md">
+          {this.state.user ? <SignUp user={this.state.user}/> : <div>Please Login In</div>}
+        </Container>
+      )
   }
 }
 
-export default withRouter(Callback);
+export default withRouter(Callback)
