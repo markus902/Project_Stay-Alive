@@ -1,11 +1,12 @@
 module.exports = function (sequelize, DataTypes) {
   const Character = sequelize.define("Character", {
-    id:
-    {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true
-    },
+    // id:
+    // {
+    //   type: DataTypes.INTEGER,
+    //   allowNull: false,
+    //   primaryKey: true,
+    // autoincrement: true
+    // },
     characterName:
     {
       type: DataTypes.STRING,
@@ -60,7 +61,7 @@ module.exports = function (sequelize, DataTypes) {
         min: 0,
         max: 3
       }
-    },
+    }
   },
     { freezeTableName: true });
 

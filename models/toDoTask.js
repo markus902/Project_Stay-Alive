@@ -9,7 +9,7 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: false,
       validate: {
         // Needs Review.
-        isIn: ["Challenge Rating 1-5"] // Need to add experience rewarded
+        // isIn: ["Challenge Rating 1-5"] // Need to add experience rewarded
       }
     },
     frequency: {
