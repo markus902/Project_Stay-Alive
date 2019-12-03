@@ -34,6 +34,8 @@ class App extends Component {
   }
 
 
+
+
   async componentDidMount() {
     // eslint-disable-next-line react/prop-types
     if (this.props.location.pathname === '/callback') {
@@ -48,7 +50,6 @@ class App extends Component {
     }
     this.setState({ checkingSession: false });
   }
-
 
   render() {
     return (
