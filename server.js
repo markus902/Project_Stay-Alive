@@ -57,7 +57,6 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // Routes
 app.use("/api", require("./routes/apiRoutes"));
-
 // Start the server
 
 db.sequelize.sync({

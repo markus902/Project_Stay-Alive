@@ -29,7 +29,7 @@ function CharacterDashboard() {
             justify="flex-start"
             alignItems="stretch"
           >
-            <img src="https://via.placeholder.com/150x150" />
+            <img src="https://via.placeholder.com/150x150" alt="Character"/>
             <List >
               <ListItem>
                 <ListItemText primary="Name: " />

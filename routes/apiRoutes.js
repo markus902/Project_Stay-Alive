@@ -19,6 +19,7 @@ router.get("/character/:id", (req, res) => {
     })
         .then(
             data => {
+                // Optional for organizing response in an object
                 // return Object.assign(
                 //     {},
                 //     {
@@ -32,17 +33,45 @@ router.get("/character/:id", (req, res) => {
         .catch(err => { console.log(err) });
 });
 
-router.post("/character", (req, res) => {
+router.post("/addcharacter", (req, res) => {
     console.log("creating character");
 
     let character = req.body;
+    console.log(req.body);
     db.Character.create({
-        characterID: character.characterID,
+        id: character.id,
         characterName: character.characterName,
         health: character.health,
         experience: character.experience,
-        inventory: character.inventory
+        inventory: character.inventory,
+        bodyType: character.bodyType,
+        hairType: character.hairType,
+        color1: character.color1,
+        color2: character.color2
     })
+        .then(data => { res.json(data) })
+        .catch(err => { console.log(err); });
+});
+
+router.post("/characterupdate/:id", (req, res) => {
+    console.log("updating character")
+
+    let character = req.body;
+    db.Character.update(
+        {
+            characterName: character.characterName,
+            health: character.health,
+            experience: character.experience,
+            inventory: character.inventory,
+            bodyType: character.bodyType,
+            hairType: character.hairType,
+            color1: character.color1,
+            color2: character.color2
+        },
+        { where: { id: req.params.id } }
+    )
+        .then(data => { res.json(data) })
+        .catch(err => { console.log(err); });
 })
 
 // Routes for inventory
@@ -55,51 +84,58 @@ router.get("/inventory", (req, res) => {
         .catch(err => { console.log(err); });
 })
 
-router.post("/inventory", (req, res) => {
-    console.log("posting inventory");
+// might not be needed
 
-    let inventory = req.body;
-    db.PowerUp.create({
-        PowerUpName: inventory.name,
-        PowerUpType: inventory.type
-    })
-        .then(data => { res.json(data) })
-        .catch(err => { console.log(err) })
-})
+// router.post("/addinventory/:characterId", (req, res) => {
+//     console.log("posting inventory");
+
+//     let inventory = req.body;
+//     db.PowerUp.create({
+//         PowerUpName: inventory.PowerUpName,
+//         PowerUpType: inventory.PowerUpType,
+//         characterId: req.params.characterId
+//     })
+//         .then(data => { res.json(data) })
+//         .catch(err => { console.log(err) })
+// })
 
 // Routes for tasks
 
-router.get("/tasks", (req, res) => {
+router.get("/gettasks/:characterId", (req, res) => {
     console.log("getting tasks");
 
-    db.toDoTask.findAll({})
+    db.ToDoTasks.findAll(
+        { where: { characterId: req.params.characterId } }
+    )
         .then(data => { res.json(data) })
-        .catch(err => { console.log(err); });
+        .catch(err => { console.log(err) });
 })
 
-router.get("/updatetask", (req, res) => {
+router.post("/updatetask/:taskId", (req, res) => {
+    console.log("getting tasks");
+
+    let task = req.body;
+    db.ToDoTasks.update({
+        taskName: task.taskName,
+        taskNotes: task.taskNotes,
+        frequency: task.taskFrequency,
+        complete: task.taskComplete
+    },
+        { where: { id: req.params.taskId } }
+    )
+        .then(data => { res.json(data) })
+        .catch(err => { console.log(err) });
+})
+
+router.post("/deletetask/:taskId", (req, res) => {
     console.log("getting tasks");
 
     let task = req.body
-    db.toDoTask.update({
-        taskName: task.name,
-        taskNotes: task.notes,
-        frequency: task.frequency,
-        complete: task.complete
+    db.ToDoTasks.destroy({
+        where: { id: req.params.taskId }
     })
         .then(data => { res.json(data) })
-        .catch(err => { console.log(err); });
-})
-
-router.get("/deletetask", (req, res) => {
-    console.log("getting tasks");
-
-    let task = req.body
-    db.toDoTask.delete({
-
-    })
-        .then(data => { res.json(data) })
-        .catch(err => { console.log(err); });
+        .catch(err => { console.log(err) });
 })
 
 // Routes for Users
@@ -107,22 +143,63 @@ router.get("/deletetask", (req, res) => {
 router.get("/getuser/:id", (req, res) => {
     console.log("Get User")
     console.log(req.params.id);
-    db.User.findAll({ where: { id: req.params.id } })
+    db.User.findAll(
+        { where: { id: req.params.id } }
+    )
         .then(data => { res.json(data) })
         .catch(err => { console.log(err) })
 })
+router.get("/getuserbyusername/:username", (req, res) => {
+    console.log("Get User")
+    console.log(req.params.username);
+    db.User.findAll({ where: { userName: req.params.username } })
+        .then((data) => {
+            console.log(data)
+            res.json(data)
+        })
+        .catch(err => { console.log(err) })
+})
 
-router.post("/user", (req, res) => {
-    console.log("pust user info")
+
+router.post("/adduser", (req, res) => {
+    console.log("adding user")
 
     let user = req.body;
-    db.User.create({
+    console.log(user)
+    db.User.findOrCreate({
+        where:{
+            userName: user.username
+        }
+        ,
+        defaults:{
+        userName: user.username,
+        password: user.password,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        lastLogin: user.lastLogin
+    }
+    })
+        .then(data => { 
+            console.log(data.User.dataValues)
+            res.json(data.User.dataValues) 
+        })
+        .catch(err => { console.log(err) })
+})
+
+router.post("/updateuser/:id", (req, res) => {
+    console.log("adding user")
+
+    let user = req.body;
+    db.User.update({
         userName: user.userName,
         password: user.password,
         email: user.email,
         firstName: user.firstName,
-        lastName: user.lastName
-    })
+        lastName: user.lastName,
+        lastLogin: user.lastLogin
+    },
+        { where: { id: req.params.id } })
         .then(data => { res.json(data) })
         .catch(err => { console.log(err) })
 })

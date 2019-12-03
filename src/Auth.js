@@ -10,9 +10,9 @@ class Auth {
       domain: config.domain,
       audience: config.audience,
       clientID: config.clientId,
-      redirectUri: 'http://localhost:3000',
+      redirectUri: 'http://localhost:3000/callback',
       responseType: 'token id_token',
-      scope: 'openid profile email activity'
+      scope: 'openid profile email password activity'
     });
 
     this.getProfile = this.getProfile.bind(this);
@@ -33,6 +33,7 @@ class Auth {
   getAccessToken() {
     return this.accessToken;
   }
+  
 
   isAuthenticated() {
     return new Date().getTime() < this.expires_in;
