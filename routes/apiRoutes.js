@@ -84,18 +84,20 @@ router.get("/inventory", (req, res) => {
         .catch(err => { console.log(err); });
 })
 
-router.post("/addinventory/:characterId", (req, res) => {
-    console.log("posting inventory");
+// might not be needed
 
-    let inventory = req.body;
-    db.PowerUp.create({
-        PowerUpName: inventory.PowerUpName,
-        PowerUpType: inventory.PowerUpType,
-        characterId: req.params.characterId
-    })
-        .then(data => { res.json(data) })
-        .catch(err => { console.log(err) })
-})
+// router.post("/addinventory/:characterId", (req, res) => {
+//     console.log("posting inventory");
+
+//     let inventory = req.body;
+//     db.PowerUp.create({
+//         PowerUpName: inventory.PowerUpName,
+//         PowerUpType: inventory.PowerUpType,
+//         characterId: req.params.characterId
+//     })
+//         .then(data => { res.json(data) })
+//         .catch(err => { console.log(err) })
+// })
 
 // Routes for tasks
 
