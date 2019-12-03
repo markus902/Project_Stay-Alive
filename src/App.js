@@ -1,20 +1,21 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch, withRouter } from "react-router-dom";
 import './App.css';
-import MenuAppBar from "./Components/MenuAppBar"
-import Login from "./Components/Login"
-import CharacterDashboard from "./Components/CharacterDashboard"
-import SignUp from "./Components/Signup"
-import NoMatch from "./Components/NoMatch"
-import PrivateRoute from "./Components/PrivateRoute"
+import MenuAppBar from "./Components/MenuAppBar";
+import Login from "./Components/Login";
+import CharacterDashboard from "./Components/CharacterDashboard";
+import SignUp from "./Components/Signup";
+import NoMatch from "./Components/NoMatch";
+import PrivateRoute from "./Components/PrivateRoute";
 import auth0Client from './Auth';
-import Inventory from "./Components/Inventory"
-import CharacterUpdate from "./Components/CharacterUpdate"
-import ChartsAndAnalytics from "./Components/ChartsAndAnalytics"
-import LevelUp from "./Components/LevelUp"
-import TaskManager from "./Components/TaskManager"
+import Inventory from "./Components/Inventory";
+import CharacterUpdate from "./Components/CharacterUpdate";
+import ChartsAndAnalytics from "./Components/ChartsAndAnalytics";
+import LevelUp from "./Components/LevelUp";
+import TaskManager from "./Components/TaskManager";
 import CharacterCreation from './Components/CharacterCreation';
-import Callback from "./Callback"
+import Callback from "./Callback";
+import moment from "moment";
 
 
 class App extends Component {
@@ -22,19 +23,16 @@ class App extends Component {
     super(props);
     this.state = {
       checkingSession: true,
-      task: 
+      task:
         [
-          {name:"Task 1 Max Characters 30",description:"Description goes here",frequency:"Daily",challenge:4,completed:false},
-          {name:"task2",description:"Description goes here",frequency:"Weekly",challenge:2,completed:false},
-          {name:"task3",description:"Description goes here",frequency:"Daily",challenge:5,completed:true},
-          {name:"task4",description:"Description goes here",frequency:"Weekly",challenge:3,completed:false},
-          {name:"task5",description:"Description goes here",frequency:"Monthly",challenge:1,completed:false},
+          { name: "Task 1 Max Characters 30", description: "Description goes here", frequency: "Daily", challenge: 4, completed: false, createdAt: "moment().format('MMMM Do YYYY, h:mm:ss a')" },
+          { name: "task2", description: "Description goes here", frequency: "Weekly", challenge: 2, completed: false, createdAt: "moment().format('MMMM Do YYYY, h:mm:ss a')" },
+          { name: "task3", description: "Description goes here", frequency: "Daily", challenge: 5, completed: true, createdAt: "moment().format('MMMM Do YYYY, h:mm:ss a')" },
+          { name: "task4", description: "Description goes here", frequency: "Weekly", challenge: 3, completed: false, createdAt: "moment().format('MMMM Do YYYY, h:mm:ss a')" },
+          { name: "task5", description: "Description goes here", frequency: "Monthly", challenge: 1, completed: false, createdAt: "moment().format('MMMM Do YYYY, h:mm:ss a')" },
         ]
     }
   }
-
-
-
 
   async componentDidMount() {
     // eslint-disable-next-line react/prop-types
@@ -44,6 +42,8 @@ class App extends Component {
     }
     try {
       await auth0Client.silentAuth();
+      // NEED TO add an api call to database for tasks
+
       this.forceUpdate();
     } catch (err) {
       if (err.error !== 'login_required') console.log(err.error);

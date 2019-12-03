@@ -66,9 +66,9 @@ function TaskItems(props) {
   const [openAdd, setOpenAdd] = React.useState(false);
   const [openRemove, setOpenRemove] = React.useState(false);
   const [frequency, setFrequency] = React.useState('');
-  
-  
-  const handleClickDone = ()=>{
+
+
+  const handleClickDone = () => {
     console.log("set Status To Done")
   }
   const handleClickOpenRemove = () => {
@@ -88,6 +88,7 @@ function TaskItems(props) {
   const handleChange = event => {
     setFrequency(event.target.value);
   };
+
   return (
     <div>
       <Box border={1} borderRadius={16} m={1}>
@@ -99,8 +100,8 @@ function TaskItems(props) {
               <Button onClick={handleClickOpenAdd}><EditIcon /></Button>
             </ListItemIcon>
             <ListItemIcon>
-            <Button onClick={handleClickDone}><DoneIcon /></Button>
-          </ListItemIcon>
+              <Button onClick={handleClickDone}><DoneIcon /></Button>
+            </ListItemIcon>
             <ListItemIcon>
               <Button onClick={handleClickOpenRemove}><DeleteForeverIcon /></Button>
             </ListItemIcon>
