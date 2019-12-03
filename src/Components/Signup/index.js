@@ -1,82 +1,109 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
-import { Paper, withStyles, Grid, TextField, Button} from '@material-ui/core';
+import React, { useState, useEffect } from 'react';
+import { Redirect } from 'react-router-dom';
+import { Button } from '@material-ui/core';
 // import { Face, Fingerprint } from '@material-ui/icons'
+import { makeStyles } from '@material-ui/core/styles';
+import FormControl from '@material-ui/core/FormControl';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import Typography from '@material-ui/core/Typography'
+import axios from 'axios';
 
-const styles = theme => ({
-  margin: {
-    margin: theme.spacing.unit * 2,
+const useStyles = makeStyles(theme => ({
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    flexWrap: 'wrap',
   },
-  padding: {
-    padding: theme.spacing.unit
-  }
-});
+  formControl: {
+    margin: theme.spacing(1),
+  },
+}));
 
-class Login extends React.Component {
-  render() {
-    const { classes } = this.props;
-    return (
-      <Paper className={classes.padding}>
-        <div className={classes.margin}>
-          <Grid container spacing={8} alignItems="flex-end">
-            <Grid item>
-              {/* <Face /> */}
-            </Grid>
-            <Grid item md={true} sm={true} xs={true}>
-              <TextField id="firstName" label="First Name" type="name" fullWidth autoFocus required />
-            </Grid>
-          </Grid>
-          <Grid container spacing={8} alignItems="flex-end">
-            <Grid item>
-              {/* <Fingerprint /> */}
-            </Grid>
-            <Grid item md={true} sm={true} xs={true}>
-              <TextField id="lastName" label="Last Name" type="name" fullWidth required />
-            </Grid>
-          </Grid>
-          <Grid container spacing={8} alignItems="flex-end">
-            <Grid item>
-              {/* <Fingerprint /> */}
-            </Grid>
-            <Grid item md={true} sm={true} xs={true}>
-              <TextField id="username" label="Email" type="email" fullWidth required />
-            </Grid>
-          </Grid>
-          <Grid container spacing={8} alignItems="flex-end">
-            <Grid item>
-              {/* <Face /> */}
-            </Grid>
-            <Grid item md={true} sm={true} xs={true}>
-              <TextField id="userName" label="Username" type="" fullWidth autoFocus required />
-            </Grid>
-          </Grid>
-          <Grid container spacing={8} alignItems="flex-end">
-            <Grid item>
-              {/* <Fingerprint /> */}
-            </Grid>
-            <Grid item md={true} sm={true} xs={true}>
-              <TextField id="password" label="Password" type="password" fullWidth required />
-            </Grid>
-          </Grid>
-          <Grid container alignItems="center" justify="space-between">
-            <Grid item>
-              {/* <FormControlLabel control={
-                                <Checkbox
-                                    color="primary"
-                                />
-                            } label="Remember me" /> */}
-            </Grid>
-            <Grid item>
-              {/* <Button disableFocusRipple disableRipple style={{ textTransform: "none" }} variant="text" color="primary">Forgot password ?</Button> */}
-            </Grid>
-          </Grid>
-          <Grid container justify="center" style={{ marginTop: '10px' }}>
-            <Button variant="outlined" color="primary" style={{ textTransform: "none" }}>Register</Button>
-          </Grid>
-        </div>
-      </Paper>
-    );
+
+function SignUp(props) {
+  const [user, setUser] = useState(props.user)
+  const [firstName, setFirstName] = useState(user.firstName);
+  const [lastName, setLastName] = useState(user.lastName);
+  const [email, setEmail] = useState(user.email);
+  const [password, setPassword] = useState(user.password);
+  const [username, setUsername] = useState(user.username);
+  const [userFound, setUserFound] = useState(false);
+  const classes = useStyles();
+
+  useEffect(() => {
+    axios.get(`/api/getuserbyusername/${username}`).then((data) => {
+      if (data.data[0]) {
+        setUserFound(true)
+      }
+    })
+  })
+
+  const setUserConfig = () => {
+    const newUser = {
+      email: email,
+      username: username,
+      password: password,
+      lastName: lastName,
+      firstName: firstName
+    }
+    setUser(newUser)
   }
+
+  const handleChangeFirstName = event => {
+    setFirstName(event.target.value);
+  };
+  const handleChangeLastName = event => {
+    setLastName(event.target.value);
+
+  };
+  const handleChangeEmail = event => {
+    setEmail(event.target.value);
+  };
+  const handleChangePassword = event => {
+    setPassword(event.target.value);
+  };
+  const handleChangeUsername = event => {
+    setUsername(event.target.value);
+  };
+  const handleClick = () => {
+    console.log("Verify Click User:")
+    console.log(user)
+    axios.post('/api/user', user).then(data => { console.log(data.data[0]) }).catch(err => console.log(err))
+  }
+
+  return (
+    userFound ?
+      <Redirect to="/" />
+      :
+      <div className={classes.container}>
+        <Typography> Please Verify your Information so that we can make sure we have everything correct: </Typography>
+        <FormControl className={classes.formControl}>
+          <InputLabel htmlFor="firstName">First Name</InputLabel>
+          <Input id="firstName" value={firstName} onChange={handleChangeFirstName} onKeyUp={setUserConfig} />
+        </FormControl>
+
+        <FormControl className={classes.formControl}>
+          <InputLabel htmlFor="lastName">Last Name:</InputLabel>
+          <Input id="lastName" value={lastName} onChange={handleChangeLastName} onKeyUp={setUserConfig} />
+        </FormControl>
+
+        <FormControl className={classes.formControl}>
+          <InputLabel htmlFor="email">Email:</InputLabel>
+          <Input id="email" value={email} onChange={handleChangeEmail} onKeyUp={setUserConfig} />
+        </FormControl>
+        <FormControl className={classes.formControl}>
+          <InputLabel htmlFor="username">Username:</InputLabel>
+          <Input id="username" value={username} onChange={handleChangeUsername} onKeyUp={setUserConfig} />
+        </FormControl>
+        <FormControl className={classes.formControl}>
+          <InputLabel htmlFor="password">Please enter password:</InputLabel>
+          <Input id="password" value={password} onChange={handleChangePassword} onKeyUp={setUserConfig} />
+        </FormControl>
+        <Button onClick={handleClick}>Verify</Button>
+      </div>
+  )
 }
 
-export default withStyles(styles)(Login);
+export default SignUp;
