@@ -178,6 +178,7 @@ router.post("/adduser", (req, res) => {
         firstName: user.firstName,
         lastName: user.lastName,
         lastLogin: user.lastLogin
+    }
     })
         .then(data => { 
             console.log(data.User.dataValues)
