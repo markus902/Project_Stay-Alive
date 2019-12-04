@@ -119,7 +119,8 @@ router.post("/updatetask/:taskId", (req, res) => {
         taskName: task.taskName,
         taskNotes: task.taskNotes,
         frequency: task.taskFrequency,
-        complete: task.taskComplete
+        complete: task.taskComplete,
+        updatedAt: task.updatedAt
     },
         { where: { id: req.params.taskId } }
     )
@@ -166,17 +167,17 @@ router.post("/adduser", (req, res) => {
 
     let user = req.body
     db.User.findOrCreate({
-        where:{
+        where: {
             userName: user.username
         }
         ,
-        defaults:{
-        userName: user.username,
-        email: user.email,
-        lastLogin: user.lastLogin
-    }
+        defaults: {
+            userName: user.username,
+            email: user.email,
+            lastLogin: user.lastLogin
+        }
     })
-        .then(data => { 
+        .then(data => {
             console.log(data[0].dataValues)
             res.json(data[0].dataValues)
         })
