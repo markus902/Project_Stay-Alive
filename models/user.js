@@ -2,34 +2,18 @@ module.exports = function (sequelize, DataTypes) {
   const User = sequelize.define("User", {
     userName: {
       type: DataTypes.STRING,
-      allowNull: true
-    },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: true
+      allowNull: false
     },
     email: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
       validate: {
         isEmail: true
       }
     },
-    firstName: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
-    lastName: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
-    // character_id: {
-    //   type: DataTypes.INTEGER,
-    //   allowNull: true
-    // },
     lastLogin: {
-      type: DataTypes.INTEGER,
-      allowNull: true
+      type: DataTypes.DATE,
+      allowNull: false
     },
   },
     { freezeTableName: true });

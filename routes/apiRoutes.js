@@ -164,8 +164,7 @@ router.get("/getuserbyusername/:username", (req, res) => {
 router.post("/adduser", (req, res) => {
     console.log("adding user")
 
-    let user = req.body;
-    console.log(user)
+    let user = req.body
     db.User.findOrCreate({
         where:{
             userName: user.username
@@ -173,16 +172,13 @@ router.post("/adduser", (req, res) => {
         ,
         defaults:{
         userName: user.username,
-        password: user.password,
         email: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName,
         lastLogin: user.lastLogin
     }
     })
         .then(data => { 
-            console.log(data.User.dataValues)
-            res.json(data.User.dataValues) 
+            console.log(data[0].dataValues)
+            res.json(data[0].dataValues)
         })
         .catch(err => { console.log(err) })
 })
