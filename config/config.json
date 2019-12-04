@@ -2,18 +2,28 @@
   "development": {
     "use_env_variable": "JAWSDB_URL",
     "dialect": "mysql",
-    "operatorsAliases": false
+    "operatorsAliases": false,
+    "dialectOptions": {
+      "useUTC": false
+    },
+    "timezone": "-05:00"
   },
   "test": {
     "use_env_variable": "JAWSDB_URL",
     "dialect": "mysql",
-    "operatorsAliases": false
-
+    "operatorsAliases": false,
+    "dialectOptions": {
+      "useUTC": false
+    },
+    "timezone": "-05:00"
   },
   "production": {
     "use_env_variable": "JAWSDB_URL",
     "dialect": "mysql",
-    "operatorsAliases": false
-
+    "operatorsAliases": false,
+    "dialectOptions": {
+      "useUTC": false
+    },
+    "timezone": "-05:00"
   }
 }
