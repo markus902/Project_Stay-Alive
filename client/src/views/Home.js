@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import axios from 'axios';
 import { useAuth0 } from "../react-auth0-spa";
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from "reactstrap";
-import axios from "axios";
 import Loading from "../components/Loading";
 
 const Home = () => {

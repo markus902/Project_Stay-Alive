@@ -1,29 +1,35 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import './style.css';
-import axios from 'axios';
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import TaskContext from '../../utils/TaskContext';
 
 
-function NewTaskForm(props) {
+
+
+function NewTaskForm() {
+    const context = useContext(TaskContext);
+    console.log(context.newTaskName);
 
     return (
         <div className='newTaskContainer'>
-            <form className='newTask' onSubmit={props.handleNewTaskSubmit}>
+            <Form className='newTask' onSubmit={context.handleNewTaskSubmit}>
                 <label for='taskname'>Enter your Task name: </label>
                 <input
                     className='newTaskName'
-                    onChange={props.handleNewTaskInput}
+                   // value={context.newTaskName}
+                    onChange={e  => context.handleNewTaskInput(e)}
                     type='text'></input>
                 <label for='taskNotes'>Enter your Task Notes: </label>
                 <input
                     className='newTaskNotes'
-                    handleNewTaskInput={props.handleNewTaskInput}
+                    //value={context.newTaskNotes}
+                    onChange={e => context.handleNewTaskInput(e)}
                     type='text'></input>
 
-                <label 
-                className='taskDifficulty'
-                for='difficulty-choice'>Choose a Difficulty:
-          <select value={this.state.value} onChange={this.handleChange}>
+                <label
+                    className='taskDifficulty'
+                    for='difficulty-choice'>Choose a Difficulty:
+          <select onChange={context.handleNewTaskInput()}>
                         <option value='1'>Menial</option>
                         <option value='2'>Easy</option>
                         <option value='3'>Medium</option>
@@ -32,18 +38,18 @@ function NewTaskForm(props) {
                     </select>
                 </label>
 
-                <label 
-                className='taskFrequency'
-                for='frequency-choice'>Choose a Frequency:
-          <select value={this.state.value} onChange={this.handleChange}>
+                <label
+                    className='taskFrequency'
+                    for='frequency-choice'>Choose a Frequency:
+          <select value={context.newTaskFrequency} onChange={context.handleNewTaskInput()}>
                         <option value='Daily'>Daily</option>
                         <option value='Weekly'>Weekly</option>
                         <option value='Monthly'>Monthly</option>
                     </select>
                 </label>
 
-                <button type='submit'>Add Task Item</button>
-            </form>
+                <Button type='submit' onClick={context.handleNewTaskSubmit}>Add Task Item</Button>
+            </Form>
         </div>
     )
 }
