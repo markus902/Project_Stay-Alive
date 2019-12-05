@@ -1,9 +1,10 @@
 import React from "react";
-import loading from "../assets/loading.svg";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBiohazard } from '@fortawesome/free-solid-svg-icons';
 
 const Loading = () => (
   <div className="spinner">
-    <img src={loading} alt="Loading" />
+    <FontAwesomeIcon icon={faBiohazard} spin size='10x' />
   </div>
 );
 
