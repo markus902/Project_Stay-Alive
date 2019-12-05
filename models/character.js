@@ -61,6 +61,9 @@ module.exports = function (sequelize, DataTypes) {
         min: 0,
         max: 3
       }
+    },
+    UserId:{
+      type: DataTypes.INTEGER
     }
   },
     { freezeTableName: true });
