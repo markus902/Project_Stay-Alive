@@ -15,7 +15,7 @@ const Profile = () => {
     <Container className="mb-5">
       <Row>
         <Col>
-          {user.nickname}
+          
         </Col>
       </Row>
     </Container>

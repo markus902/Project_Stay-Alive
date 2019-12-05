@@ -39,17 +39,23 @@ router.post("/addcharacter", (req, res) => {
     let character = req.body;
     console.log(req.body);
     db.Character.create({
-        id: character.id,
         characterName: character.characterName,
-        health: character.health,
-        experience: character.experience,
-        inventory: character.inventory,
         bodyType: character.bodyType,
         hairType: character.hairType,
+        experience: 0,
+        health: 100,
         color1: character.color1,
-        color2: character.color2
+        color2: character.color2,
+        UserId: character.UserId
     })
-        .then(data => { res.json(data) })
+        .then(data => {
+            db.User.update(
+                {CharacterId: data.id},
+                {where:{id:character.UserId}}
+            ).then(()=>{
+                res.json(data) 
+            })
+        })
         .catch(err => { console.log(err); });
 });
 
