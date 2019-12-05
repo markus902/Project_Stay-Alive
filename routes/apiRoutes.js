@@ -120,7 +120,8 @@ router.post("/updatetask/:taskId", (req, res) => {
         taskNotes: task.taskNotes,
         frequency: task.taskFrequency,
         complete: task.taskComplete,
-        updatedAt: task.updatedAt
+        updatedAt: task.updatedAt,
+        cratedAt: task.createdAt
     },
         { where: { id: req.params.taskId } }
     )
