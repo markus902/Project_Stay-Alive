@@ -41,18 +41,14 @@ const Home = () => {
   }
 
   const handleClick = ()=>{
-    // console.log(characterName)
-    // console.log(hairType + "hair type")
-    // console.log(colorOne + "Color 1")
-    // console.log(colorTwo + "Color 2")
-    // console.log(bodyType + "body type")
     const character={
       characterName: characterName,
       hairType: hairType,
       bodyType: bodyType,
       color1: colorOne,
       color2: colorTwo,
-      UserId: userData.id
+      UserId: userData.id,
+      inventory:[]
     }
     Axios.post('/api/addcharacter', character).then(response=>{
       console.log(response)
