@@ -50,10 +50,10 @@ router.post("/addcharacter", (req, res) => {
     })
         .then(data => {
             db.User.update(
-                {CharacterId: data.id},
-                {where:{id:character.UserId}}
-            ).then(()=>{
-                res.json(data) 
+                { CharacterId: data.id },
+                { where: { id: character.UserId } }
+            ).then(() => {
+                res.json(data)
             })
         })
         .catch(err => { console.log(err); });
@@ -124,6 +124,7 @@ router.post("/createtask/:taskId", (req, res) => {
     db.ToDoTasks.create({
         taskName: task.taskName,
         taskNotes: task.taskNotes,
+        taskDifficulty: task.taskDifficulty,
         frequency: task.taskFrequency,
         complete: task.taskComplete
     })
@@ -138,6 +139,7 @@ router.post("/updatetask/:taskId", (req, res) => {
     db.ToDoTasks.update({
         taskName: task.taskName,
         taskNotes: task.taskNotes,
+        taskDifficulty: task.taskDifficulty,
         frequency: task.taskFrequency,
         complete: task.taskComplete
     },

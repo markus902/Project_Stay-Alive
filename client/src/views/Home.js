@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from 'axios';
 import { useAuth0 } from "../react-auth0-spa";
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from "reactstrap";
-import Axios from "axios";
+import axios from "axios";
 import Loading from "../components/Loading";
 
 const Home = () => {
@@ -40,13 +40,13 @@ const Home = () => {
     }
   }
 
-  const handleClick = ()=>{
+  const handleClick = () => {
     // console.log(characterName)
     // console.log(hairType + "hair type")
     // console.log(colorOne + "Color 1")
     // console.log(colorTwo + "Color 2")
     // console.log(bodyType + "body type")
-    const character={
+    const character = {
       characterName: characterName,
       hairType: hairType,
       bodyType: bodyType,
@@ -54,7 +54,7 @@ const Home = () => {
       color2: colorTwo,
       UserId: userData.id
     }
-    Axios.post('/api/addcharacter', character).then(response=>{
+    axios.post('/api/addcharacter', character).then(response => {
       console.log(response)
       setFirstTime(false)
     })
@@ -72,15 +72,15 @@ const Home = () => {
     }
     axios.post('/api/adduser', userData).then(data => {
       setUserData(data.data)
-      if(data.data.CharacterId){
+      if (data.data.CharacterId) {
         setFirstTime(false)
       }
-    }).catch(err => console.log(err)).finally(()=>{
+    }).catch(err => console.log(err)).finally(() => {
       setFirstLoad(true)
     })
-    
+
   }
-  console.log(firstTime) 
+  console.log(firstTime)
   return (
     <Container>
       {!firstTime ?
