@@ -50,8 +50,7 @@ const Home = () => {
       bodyType: bodyType,
       color1: colorOne,
       color2: colorTwo,
-      UserId: userData.id,
-      inventory: []
+      UserId: userData.id
     }
     Axios.post('/api/addcharacter', character).then(response => {
       console.log(response)
