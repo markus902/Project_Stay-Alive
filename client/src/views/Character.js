@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { Container, Row, Col, Jumbotron } from "reactstrap";
+import { Container, Row, Col } from "reactstrap";
 
 import Loading from "../components/Loading";
 import Inventory from "../components/Inventory";
