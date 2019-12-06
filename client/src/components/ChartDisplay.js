@@ -1,4 +1,4 @@
-import ChartDisplay from "react";
+import React, { Fragment } from "react";
 
 const ChartDisplay = () => (
     <div>
