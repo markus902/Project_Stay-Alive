@@ -47,30 +47,42 @@ const NavBar = () => {
                 >
                   Stay Alive
                 </NavLink>
-            </NavItem>
-            {isAuthenticated && (
-            <NavItem>
-                <NavLink
-                  tag={RouterNavLink}
-                  to="/task"
-                  exact
-                  activeClassName="router-link-exact-active"
-                >
-                  Task Manager
-                </NavLink>
-            </NavItem>
-            )}
-            {isAuthenticated && (
-            <NavItem>
-                <NavLink
-                  tag={RouterNavLink}
-                  to="/character"
-                  exact
-                  activeClassName="router-link-exact-active"
-                >
-                  Character
-                </NavLink>
               </NavItem>
+              {isAuthenticated && (
+                <NavItem>
+                  <NavLink
+                    tag={RouterNavLink}
+                    to="/task"
+                    exact
+                    activeClassName="router-link-exact-active"
+                  >
+                    Task Manager
+                </NavLink>
+                </NavItem>
+              )}
+              {isAuthenticated && (
+                <NavItem>
+                  <NavLink
+                    tag={RouterNavLink}
+                    to="/character"
+                    exact
+                    activeClassName="router-link-exact-active"
+                  >
+                    Character
+                </NavLink>
+                </NavItem>
+              )}
+              {isAuthenticated && (
+                <NavItem>
+                  <NavLink
+                    tag={RouterNavLink}
+                    to="/stats"
+                    exact
+                    activeClassName="router-link-exact-active"
+                  >
+                    Stats
+                </NavLink>
+                </NavItem>
               )}
             </Nav>
             <Nav className="d-none d-md-block" navbar>

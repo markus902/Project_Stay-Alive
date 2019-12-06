@@ -7,6 +7,7 @@ import Loading from "./components/Loading";
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import Home from "./views/Home";
+import Stats from "./views/Stats";
 import Profile from "./views/Profile";
 import Task from "./views/Task";
 import Character from "./views/Character";
@@ -37,6 +38,7 @@ const App = () => {
             <PrivateRoute path="/profile" component={Profile} />
             <PrivateRoute path="/task" component={Task} />
             <PrivateRoute path="/character" component={Character} />
+            <PrivateRoute path="/stats" component={Stats} />
           </Switch>
         </Container>
         <Footer />

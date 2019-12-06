@@ -10,7 +10,7 @@ const Profile = () => {
   const { loading, user } = useAuth0();
   const [onLoad, setOnLoad] = useState(false)
   const userRef = useRef(0)
-  const charRef = useRef(0)
+  const charRef = useRef({ CharacterId: 0 })
 
   if (loading || !user) {
     return <Loading />;
@@ -20,7 +20,7 @@ const Profile = () => {
       userRef.current = response.data[0]
       charRef.current = userRef.current.CharacterId
     }).then(() => {
-      if (charRef.current !== 0) {
+      if (charRef.current.CharacterId !== 0) {
         Axios.get(`/api/character/${charRef.current}`).then(response => {
           charRef.current = response.data[0]
           console.log(charRef.current)
