@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth0 } from "../react-auth0-spa";
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from "reactstrap";
-import Axios from "axios";
 import Loading from "../components/Loading";
 import Welcome from "./Welcome"
 
@@ -52,7 +51,7 @@ const Home = () => {
       color2: colorTwo,
       UserId: userData.id
     }
-    Axios.post('/api/addcharacter', character).then(response => {
+    axios.post('/api/addcharacter', character).then(response => {
       console.log(response)
       firstTimeRef.current = false
     }).finally(() => {
