@@ -10,7 +10,7 @@ const Stats = () => {
     const { loading, user } = useAuth0();
     const [userData, setUserData] = useState();
     const [loader, setLoader] = useState(true);
-    const [chart, setLoader] = useState(true);
+    const [chart, setChart] = useState(true);
 
     if (loading || !user) {
         return <Loading />;

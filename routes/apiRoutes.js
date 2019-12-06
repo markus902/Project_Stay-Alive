@@ -39,7 +39,7 @@ router.post("/addcharacter", (req, res) => {
     let character = req.body;
     db.Character.findOrCreate({
         where: {
-            UserId:character.UserId
+            UserId: character.UserId
         },
         defaults: {
             characterName: character.characterName,
@@ -50,13 +50,13 @@ router.post("/addcharacter", (req, res) => {
             color1: character.color1,
             color2: character.color2,
             UserId: character.UserId,
-            inventory: {"items": []}
+            inventory: { "items": [] }
         }
     })
         .then(data => {
-            console.log(data)
+            console.log(data[0].id)
             db.User.update(
-                { CharacterId: data.id },
+                { CharacterId: data[0].id },
                 { where: { id: character.UserId } }
             ).then((some) => {
                 console.log(some)
