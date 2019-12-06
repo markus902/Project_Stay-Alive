@@ -37,23 +37,30 @@ router.post("/addcharacter", (req, res) => {
     console.log("creating character");
 
     let character = req.body;
-    console.log(req.body);
-    db.Character.create({
-        characterName: character.characterName,
-        bodyType: character.bodyType,
-        hairType: character.hairType,
-        experience: 0,
-        health: 100,
-        color1: character.color1,
-        color2: character.color2,
-        UserId: character.UserId
+    db.Character.findOrCreate({
+        where: {
+            UserId:character.UserId
+        },
+        defaults: {
+            characterName: character.characterName,
+            bodyType: character.bodyType,
+            hairType: character.hairType,
+            experience: 0,
+            health: 100,
+            color1: character.color1,
+            color2: character.color2,
+            UserId: character.UserId,
+            inventory: {"items": []}
+        }
     })
         .then(data => {
+            console.log(data)
             db.User.update(
-                {CharacterId: data.id},
-                {where:{id:character.UserId}}
-            ).then(()=>{
-                res.json(data) 
+                { CharacterId: data.id },
+                { where: { id: character.UserId } }
+            ).then((some) => {
+                console.log(some)
+                res.json(data)
             })
         })
         .catch(err => { console.log(err); });
@@ -63,8 +70,11 @@ router.post("/characterupdate/:id", (req, res) => {
     console.log("updating character")
 
     let character = req.body;
-    db.Character.update(
-        {
+    db.Character.update({
+        where: {
+            id: req.params.id
+        },
+        defaults: {
             characterName: character.characterName,
             health: character.health,
             experience: character.experience,
@@ -73,16 +83,15 @@ router.post("/characterupdate/:id", (req, res) => {
             hairType: character.hairType,
             color1: character.color1,
             color2: character.color2
-        },
-        { where: { id: req.params.id } }
-    )
+        }
+    })
         .then(data => { res.json(data) })
         .catch(err => { console.log(err); });
 })
 
 // Routes for inventory
 
-router.get("/inventory", (req, res) => {
+router.get("/inventory/:itemId", (req, res) => {
     console.log("getting inventory");
 
     db.PowerUp.findAll({})
@@ -172,17 +181,17 @@ router.post("/adduser", (req, res) => {
 
     let user = req.body
     db.User.findOrCreate({
-        where:{
+        where: {
             userName: user.username
         }
         ,
-        defaults:{
-        userName: user.username,
-        email: user.email,
-        lastLogin: user.lastLogin
-    }
+        defaults: {
+            userName: user.username,
+            email: user.email,
+            lastLogin: user.lastLogin
+        }
     })
-        .then(data => { 
+        .then(data => {
             console.log(data[0].dataValues)
             res.json(data[0].dataValues)
         })

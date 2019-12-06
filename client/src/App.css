@@ -29,3 +29,8 @@
   left: 0;
   right: 0;
 }
+
+.inventoryItems {
+  display: flex;
+  flex-direction: row;
+}
