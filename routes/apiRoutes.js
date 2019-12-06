@@ -37,22 +37,29 @@ router.post("/addcharacter", (req, res) => {
     console.log("creating character");
 
     let character = req.body;
-    console.log(req.body);
-    db.Character.create({
-        characterName: character.characterName,
-        bodyType: character.bodyType,
-        hairType: character.hairType,
-        experience: 0,
-        health: 100,
-        color1: character.color1,
-        color2: character.color2,
-        UserId: character.UserId
+    db.Character.findOrCreate({
+        where: {
+            UserId: character.UserId
+        },
+        defaults: {
+            characterName: character.characterName,
+            bodyType: character.bodyType,
+            hairType: character.hairType,
+            experience: 0,
+            health: 100,
+            color1: character.color1,
+            color2: character.color2,
+            UserId: character.UserId,
+            inventory: { "items": [] }
+        }
     })
         .then(data => {
+            console.log(data)
             db.User.update(
                 { CharacterId: data.id },
                 { where: { id: character.UserId } }
-            ).then(() => {
+            ).then((some) => {
+                console.log(some)
                 res.json(data)
             })
         })
@@ -63,8 +70,11 @@ router.post("/characterupdate/:id", (req, res) => {
     console.log("updating character")
 
     let character = req.body;
-    db.Character.update(
-        {
+    db.Character.update({
+        where: {
+            id: req.params.id
+        },
+        defaults: {
             characterName: character.characterName,
             health: character.health,
             experience: character.experience,
@@ -73,16 +83,15 @@ router.post("/characterupdate/:id", (req, res) => {
             hairType: character.hairType,
             color1: character.color1,
             color2: character.color2
-        },
-        { where: { id: req.params.id } }
-    )
+        }
+    })
         .then(data => { res.json(data) })
         .catch(err => { console.log(err); });
 })
 
 // Routes for inventory
 
-router.get("/inventory", (req, res) => {
+router.get("/inventory/:itemId", (req, res) => {
     console.log("getting inventory");
 
     db.PowerUp.findAll({})
