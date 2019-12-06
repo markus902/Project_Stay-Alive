@@ -1,11 +1,14 @@
 import React from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBiohazard } from '@fortawesome/free-solid-svg-icons';
+
 
 const Footer = () => (
   <footer className="bg-light p-3 text-center">
-    <div className="logo" />
-    <p>
-      Sample project provided by <a href="https://auth0.com">Auth0</a>
-    </p>
+    <FontAwesomeIcon icon={faBiohazard} spin size='3x' />
+    <h5>
+      Stay Alive© Developed by <a href="https://github.com/markus902/Stay_Alive">Critical Code</a>
+    </h5>
   </footer>
 );
 

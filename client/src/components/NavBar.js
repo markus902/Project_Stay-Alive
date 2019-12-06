@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { NavLink as RouterNavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBiohazard } from '@fortawesome/free-solid-svg-icons';
 
 import {
   Collapse,
@@ -34,9 +35,10 @@ const NavBar = () => {
       <Navbar color="light" light expand="md">
         <Container>
           <NavbarToggler onClick={toggle} />
-          <Collapse isOpen={isOpen} navbar>
+          <Collapse isOpen={isOpen} navbar><FontAwesomeIcon icon={faBiohazard} size='2x' />
             <Nav className="mr-auto" navbar>
               <NavItem>
+              
                 <NavLink
                   tag={RouterNavLink}
                   to="/"
