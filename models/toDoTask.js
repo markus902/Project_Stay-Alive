@@ -13,15 +13,12 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: false
     },
     frequency: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      validate: {
-        isIn: ["Daily", "Weekly", "Monthly"]
-      }
+      type: DataTypes.STRING,
+      allowNull: false
     },
     complete: {
       type: DataTypes.DATE,
-      allowNull: false,
+      // allowNull: false,
       default: "1980-01-01 12:00"
     }
 

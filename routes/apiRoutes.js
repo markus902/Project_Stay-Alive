@@ -126,17 +126,16 @@ router.get("/gettasks/:characterId", (req, res) => {
         .catch(err => { console.log(err) });
 })
 
-router.post("/createtask/:taskId", (req, res) => {
-    console.log("creating tasks", task);
-
+router.post("/createtask", (req, res) => {
     let task = req.body;
-    db.ToDoTasks.create({
-        taskName: task.taskName,
-        taskNotes: task.taskNotes,
-        taskDifficulty: task.taskDifficulty,
-        frequency: task.taskFrequency,
-        complete: task.taskComplete
-    })
+    console.log("creating tasks", task);
+    db.ToDoTasks.create(task)
+        // taskName: task.taskName,
+        // taskNotes: task.taskNotes,
+        // taskDifficulty: task.taskDifficulty,
+        // frequency: task.taskFrequency,
+        // complete: task.taskComplete
+    
         .then(data => { res.json(data) })
         .catch(err => { console.log(err) });
 })

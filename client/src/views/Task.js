@@ -12,8 +12,8 @@ const Task = () => {
   const { loading, user } = useAuth0();
   const [newTaskName, setNewTaskName] = useState('')
   const [newTaskNotes, setNewTaskNotes] = useState('')
-  const [newTaskDifficulty, setNewTaskDifficulty] = useState(0)
-  const [newTaskFrequency, setNewTaskFrequency] = useState(0)
+  const [newTaskDifficulty, setNewTaskDifficulty] = useState(1)
+  const [newTaskFrequency, setNewTaskFrequency] = useState('Daily')
 
 
   if (loading || !user) {
@@ -23,18 +23,19 @@ const Task = () => {
 
 
 const  handleNewTaskInput = (event) => {
-    console.log('set' + event.target.value)
+        console.log(event.target.id)
+        console.log('set' + event.target.value)
     switch (true) {
-      case (event === 'newTaskName'):
+      case (event.target.id === 'newTaskName'):
         setNewTaskName(event.target.value)
         break;
-      case (event === 'newTaskNotes'):
+      case (event.target.id === 'newTaskNotes'):
         setNewTaskNotes(event.target.value)
         break;
-      case (event === 'newTaskDifficulty'):
+      case (event.target.id === 'newTaskDifficulty'):
         setNewTaskDifficulty(event.target.value)
         break;
-      case (event === 'newTaskFrequency'):
+      case (event.target.id === 'newTaskFrequency'):
         setNewTaskFrequency(event.target.value)
         break;
       default:
@@ -48,16 +49,17 @@ const  handleNewTaskInput = (event) => {
   // console.log(event);
   // };
 
-  const handleNewTaskSubmit = () => {
-    // event.preventDefault();
+  const handleNewTaskSubmit = (event) => {
+    event.preventDefault();
     console.log('submit');
     const newTask = {
-      newTaskName: newTaskName,
-      newTaskNotes: newTaskNotes,
-      newTaskDifficulty: newTaskDifficulty,
-      newTaskFrequency: newTaskFrequency
+      taskName: newTaskName,
+      taskNotes: newTaskNotes,
+      taskDifficulty: newTaskDifficulty,
+      frequency: newTaskFrequency
     }
-    axios.post('/api/adcreatetask/:taskId', newTask).then(response => {
+    console.log(newTask);
+    axios.post('/api/createtask', newTask).then(response => {
       console.log(response)
       // setFirstTime(false)
     })
