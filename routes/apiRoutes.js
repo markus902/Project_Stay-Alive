@@ -126,6 +126,20 @@ router.get("/gettasks/:characterId", (req, res) => {
         .catch(err => { console.log(err) });
 })
 
+router.post("/createtask", (req, res) => {
+    let task = req.body;
+    console.log("creating tasks", task);
+    db.ToDoTasks.create(task)
+        // taskName: task.taskName,
+        // taskNotes: task.taskNotes,
+        // taskDifficulty: task.taskDifficulty,
+        // frequency: task.taskFrequency,
+        // complete: task.taskComplete
+    
+        .then(data => { res.json(data) })
+        .catch(err => { console.log(err) });
+})
+
 router.post("/updatetask/:taskId", (req, res) => {
     console.log("getting tasks");
 
