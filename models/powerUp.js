@@ -10,17 +10,17 @@ module.exports = function (sequelize, DataTypes) {
       validate: {
         isIn: ["HealthRecovery", "ExperienceBoost"]
       }
-    }
+    },
+    Description: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    imageSrc: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+
   },
     { freezeTableName: true });
-
-
-  PowerUp.associate = function (models) {
-    PowerUp.belongsTo(models.Character, {
-      foreignKey: {
-        allowNull: false
-      }
-    });
-  }
   return PowerUp;
 };

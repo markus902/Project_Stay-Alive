@@ -1,12 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
   const Character = sequelize.define("Character", {
-    // id:
-    // {
-    //   type: DataTypes.INTEGER,
-    //   allowNull: false,
-    //   primaryKey: true,
-    // autoincrement: true
-    // },
     characterName:
     {
       type: DataTypes.STRING,
@@ -71,9 +64,6 @@ module.exports = function (sequelize, DataTypes) {
 
   Character.associate = function (models) {
     Character.hasOne(models.User, {
-      onDelete: "cascade"
-    });
-    Character.hasMany(models.PowerUp, {
       onDelete: "cascade"
     });
     Character.hasMany(models.ToDoTasks, {
