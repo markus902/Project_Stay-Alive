@@ -58,7 +58,7 @@ function NewTaskForm() {
                                 </select>
                             </label>
 
-                            <Button type='submit' onClick={context.handleNewTaskSubmit}>Add Task Item</Button>
+                            <Button type='submit'>Add Task Item</Button>
                         </Form>
                     </Col>
                 </Row>

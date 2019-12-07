@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import TaskContext from '../utils/TaskContext';
 import Loading from '../components/Loading';
@@ -8,21 +8,58 @@ import NewTaskForm from '../components/NewTaskForm';
 import TaskItemsData from '../components/TaskItemsData';
 import { array } from 'prop-types';
 
+
 const Task = () => {
   // const [state, setstate] = useState(initialState)
   const { loading, user } = useAuth0();
-  const [newTaskName, setNewTaskName] = useState('')
-  const [newTaskNotes, setNewTaskNotes] = useState('')
-  const [newTaskDifficulty, setNewTaskDifficulty] = useState(1)
-  const [newTaskFrequency, setNewTaskFrequency] = useState('Daily')
+  const [onLoad, setOnLoad] = useState(false)
+  // const userRef = useRef(0)
+  // const charRef = useRef({ CharacterId: 0 })
+  const [newTaskName, setNewTaskName] = useState('');
+  const [newTaskNotes, setNewTaskNotes] = useState('');
+  const [newTaskDifficulty, setNewTaskDifficulty] = useState(1);
+  const [newTaskFrequency, setNewTaskFrequency] = useState('Daily');
 
+  // get current user characterId
+  const getCurrentCharacterId = () => {
+    let currentCharacterId = 1;
+    // need to make this an api call like on lines 24-40 above. 
+  };
+  // get task data from DB
+  const getTaskData = () => {
+    console.log("Getting task data from DB");
+    let currentCharacterId = 1; // this should be using getCurrentCharacterId 
+    // so that the value is dynamic depending on who is logged in
+    axios.get(`/api/gettasks/${currentCharacterId}`)
+      .then(response => {
+        console.log("TASKS FROM DB", response)
+      })
+  };
 
   if (loading || !user) {
     return <Loading />;
   };
+  if (!onLoad && user) {
+    setOnLoad(true);
+    getTaskData();
+  };
+  // if (!onLoad && user) {
+  //   axios.get(`/api/getuserbyusername/${user.nickname}`).then(response => {
+  //     userRef.current = response.data[0]
+  //     charRef.current = userRef.current.CharacterId
+  //   }).then(() => {
+  //     if (charRef.current.CharacterId !== 0) {
+  //       axios.get(`/api/character/${charRef.current}`).then(response => {
+  //         charRef.current = response.data[0]
+  //         console.log(charRef.current)
+  //         setOnLoad(true)
+  //       })
+  //     }
+  //   }).catch(err => console.log(err))
+  // };
 
 
-
+  // newTaskForm input change handler
   const handleNewTaskInput = (event) => {
     console.log(event.target.id)
     console.log('set' + event.target.value)
@@ -42,35 +79,35 @@ const Task = () => {
       default:
         break;
     }
-  }
-  // old code
-  // let { name, value } = event.target;
-  // setTodoTask({ [name]: value, })
-  // // this.setState({ todo: event.target.value });
-  // console.log(event);
-  // };
+  };
 
+  // newTaskForm submit button handler
   const handleNewTaskSubmit = (event) => {
     event.preventDefault();
-    console.log('submit');
-    axios.get(`/api/getuserbyusername/${user.nickname}`).then(response => {
-      console.log(response);
-      const newTask = {
-        taskName: newTaskName,
-        taskNotes: newTaskNotes,
-        taskDifficulty: newTaskDifficulty,
-        frequency: newTaskFrequency,
-        complete: "1980-01-01 12:00",
-        CharacterId: response.data[0].CharacterId
-      }
-      console.log(newTask);
-      axios.post('/api/createtask', newTask).then(response => {
-        console.log(response)
-        // setFirstTime(false)
+    if (newTaskName === '') {
+      // display alert
+      alert("Please enter a name for your task")
+    }
+    else {
+      console.log('submit');
+      axios.get(`/api/getuserbyusername/${user.nickname}`).then(response => {
+        console.log(response);
+        const newTask = {
+          taskName: newTaskName,
+          taskNotes: newTaskNotes,
+          taskDifficulty: newTaskDifficulty,
+          frequency: newTaskFrequency,
+          complete: "1980-01-01 12:00",
+          CharacterId: response.data[0].CharacterId
+        }
+        console.log(newTask);
+        axios.post('/api/createtask', newTask).then(response => {
+          console.log(response);
+          // setFirstTime(false)
+        })
       })
-    })
-
-  }
+    }
+  };
 
 
 
@@ -93,7 +130,7 @@ const Task = () => {
         </Row>
         <Row>
           <Col>
-          <TaskItemsData />
+            <TaskItemsData />
           </Col>
         </Row>
         {/* <Row>
