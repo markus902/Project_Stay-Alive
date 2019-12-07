@@ -6,25 +6,20 @@ module.exports = function (sequelize, DataTypes) {
     },
     taskNotes: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        // Needs Review.
-        // isIn: ["Challenge Rating 1-5"] // Need to add experience rewarded
-      }
+      allowNull: false
     },
     frequency: {
       type: DataTypes.DATE,
-      allowNull: false,
-      validate: {
-        isIn: ["Daily", "Weekly", "Monthly"]
-      }
+      allowNull: false
+    },
+    frequency: {
+      type: DataTypes.STRING,
+      allowNull: false
     },
     complete: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      validate: {
-        //   isIn: ["Daily", "Weekly", "Monthly"]
-      }
+      type: DataTypes.DATE,
+      // allowNull: false,
+      default: "1980-01-01 12:00"
     }
 
   },
