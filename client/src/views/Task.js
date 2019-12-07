@@ -22,9 +22,9 @@ const Task = () => {
 
 
 
-const  handleNewTaskInput = (event) => {
-        console.log(event.target.id)
-        console.log('set' + event.target.value)
+  const handleNewTaskInput = (event) => {
+    console.log(event.target.id)
+    console.log('set' + event.target.value)
     switch (true) {
       case (event.target.id === 'newTaskName'):
         setNewTaskName(event.target.value)
@@ -52,17 +52,23 @@ const  handleNewTaskInput = (event) => {
   const handleNewTaskSubmit = (event) => {
     event.preventDefault();
     console.log('submit');
-    const newTask = {
-      taskName: newTaskName,
-      taskNotes: newTaskNotes,
-      taskDifficulty: newTaskDifficulty,
-      frequency: newTaskFrequency
-    }
-    console.log(newTask);
-    axios.post('/api/createtask', newTask).then(response => {
-      console.log(response)
-      // setFirstTime(false)
+    axios.get(`/api/getuserbyusername/${user.nickname}`).then(response => {
+      console.log(response);
+      const newTask = {
+        taskName: newTaskName,
+        taskNotes: newTaskNotes,
+        taskDifficulty: newTaskDifficulty,
+        frequency: newTaskFrequency,
+        complete: "1980-01-01 12:00",
+        CharacterId: response.data[0].CharacterId
+      }
+      console.log(newTask);
+      axios.post('/api/createtask', newTask).then(response => {
+        console.log(response)
+        // setFirstTime(false)
+      })
     })
+
   }
 
 

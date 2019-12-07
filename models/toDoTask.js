@@ -18,20 +18,16 @@ module.exports = function (sequelize, DataTypes) {
     },
     complete: {
       type: DataTypes.DATE,
-      // allowNull: false,
       default: "1980-01-01 12:00"
+    },
+    CharacterId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
     }
 
   },
     { freezeTableName: true });
 
 
-  ToDoTasks.associate = function (models) {
-    ToDoTasks.belongsTo(models.Character, {
-      foreignKey: {
-        allowNull: false
-      }
-    });
-  };
   return ToDoTasks;
 };
