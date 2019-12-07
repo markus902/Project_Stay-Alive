@@ -12,6 +12,8 @@ const Profile = () => {
   const userRef = useRef(0)
   const charRef = useRef({ CharacterId: 0 })
 
+
+  
   if (loading || !user) {
     return <Loading />;
   }
