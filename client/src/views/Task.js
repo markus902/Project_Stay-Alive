@@ -5,6 +5,7 @@ import Loading from '../components/Loading';
 import { useAuth0 } from '../react-auth0-spa';
 import axios from 'axios';
 import NewTaskForm from '../components/NewTaskForm';
+import TaskItemsData from '../components/TaskItemsData';
 import { array } from 'prop-types';
 
 const Task = () => {
@@ -82,10 +83,17 @@ const Task = () => {
 
         <Row>
           <Col>
-            Task Data
-        </Col>
+            <h1>Task Data Manager</h1>
+          </Col>
+        </Row>
+        <Row>
           <Col>
             <NewTaskForm />
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+          <TaskItemsData />
           </Col>
         </Row>
         {/* <Row>
