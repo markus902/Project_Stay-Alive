@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Route } from "react-router-dom";
 import { useAuth0 } from "../react-auth0-spa";
 
+
 const PrivateRoute = ({ component: Component, path, ...rest }) => {
   const { isAuthenticated, loginWithRedirect } = useAuth0();
 
