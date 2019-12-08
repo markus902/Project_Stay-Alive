@@ -12,7 +12,6 @@ router.get("/character/:id", (req, res) => {
         where: { id: req.params.id },
         include: [
             { model: db.User },
-            { model: db.PowerUp },
             { model: db.ToDoTasks }
         ]
 
@@ -204,7 +203,7 @@ router.post("/adduser", (req, res) => {
         defaults: {
             userName: user.username,
             email: user.email,
-            lastLogin: user.lastLogin
+            lastLogin: user.lastLogin,
         }
     })
         .then(data => {
