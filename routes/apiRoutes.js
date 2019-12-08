@@ -96,7 +96,7 @@ router.get("/inventory/:itemId", (req, res) => {
     db.PowerUp.findAll({})
         .then(data => { res.json(data) })
         .catch(err => { console.log(err); });
-})
+});
 
 // might not be needed
 
@@ -128,16 +128,12 @@ router.get("/gettasks/:characterId", (req, res) => {
 router.post("/createtask", (req, res) => {
     let task = req.body;
     console.log("creating tasks", task);
-    db.ToDoTasks.create(task)
-        // taskName: task.taskName,
-        // taskNotes: task.taskNotes,
-        // taskDifficulty: task.taskDifficulty,
-        // frequency: task.taskFrequency,
-        // complete: task.taskComplete
-    
+    db.ToDoTasks.findOrCreate(
+        { where: { taskName: req.body.taskName }, defaults: req.body }
+    )
         .then(data => { res.json(data) })
         .catch(err => { console.log(err) });
-})
+});
 
 router.post("/updatetask/:taskId", (req, res) => {
     console.log("getting tasks");
@@ -146,7 +142,7 @@ router.post("/updatetask/:taskId", (req, res) => {
     db.ToDoTasks.update({
         taskName: task.taskName,
         taskNotes: task.taskNotes,
-        frequency: task.taskFrequency,
+        frequency: task.taskFrequency, //task.Frequency might need just frequency
         complete: task.taskComplete,
         updatedAt: task.updatedAt,
         cratedAt: task.createdAt
@@ -155,46 +151,46 @@ router.post("/updatetask/:taskId", (req, res) => {
     )
         .then(data => { res.json(data) })
         .catch(err => { console.log(err) });
-})
+});
 
 router.post("/deletetask/:taskId", (req, res) => {
     console.log("getting tasks");
 
-    let task = req.body
+    let task = req.body;
     db.ToDoTasks.destroy({
         where: { id: req.params.taskId }
     })
         .then(data => { res.json(data) })
         .catch(err => { console.log(err) });
-})
+});
 
 // Routes for Users
 
 router.get("/getuser/:id", (req, res) => {
-    console.log("Get User")
+    console.log("Get User");
     console.log(req.params.id);
     db.User.findAll(
         { where: { id: req.params.id } }
     )
         .then(data => { res.json(data) })
         .catch(err => { console.log(err) })
-})
+});
 router.get("/getuserbyusername/:username", (req, res) => {
-    console.log("Get User")
+    console.log("Get User");
     console.log(req.params.username);
     db.User.findAll({ where: { userName: req.params.username } })
         .then((data) => {
             console.log(data)
             res.json(data)
         })
-        .catch(err => { console.log(err) })
-})
+        .catch(err => { console.log(err) });
+});
 
 
 router.post("/adduser", (req, res) => {
-    console.log("adding user")
+    console.log("adding user");
 
-    let user = req.body
+    let user = req.body;
     db.User.findOrCreate({
         where: {
             userName: user.username
@@ -210,11 +206,11 @@ router.post("/adduser", (req, res) => {
             console.log(data[0].dataValues)
             res.json(data[0].dataValues)
         })
-        .catch(err => { console.log(err) })
-})
+        .catch(err => { console.log(err) });
+});
 
 router.post("/updateuser/:id", (req, res) => {
-    console.log("adding user")
+    console.log("adding user");
 
     let user = req.body;
     db.User.update({
@@ -227,8 +223,8 @@ router.post("/updateuser/:id", (req, res) => {
     },
         { where: { id: req.params.id } })
         .then(data => { res.json(data) })
-        .catch(err => { console.log(err) })
-})
+        .catch(err => { console.log(err) });
+});
 
 
 module.exports = router;

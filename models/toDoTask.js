@@ -8,12 +8,12 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false
     },
-    frequency: {
-      type: DataTypes.DATE,
+    taskFrequency: {
+      type: DataTypes.STRING,
       allowNull: false
     },
-    frequency: {
-      type: DataTypes.STRING,
+    taskDifficulty: {
+      type: DataTypes.INTEGER,
       allowNull: false
     },
     complete: {
@@ -24,7 +24,6 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: false
     }
-
   },
     { freezeTableName: true });
 
