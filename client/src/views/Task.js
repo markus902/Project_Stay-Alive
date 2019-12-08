@@ -20,10 +20,11 @@ const Task = () => {
   const [newTaskDifficulty, setNewTaskDifficulty] = useState(1);
   const [newTaskFrequency, setNewTaskFrequency] = useState('Daily');
 
-  // get current user characterId
+  // THIS IS FAKING IT FOR NOW - get current user characterId 
+     // need to make this an api call like on lines 24-40 above. 
   const getCurrentCharacterId = () => {
     let currentCharacterId = 1;
-    // need to make this an api call like on lines 24-40 above. 
+   
   };
   // get task data from DB
   const getTaskData = () => {
@@ -41,6 +42,7 @@ const Task = () => {
   };
   if (!onLoad && user) {
     setOnLoad(true);
+    // getCurrentCharacterId();
     getTaskData();
   };
   // if (!onLoad && user) {
