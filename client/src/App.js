@@ -13,6 +13,7 @@ import Task from "./views/Task";
 import Character from "./views/Character";
 import { useAuth0 } from "./react-auth0-spa";
 import history from "./utils/history";
+import ContextProvider from "./components/ContextProvider"
 
 // styles
 import "./App.css";
@@ -31,17 +32,20 @@ const App = () => {
   return (
     <Router history={history}>
       <div id="app" className="d-flex flex-column h-100">
-        <NavBar />
-        <Container className="flex-grow-1 mt-5">
-          <Switch>
-            <Route path="/" exact component={Home} />
-            <PrivateRoute path="/profile" component={Profile} />
-            <PrivateRoute path="/task" component={Task} />
-            <PrivateRoute path="/character" component={Character} />
-            <PrivateRoute path="/stats" component={Stats} />
-          </Switch>
-        </Container>
-        <Footer />
+
+        <ContextProvider>
+          <NavBar />
+          <Container className="flex-grow-1 mt-5">
+            <Switch>
+              <Route path="/" exact component={Home} />
+              <PrivateRoute path="/profile" component={Profile} />
+              <PrivateRoute path="/task" component={Task} />
+              <PrivateRoute path="/character" component={Character} />
+              <PrivateRoute path="/stats" component={Stats} />
+            </Switch>
+          </Container>
+          <Footer />
+        </ContextProvider>
       </div>
     </Router>
   );
