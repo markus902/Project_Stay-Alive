@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useContext,useState} from 'react'
 import UserContext from '../utils/UserContext'
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from "reactstrap";
 import axios from 'axios'
@@ -43,13 +43,19 @@ export default function CharacterCreation() {
       bodyType: bodyType,
       color1: colorOne,
       color2: colorTwo,
-      UserId: 
+      UserId: userContext.User.id
     }
-    axios.post('/api/addcharacter', character).then(response => {
+    axios.post('/api/addcharacter', character)
+    .then(response => {return response.data[0]})
+    .then((response)=>{
       console.log(response)
+      axios.get(`/api/character/${response.id}`)
+        .then((response)=>{
+        setUserContext({user:response.data})
+      })
     })
   }
-
+    console.log(userContext)
     return (
         <Row>
             <Col>

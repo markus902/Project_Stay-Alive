@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import UserContext from '../utils/UserContext'
 import { useAuth0 } from "../react-auth0-spa";
 import Welcome from "./Welcome"
+import CharacterCreator from "./CharacterCreation"
 
 
 
@@ -13,7 +14,7 @@ export default function Home(props) {
     <div>
 
       {isAuthenticated ?
-        userContext.CharacterId==="Space" ? <div>NoCharacter</div> : <div> {JSON.stringify(userContext)}</div>
+        userContext.CharacterId==="Space" ? <CharacterCreator/> : <div> {JSON.stringify(userContext)}</div>
         :
         <Welcome />}
     </div>
