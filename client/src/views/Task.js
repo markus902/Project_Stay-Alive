@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import TaskContext from '../utils/TaskContext';
+// import UserContext from '../utils/UserContext';
 import Loading from '../components/Loading';
 import { useAuth0 } from '../react-auth0-spa';
 import axios from 'axios';
@@ -20,12 +21,13 @@ const Task = () => {
   const [newTaskDifficulty, setNewTaskDifficulty] = useState(1);
   const [newTaskFrequency, setNewTaskFrequency] = useState('Daily');
 
-  // get current user characterId
+  // THIS IS FAKING IT FOR NOW - get current user characterId 
+     // need to make this an api call like on lines 24-40 above. 
   const getCurrentCharacterId = () => {
     let currentCharacterId = 1;
-    // need to make this an api call like on lines 24-40 above. 
+   
   };
-  // get task data from DB
+  // Get Task Data from DB
   const getTaskData = () => {
     console.log("Getting task data from DB");
     let currentCharacterId = 1; // this should be using getCurrentCharacterId 
@@ -41,6 +43,7 @@ const Task = () => {
   };
   if (!onLoad && user) {
     setOnLoad(true);
+    // getCurrentCharacterId();
     getTaskData();
   };
   // if (!onLoad && user) {

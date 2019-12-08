@@ -24,7 +24,6 @@ function TaskItemsData() {
                 <Col>
                     <h3>Monthly</h3>
                 </Col>
-
             </Row>
         </div>
     )
