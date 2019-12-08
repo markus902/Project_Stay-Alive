@@ -1,107 +1,73 @@
-import React, { Component } from 'react'
+import React, { useContext, useState } from 'react'
 import axios from 'axios';
+import UserContext from '../utils/UserContext'
 import { Chart } from 'react-charts'
 
-export default class Stats extends Component {
-    state = {
-        user: this.props.user.nickname,
-        userData: null,
-        chartData: null,
-        chartProps: null,
-    }
-
-    componentDidMount() {
-
-        axios.get(`/api/getuserbyusername/${this.props.user.nickname}`)
-            .then(res => {
-                console.log(res);
-                this.setState(res.data[0]);
-            });
-    }
 
 
-    render() {
-        return (
-            //     this.setState({
-            //         chart: [
-            //             {
-            //                 label: 'Series 1',
-            //                 data: [[0, 1], [1, 2], [2, 4], [3, 2], [4, 7]]
-            //             },
-            //             {
-            //                 label: 'Series 2',
-            //                 data: [[0, 3], [1, 1], [2, 5], [3, 6], [4, 4]]
-            //             }
-            //         ]
-            //     })
-            //     return (
-            //         <div>
-
-            //         </div>
-            //     )
-            <div></div>)
-    }
-}
-
-    //Convert to a class
-    // const Stats = () => {
+const Stats = () => {
 
 
-//     const [userData, setUserData] = useState();
-//     const [chart, setChart] = useState(true);
+    const { userContext, setUserContext } = useContext(UserContext)
+    const [chart, setChart] = useState(true);
 
-//     // Chart settings
+    console.log(userContext)
 
-//     const [data] = useState(React.useMemo(
-//         () => ,
-//         []
-//     ))
+    //Formatting data
 
-//     const [axes] = useState(React.useMemo(
-//         () => [
-//             { primary: true, type: 'linear', position: 'bottom' },
-//             { type: 'linear', position: 'left' }
-//         ],
-//         []
-//     ))
+    const originalData = React.useMemo(
+        () => ({
+            axis: [1, 2, 3],
+            lines: [
+                { data: [{ value: 10 }, { value: 10 }, { value: 10 }] },
+                { data: [{ value: 10 }, { value: 10 }, { value: 10 }] },
+                { data: [{ value: 10 }, { value: 10 }, { value: 10 }] }
+            ]
+        }),
+        []
+    )
 
-//     if (loading || !user) {
-//         return <Loading />;
-//     }
+    const data = React.useMemo(data => originalData.lines, [originalData])
 
-//     if (loader) {
-//         axios.get(`/api/getuserbyusername/${user.nickname}`)
-//             .then(response => {
-//                 console.log(response);
-//                 setUserData(response.data[0]);
-//             });
-//     }
+    const axes = React.useMemo(
+        () => [
+            { primary: true, type: 'ordinal', position: 'bottom' },
+            { type: 'linear', position: 'left' }
+        ],
+        []
+    )
 
+    return (
+        <div>
+            <div className="text-center"><h3>Check out what did!</h3></div>
+            <div className="row">
+                <div className="col-sm-12 text-center">
+                    <h5>This Week</h5>
+                </div>
+                <div className="col-sm-12 text-center">
+                    <h5>Last Week</h5>
+                </div>
+                <div className="col-sm-12 text-center">
+                    <h5>This Month</h5>
+                </div>
+                <div className="col-sm-12 text-center">
+                    <h5>Last Month</h5>
+                </div>
+            </div>
 
+            <div
+                style={{
+                    width: '400px',
+                    height: '300px'
+                }}
+            >
+                <Chart
+                    data={data}
+                // axes={axes} 
+                />
+            </div>
+        </div>
+    )
+};
 
-
-
-//     return (
-//         <div>
-//             <div>This is the stats page</div>
-
-//             <div
-//                 style={{
-//                     width: '400px',
-//                     height: '300px'
-//                 }}
-//             >
-//                 <Chart data={data} axes={axes} />
-//             </div>
-//             )
-//           }
-
-//             {/* <ChartDisplay data={[
-//                 { argument: 1, value: 10 },
-//                 { argument: 2, value: 20 },
-//                 { argument: 3, value: 30 }
-//             ]} /> */}
-//         </div>
-//     )
-// };
-
+export default Stats;

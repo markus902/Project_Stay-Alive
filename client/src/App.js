@@ -7,9 +7,9 @@ import Loading from "./components/Loading";
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import Home from "./views/Home";
-import Stats from "./views/StatsWrapper";
 import Profile from "./views/Profile";
 import Task from "./views/Task";
+import Stats from './views/Stats'
 import Character from "./views/Character";
 import { useAuth0 } from "./react-auth0-spa";
 import history from "./utils/history";
