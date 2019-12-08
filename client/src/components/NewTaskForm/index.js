@@ -35,10 +35,10 @@ function NewTaskForm() {
                                 type='text'></input>
 
                             <label
-                                className='taskDifficulty'
-                                id='taskDifficulty'
+                                className='newTaskDifficulty'
+
                                 for='difficulty-choice'>Choose a Difficulty:
-          <select onChange={e => context.handleNewTaskInput(e)}>
+          <select id='newTaskDifficulty' onChange={e => context.handleNewTaskInput(e)}>
                                     <option value='1'>Menial</option>
                                     <option value='2'>Easy</option>
                                     <option value='3'>Medium</option>
@@ -48,10 +48,10 @@ function NewTaskForm() {
                             </label>
 
                             <label
-                                className='taskFrequency'
-                                id='taskFrequency'
+                                className='newTaskFrequency'
+
                                 for='frequency-choice'>Choose a Frequency:
-          <select onChange={e => context.handleNewTaskInput(e)}>
+          <select id='newTaskFrequency' onChange={e => context.handleNewTaskInput(e)}>
                                     <option value='Daily'>Daily</option>
                                     <option value='Weekly'>Weekly</option>
                                     <option value='Monthly'>Monthly</option>
