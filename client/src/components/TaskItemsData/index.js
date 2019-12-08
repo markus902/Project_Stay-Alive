@@ -2,9 +2,11 @@ import React, { useContext } from 'react';
 import './style.css';
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import TaskContext from '../../utils/TaskContext';
+import UserContext from '../../utils/UserContext';
 
 function TaskItemsData() {
     const context = useContext(TaskContext);
+    const {userContext,setUserContext} = useContext(UserContext);
     console.log(context.newTaskName);
 
     return (
