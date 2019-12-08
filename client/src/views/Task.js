@@ -1,29 +1,52 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import TaskContext from '../utils/TaskContext';
+import UserContext from '../utils/UserContext';
 import Loading from '../components/Loading';
 import { useAuth0 } from '../react-auth0-spa';
 import axios from 'axios';
 import NewTaskForm from '../components/NewTaskForm';
+import TaskItemsData from '../components/TaskItemsData';
 import { array } from 'prop-types';
 
 const Task = () => {
-  // const [state, setstate] = useState(initialState)
-  const { loading, user } = useAuth0();
-  const [newTaskName, setNewTaskName] = useState('')
-  const [newTaskNotes, setNewTaskNotes] = useState('')
-  const [newTaskDifficulty, setNewTaskDifficulty] = useState(1)
-  const [newTaskFrequency, setNewTaskFrequency] = useState('Daily')
+  // const [state, setstate] = useState(initialState);
+  const { isAuthenticated } = useAuth0();
+  const { userContext, setUserContext } = useContext(UserContext);
+  const [newTaskName, setNewTaskName] = useState('');
+  const [newTaskNotes, setNewTaskNotes] = useState('');
+  const [newTaskDifficulty, setNewTaskDifficulty] = useState('');
+  const [newTaskFrequency, setNewTaskFrequency] = useState('');
 
+  // Get Task Data from DB
 
-  if (loading || !user) {
-    return <Loading />;
+  const getTaskData = () => {
+    if (isAuthenticated) {
+      if (userContext.User.ToDoTasks.length != 0) {
+        console.log("get that character stuff", userContext);
+        console.log("Getting task data from DB", userContext.User.ToDoTasks);
+        let currentCharacterId = userContext.User.User.CharacterId;
+        console.log(currentCharacterId);
+        axios.get(`/api/gettasks/${currentCharacterId}`)
+          .then(response => {
+            console.log("TASKS FROM DB in response", response)
+          })
+      };
+    };
   };
+  useEffect(() => {
+    // console.log(userContext);
+    if (isAuthenticated) {
+      getTaskData();
+    }
+  }, [userContext])
 
 
 
+  // newTaskForm input change handler
   const handleNewTaskInput = (event) => {
     console.log(event.target.id)
+    console.log(event.target)
     console.log('set' + event.target.value)
     switch (true) {
       case (event.target.id === 'newTaskName'):
@@ -41,35 +64,34 @@ const Task = () => {
       default:
         break;
     }
-  }
-  // old code
-  // let { name, value } = event.target;
-  // setTodoTask({ [name]: value, })
-  // // this.setState({ todo: event.target.value });
-  // console.log(event);
-  // };
+  };
 
+  // newTaskForm submit button handler
   const handleNewTaskSubmit = (event) => {
     event.preventDefault();
-    console.log('submit');
-    axios.get(`/api/getuserbyusername/${user.nickname}`).then(response => {
-      console.log(response);
+    if (newTaskName === '') {
+      // display alert
+      alert("Please enter a name for your task")
+    }
+    else {
+      console.log('submit');
+      // axios.get(`/api/getuserbyusername/${userContext.User.User.userName}`).then(response => {
+      // console.log(response);
       const newTask = {
         taskName: newTaskName,
         taskNotes: newTaskNotes,
+        taskFrequency: newTaskFrequency,
         taskDifficulty: newTaskDifficulty,
-        frequency: newTaskFrequency,
         complete: "1980-01-01 12:00",
-        CharacterId: response.data[0].CharacterId
+        CharacterId: userContext.User.User.CharacterId
       }
       console.log(newTask);
       axios.post('/api/createtask', newTask).then(response => {
-        console.log(response)
+        console.log(response);
         // setFirstTime(false)
       })
-    })
-
-  }
+    }
+  };
 
 
 
@@ -77,15 +99,24 @@ const Task = () => {
     <TaskContext.Provider
       value={{ newTaskName, newTaskNotes, newTaskDifficulty, newTaskFrequency, handleNewTaskInput, handleNewTaskSubmit }}
     >
+      <h1>{JSON.stringify(TaskContext.value)}</h1>
 
       <Container className='mb-5'>
 
         <Row>
           <Col>
-            Task Data
-        </Col>
+            <h1>Task Data Manager</h1>
+            {/* <h2>{JSON.stringify(userContext)}</h2> */}
+          </Col>
+        </Row>
+        <Row>
           <Col>
             <NewTaskForm />
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <TaskItemsData />
           </Col>
         </Row>
         {/* <Row>
