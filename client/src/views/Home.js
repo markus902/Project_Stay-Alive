@@ -13,7 +13,7 @@ export default function Home(props) {
   const { isAuthenticated } = useAuth0();
 
   if (userContext.User === "None") {
-    return <Loading />
+    return isAuthenticated ? <Loading /> : <Welcome />
   }
   return (
     <div>
