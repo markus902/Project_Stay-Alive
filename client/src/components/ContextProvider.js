@@ -6,7 +6,7 @@ import { useAuth0 } from "../react-auth0-spa";
 
 export default function ContextProvider({children}) {
     const { user, isAuthenticated } = useAuth0();
-    const [userContext,setUserContext] = useState({})
+    const [userContext,setUserContext] = useState({User: "None"})
 
     const getUserData = async(userData)=>{
         let res = await Axios.post('/api/adduser', userData)
