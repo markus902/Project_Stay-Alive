@@ -15,39 +15,36 @@ const Task = () => {
   const { userContext, setUserContext } = useContext(UserContext);
   const [newTaskName, setNewTaskName] = useState('');
   const [newTaskNotes, setNewTaskNotes] = useState('');
-  const [newTaskDifficulty, setNewTaskDifficulty] = useState('');
-  const [newTaskFrequency, setNewTaskFrequency] = useState('');
+  const [newTaskDifficulty, setNewTaskDifficulty] = useState(1);
+  const [newTaskFrequency, setNewTaskFrequency] = useState('Daily');
 
-  // Get Task Data from DB
-
-  const getTaskData = () => {
-    if (isAuthenticated) {
-      if (userContext.User.ToDoTasks.length != 0) {
-        console.log("get that character stuff", userContext);
-        console.log("Getting task data from DB", userContext.User.ToDoTasks);
-        let currentCharacterId = userContext.User.User.CharacterId;
-        console.log(currentCharacterId);
-        axios.get(`/api/gettasks/${currentCharacterId}`)
-          .then(response => {
-            console.log("TASKS FROM DB in response", response)
-          })
-      };
-    };
-  };
   useEffect(() => {
-    // console.log(userContext);
     if (isAuthenticated) {
-      getTaskData();
+      // getTaskData();
     }
   }, [userContext])
 
 
+  // Get Task Data from userContext and from DB response at /api/gettasks/${currentCharacterId}
+  const getTaskData = () => {
+    // if (isAuthenticated) {
+    // if (userContext.User.ToDoTasks.length != 0) {
+    // if (userContext.User.ToDoTasks != 0) {
+    console.log("userContext: ", userContext);
+    console.log("Task data from userContext.User.ToDoTasks: ", userContext.User.ToDoTasks);
+    let currentCharacterId = userContext.User.User.CharacterId;
+    console.log("currentCharacterId: ", currentCharacterId);
+    axios.get(`/api/gettasks/${currentCharacterId}`)
+      .then(response => {
+        console.log("TASKS FROM DB in axios getTaskData response: ", response)
+      })
+    // };
+    // };
+  };
 
   // newTaskForm input change handler
   const handleNewTaskInput = (event) => {
-    console.log(event.target.id)
-    console.log(event.target)
-    console.log('set' + event.target.value)
+    // console.log('set ' + event.target.value);
     switch (true) {
       case (event.target.id === 'newTaskName'):
         setNewTaskName(event.target.value)
@@ -69,9 +66,13 @@ const Task = () => {
   // newTaskForm submit button handler
   const handleNewTaskSubmit = (event) => {
     event.preventDefault();
+    let exsistingTasks = userContext.User.ToDoTasks.map(task => task.taskName);
+    console.log(exsistingTasks);
     if (newTaskName === '') {
-      // display alert
       alert("Please enter a name for your task")
+    }
+    if (exsistingTasks.includes(newTaskName)) { // doesn't pay attention to capital letters and needs to be refined further
+      alert("Task name already exsists")
     }
     else {
       console.log('submit');
@@ -87,17 +88,46 @@ const Task = () => {
       }
       console.log(newTask);
       axios.post('/api/createtask', newTask).then(response => {
-        console.log(response);
-        // setFirstTime(false)
+        console.log("response from submit: ", response);
+        getTaskData();
       })
     }
   };
 
+  // complete task btn
+  const completeTask = (event) => {
+    // event.preventDefault();
+    // check last completed date FUNC check lastCompletedDate
+    // check difficulty level FUNC checkTaskDifficulty
+    // award experience
+    alert("task completed");
+  };
 
+  // deleteTaskBtn
+  const deleteTask = (event) => {
+    // event.preventDefault();
+    let currentCharacterId = userContext.User.User.CharacterId;
+    axios.get(`/api/gettasks/${currentCharacterId}`)
+      .then(response => {
+        console.log("TASKS FROM DB in axios getTaskData response: ", response);
+        
+        let taskId = 21; //to fake it for now, needs to get the id dynamically // let taskId = response.data[].id; 
+        axios.post(`api/deletetask/${taskId}`).then(response => {
+          console.log("response from delete: ", response);
+          getTaskData();
+        })
+      })
+  }
+
+
+  if (userContext.User === "None") {
+    // return isAuthenticated ? <Loading /> : <Welcome />
+    return <Loading />
+  }
 
   return (
     <TaskContext.Provider
-      value={{ newTaskName, newTaskNotes, newTaskDifficulty, newTaskFrequency, handleNewTaskInput, handleNewTaskSubmit }}
+      value={{ newTaskName, newTaskNotes, newTaskDifficulty, newTaskFrequency, handleNewTaskInput, handleNewTaskSubmit, completeTask, deleteTask}}
     >
       <h1>{JSON.stringify(TaskContext.value)}</h1>
 
@@ -119,21 +149,21 @@ const Task = () => {
             <TaskItemsData />
           </Col>
         </Row>
-        {/* <Row>
+        <Row>
           <Col>
-            {array.filter(task => task.frequency === "Daily").map(taskDaily =>
+            {/* {userContext.User.ToDoTasks.filter(task => task.taskFrequency === "Daily").map(taskDaily =>
               <TaskItemsData 
               data = {taskDaily}/>)}
           </Col>
           <Col>
-            {array.filter(task => task.frequency === "Weekly").map(taskWeekly =>
+            {userContext.User.ToDoTasks.filter(task => task.taskFrequency === "Weekly").map(taskWeekly =>
               <TaskItemsData />)}
           </Col>
           <Col>
-            {array.filter(task => task.frequency === "Monthly").map(taskMonthly =>
-              <TaskItemsData />)}
+            {userContext.User.ToDoTasks.filter(task => task.taskFrequency === "Monthly").map(taskMonthly =>
+              <TaskItemsData />)} */}
           </Col>
-        </Row> */}
+        </Row>
       </Container>
 
     </TaskContext.Provider>
