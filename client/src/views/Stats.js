@@ -21,10 +21,18 @@ const Stats = () => {
         let day = new Date(curr.setDate(first)).toISOString().slice(0, 10)
         currentWeek.push(day)
     }
-    console.log(currentWeek);
+
+    // extracting data from context
+
+    let today = new Date();
+    var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + ("0" + today.getDate()).slice(-2);
+
+    console.log(date);
 
     if (userContext.User.ToDoTasks) {
-        userContext.User.ToDoTasks.map(elem => { })
+        userContext.User.ToDoTasks.map(elem => {
+
+        })
     }
 
 
