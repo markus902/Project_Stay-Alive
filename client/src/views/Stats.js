@@ -1,45 +1,58 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState } from 'react';
 import axios from 'axios';
-import UserContext from '../utils/UserContext'
-import { Chart } from 'react-charts'
-
-
+import UserContext from '../utils/UserContext';
+import Chart from '../components/Chart';
 
 const Stats = () => {
 
-
+    //Getting Context
     const { userContext, setUserContext } = useContext(UserContext)
-    const [chart, setChart] = useState(true);
 
-    console.log(userContext)
 
-    //Formatting data
+    // This weeks dates and compare to 
 
-    const originalData = React.useMemo(
-        () => ({
-            axis: [1, 2, 3],
-            lines: [
-                { data: [{ value: 10 }, { value: 10 }, { value: 10 }] },
-                { data: [{ value: 10 }, { value: 10 }, { value: 10 }] },
-                { data: [{ value: 10 }, { value: 10 }, { value: 10 }] }
-            ]
-        }),
-        []
-    )
+    //Calculating current weeks days -- code still wrong, using different script later
 
-    const data = React.useMemo(data => originalData.lines, [originalData])
+    let curr = new Date
+    let currentWeek = []
 
-    const axes = React.useMemo(
-        () => [
-            { primary: true, type: 'ordinal', position: 'bottom' },
-            { type: 'linear', position: 'left' }
-        ],
-        []
-    )
+    for (let i = 1; i <= 7; i++) {
+        let first = curr.getDate() - curr.getDay() + i
+        let day = new Date(curr.setDate(first)).toISOString().slice(0, 10)
+        currentWeek.push(day)
+    }
+    console.log(currentWeek);
+
+    if (userContext.User.ToDoTasks) {
+        userContext.User.ToDoTasks.map(elem => { })
+    }
+
+
+
+    let datapoints = [1, 3, 5, 40, 5, 4, 2];
+
+    const [data, setData] = useState(
+        {
+            chartData: {
+                labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+                datasets: [
+                    {
+                        label: "Days of the week",
+                        data: datapoints,
+                    }
+                ]
+            }
+        }
+    );
+
+
+    // console.log(data)
+
+    console.log(userContext.User.ToDoTasks)
 
     return (
         <div>
-            <div className="text-center"><h3>Check out what did!</h3></div>
+            <div className="text-center"><h3>Check out what you did!</h3></div>
             <div className="row">
                 <div className="col-sm-12 text-center">
                     <h5>This Week</h5>
@@ -55,16 +68,14 @@ const Stats = () => {
                 </div>
             </div>
 
+            <Chart chartData={data.chartData} />
+
             <div
                 style={{
-                    width: '400px',
+                    width: '600px',
                     height: '300px'
                 }}
             >
-                <Chart
-                    data={data}
-                // axes={axes} 
-                />
             </div>
         </div>
     )
