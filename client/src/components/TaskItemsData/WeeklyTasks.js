@@ -32,8 +32,8 @@ function WeeklyTasks() {
                             <p><strong>Difficulty: </strong>{element.taskDifficulty}</p>
                             <p><strong>CreatedAt: </strong>{element.createdAt}</p>
                             <p><strong>UpdatedAt: </strong>{element.updatedAt}</p>
-                            <button id='deleteTaskBtn' onClick={context.deleteTask}>Delete</button>
-                            <button id='completeTaskBtn' onClick={context.completeTask}>Complete</button>
+                            <Button id='deleteTaskBtn' onClick={context.deleteTask}>Delete</Button>
+                            <Button id='completeTaskBtn' onClick={context.completeTask}>Complete</Button>
                         </div>)
                         })}
                         {/* <p>{dbTaskNames}</p>

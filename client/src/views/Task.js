@@ -31,12 +31,17 @@ const Task = () => {
     // if (userContext.User.ToDoTasks.length != 0) {
     // if (userContext.User.ToDoTasks != 0) {
     console.log("userContext: ", userContext);
+    console.log("TaskContext: ", TaskContext);
     console.log("Task data from userContext.User.ToDoTasks: ", userContext.User.ToDoTasks);
     let currentCharacterId = userContext.User.User.CharacterId;
     console.log("currentCharacterId: ", currentCharacterId);
     axios.get(`/api/gettasks/${currentCharacterId}`)
       .then(response => {
-        console.log("TASKS FROM DB in axios getTaskData response: ", response)
+        console.log("TASKS FROM DB in axios getTaskData response: ", response);
+        axios.get(`/api/character/${response.CharacterId}`)
+          .then((response) => {
+            setUserContext({ user: response.data })
+          })
       })
     // };
     // };
@@ -87,10 +92,11 @@ const Task = () => {
         CharacterId: userContext.User.User.CharacterId
       }
       console.log(newTask);
-      axios.post('/api/createtask', newTask).then(response => {
-        console.log("response from submit: ", response);
-        getTaskData();
-      })
+      axios.post('/api/createtask', newTask)
+        .then(response => {
+          console.log("response from submit: ", response);
+          getTaskData();
+        })
     }
   };
 
@@ -110,7 +116,7 @@ const Task = () => {
     axios.get(`/api/gettasks/${currentCharacterId}`)
       .then(response => {
         console.log("TASKS FROM DB in axios getTaskData response: ", response);
-        
+
         let taskId = 21; //to fake it for now, needs to get the id dynamically // let taskId = response.data[].id; 
         axios.post(`api/deletetask/${taskId}`).then(response => {
           console.log("response from delete: ", response);
@@ -127,7 +133,7 @@ const Task = () => {
 
   return (
     <TaskContext.Provider
-      value={{ newTaskName, newTaskNotes, newTaskDifficulty, newTaskFrequency, handleNewTaskInput, handleNewTaskSubmit, completeTask, deleteTask}}
+      value={{ newTaskName, newTaskNotes, newTaskDifficulty, newTaskFrequency, handleNewTaskInput, handleNewTaskSubmit, completeTask, deleteTask }}
     >
       <h1>{JSON.stringify(TaskContext.value)}</h1>
 
