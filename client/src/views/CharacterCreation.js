@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import UserContext from '../utils/UserContext'
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from "reactstrap";
 import axios from 'axios'
@@ -6,14 +6,16 @@ import axios from 'axios'
 export default function CharacterCreation() {
   const { userContext, setUserContext } = useContext(UserContext)
   const [characterName, setCharacterName] = useState("")
-  const [hairType, setHairType] = useState(0)
-  const [bodyType, setBodyType] = useState(0)
-  const [colorOne, setcolorOne] = useState(0)
-  const [colorTwo, setcolorTwo] = useState(0)
-
+  const [hairType, setHairType] = useState(1)
+  const [bodyType, setBodyType] = useState(1)
+  const [color, setcolor] = useState(1)
+  const [characterImage, setCharacterImage] = useState(`B${bodyType}H${hairType}C${color}.png`)
 
   const handleChange = (e) => {
-    console.log("set" + e.target.id)
+    let body = "B"+bodyType
+    let hair = "H"+hairType
+    let c1 = "O"+color
+    console.log(body,hair,c1)
     switch (true) {
       case (e.target.id === "bodyType"):
         setBodyType(e.target.value)
@@ -21,11 +23,8 @@ export default function CharacterCreation() {
       case (e.target.id === "hairType"):
         setHairType(e.target.value)
         break;
-      case (e.target.id === "colorOne"):
-        setcolorOne(e.target.value)
-        break;
-      case (e.target.id === "colorTwo"):
-        setcolorTwo(e.target.value)
+      case (e.target.id === "color"):
+        setcolor(e.target.value)
         break;
       case (e.target.id === "characterName"):
         setCharacterName(e.target.value)
@@ -33,6 +32,9 @@ export default function CharacterCreation() {
       default:
         break;
     }
+    console.log(characterImage, "Inside the handlechange " + e.target.value)
+    
+    setCharacterImage(`B${bodyType}H${hairType}C${color}.png`)
   }
 
 
@@ -41,29 +43,35 @@ export default function CharacterCreation() {
       characterName: characterName,
       hairType: hairType,
       bodyType: bodyType,
-      color1: colorOne,
-      color2: colorTwo,
+      color1: color,
+      color2: "",
       UserId: userContext.User.id
     }
     axios.post('/api/addcharacter', character)
       .then(response => { return response.data[0] })
-      .then((response) => {
-        console.log(response)
-        axios.get(`/api/character/${response.id}`)
-          .then((response) => {
-            setUserContext({ user: response.data })
+      .then((userResponse) => {
+        axios.get(`/api/character/${userResponse.id}`)
+          .then((char) => {
+            console.log(char)
+            setUserContext({ User: char.data[0] })
           })
       })
   }
-  console.log(userContext)
+
+  useEffect(() => {
+   console.log("Inside the Use Effect" + characterImage)
+   setCharacterImage(`B${bodyType}H${hairType}C${color}.png`)
+  }, [characterImage,bodyType,hairType,color])
+
   return (
     <div>
       <Row>
         <h1>Character Creation</h1>
+  <p>{characterImage}</p>
       </Row>
       <Row>
         <Col>
-          <img src="https://via.placeholder.com/350x350" alt="character" />
+          <img src={`/assets/character/${characterImage}`} className="characterImage" alt="character" />
         </Col>
         <Col>
           <Form>
@@ -72,9 +80,9 @@ export default function CharacterCreation() {
               <Input type="text" name="characterName" id="characterName" placeholder={characterName} onChange={handleChange}></Input>
               <Label for="bodyType">Body Type:</Label>
               <Input type="select" name="bodyType" id="bodyType" onChange={handleChange}>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
               </Input>
               <Label for="hairType">Hair Type:</Label>
               <Input type="select" name="hairType" id="hairType" onChange={handleChange}>
@@ -82,14 +90,8 @@ export default function CharacterCreation() {
                 <option value="2">2</option>
                 <option value="3">3</option>
               </Input>
-              <Label for="colorOne">Color 1:</Label>
-              <Input type="select" name="colorOne" id="colorOne" onChange={handleChange}>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-              </Input>
-              <Label for="colorTwo">Color 2:</Label>
-              <Input type="select" name="colorTwo" id="colorTwo" onChange={handleChange}>
+              <Label for="color">Color 1:</Label>
+              <Input type="select" name="color" id="color" onChange={handleChange}>
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>

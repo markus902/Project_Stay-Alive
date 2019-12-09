@@ -2,6 +2,8 @@ import React, { useState, useRef, useContext } from "react";
 import { Container, Row, Col } from "reactstrap";
 import Inventory from "../components/Inventory";
 import UserContext from '../utils/UserContext';
+import CharacterDashboard from "./CharacterDashboard";
+
 
 
 const Profile = () => {
@@ -9,7 +11,8 @@ const Profile = () => {
 
   return (
     <Container className="mb-5">
-      {JSON.stringify(userContext)}
+      <CharacterDashboard/>
+      <Inventory  user={userContext.User}/>
     </Container>
   );
 };
