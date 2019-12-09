@@ -90,6 +90,15 @@ router.post("/characterupdate/:id", (req, res) => {
 
 // Routes for inventory
 
+router.get("/inventory/", (req, res) => {
+    console.log("getting inventory");
+
+    db.PowerUp.findAll({})
+        .then(data => { res.json(data) })
+        .catch(err => { console.log(err); });
+});
+
+
 router.get("/inventory/:itemId", (req, res) => {
     console.log("getting inventory");
 
@@ -98,6 +107,13 @@ router.get("/inventory/:itemId", (req, res) => {
         .catch(err => { console.log(err); });
 });
 
+
+
+router.get("/items/:itemid", (req, res) => {
+        let item = req.params.itemid;
+        db.PowerUp.findAll({where:{id:item}})
+            .then(response => {res.json(response) })
+});
 // might not be needed
 
 // router.post("/addinventory/:characterId", (req, res) => {

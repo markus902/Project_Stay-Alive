@@ -1,66 +1,75 @@
-import React, { useRef } from "react";
-// import Axios from 'axios'
+import React, { Component } from 'react'
+import UserContext from '../utils/UserContext'
 import { Row, Col, Button } from "reactstrap";
+import Loading from "./Loading";
+import Axios from 'axios';
 
 
+export default class Inventory extends Component {
+  state={
+    user:this.props.User,
+    itemIds:[],
+    inventory:[]
+  } 
 
-export default function Inventory(props) {
-  const itemRef = useRef()
-  const getItemInfo = () => {
-    return {
-      name: "Shield",
-      type: "Health",
-      used: false
+  getShop = ()=>{
+    Axios.get("/")
+  }
+
+  componentDidMount(){
+    if(this.props.user==="None" ){
+      return
     }
+    const itemIds = this.props.user.inventory.items
+    const shop = this.getShop();
+    let inventory = []
+    console.log(itemIds)
+     
+
   }
 
-  itemRef.current = getItemInfo();
-  const handleClick = (itemName) => {
-    console.log(itemName)
-  }
 
-  return (
-    <Row className="mt-5">
-      <Col className="inventoryItems m-2 p-2 border rounded shadow">
-        <div className="align-middle m-1 p-3">
-          <img src="https://via.placeholder.com/140x100" alt="shield" />
-        </div>
-        <div>
-          <h3>Item: {itemRef.current.name}</h3>
-          <h5>Bonus: {itemRef.current.type === "Health" ? <span>Adds to Health</span> : <span>Removes 1 Task and Gives Experience for it</span>}</h5>
-          <Button onClick={() => handleClick(itemRef.current.name)}>Use</Button>
-        </div>
-      </Col>
-      <Col className="inventoryItems m-2 p-2 border rounded shadow">
-        <div className="align-middle m-1 p-3">
-          <img src="https://via.placeholder.com/140x100" alt="shield"/>
-        </div>
-        <div>
-          <h3>Item: {itemRef.current.name}</h3>
-          <h5>Bonus: {itemRef.current.type === "Health" ? <span>Adds to Health</span> : <span>Removes 1 Task and Gives Experience for it</span>}</h5>
-          <Button onClick={() => handleClick(itemRef.current.name)}>Use</Button>
-        </div>
-      </Col>
-      <Col className="inventoryItems m-2 p-2 border rounded shadow">
-        <div className="align-middle m-1 p-3">
-          <img src="https://via.placeholder.com/140x100" alt="shield" />
-        </div>
-        <div>
-          <h3>Item: {itemRef.current.name}</h3>
-          <h5>Bonus: {itemRef.current.type === "Health" ? <span>Adds to Health</span> : <span>Removes 1 Task and Gives Experience for it</span>}</h5>
-          <Button onClick={() => handleClick(itemRef.current.name)}>Use</Button>
-        </div>
-      </Col>
-      <Col className="inventoryItems m-2 p-2 border rounded shadow">
-        <div className="align-middle m-1 p-3">
-          <img src="https://via.placeholder.com/140x100" alt="shield"/>
-        </div>
-        <div>
-          <h3>Item: {itemRef.current.name}</h3>
-          <h5>Bonus: {itemRef.current.type === "Health" ? <span>Adds to Health</span> : <span>Removes 1 Task and Gives Experience for it</span>}</h5>
-          <Button onClick={() => handleClick(itemRef.current.name)}>Use</Button>
-        </div>
-      </Col>
-    </Row>
-  )
+  render() {
+    return (
+      <div>
+        
+      </div>
+    )
+  }
 }
+
+
+
+
+
+// export default function Inventory(props) {
+//   const { userContext, setUserContext } = useContext(UserContext)
+//   const { itemState, setItemState } = useState()
+
+
+  
+//   useEffect(()=>{
+//       let inventoryVar
+//       Axios.get('/api/inventory').then((response)=>{
+//         const items = userContext.User.inventory.items
+//         return items.map((item)=>{
+//             return response.data.filter(element=>{
+//               return item===element.id && element
+//             })
+//         })
+//       }).then((inventory)=>{
+//         inventoryVar=inventory
+//       })
+//       console.log(inventoryVar)
+//       setItemState(inventoryVar)
+//   },[itemState])
+
+//   if (userContext.User === "None") {
+//     return <Loading />
+//   }
+
+//   return (
+//     <div>
+//     </div>
+//   )
+// }
