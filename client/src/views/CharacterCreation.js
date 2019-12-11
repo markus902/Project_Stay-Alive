@@ -12,10 +12,10 @@ export default function CharacterCreation() {
   const [characterImage, setCharacterImage] = useState(`B${bodyType}H${hairType}C${color}.png`)
 
   const handleChange = (e) => {
-    let body = "B"+bodyType
-    let hair = "H"+hairType
-    let c1 = "O"+color
-    console.log(body,hair,c1)
+    let body = "B" + bodyType
+    let hair = "H" + hairType
+    let c1 = "O" + color
+    console.log(body, hair, c1)
     switch (true) {
       case (e.target.id === "bodyType"):
         setBodyType(e.target.value)
@@ -33,7 +33,7 @@ export default function CharacterCreation() {
         break;
     }
     console.log(characterImage, "Inside the handlechange " + e.target.value)
-    
+
     setCharacterImage(`B${bodyType}H${hairType}C${color}.png`)
   }
 
@@ -59,15 +59,15 @@ export default function CharacterCreation() {
   }
 
   useEffect(() => {
-   console.log("Inside the Use Effect" + characterImage)
-   setCharacterImage(`B${bodyType}H${hairType}C${color}.png`)
-  }, [characterImage,bodyType,hairType,color])
+    console.log("Inside the Use Effect" + characterImage)
+    setCharacterImage(`B${bodyType}H${hairType}C${color}.png`)
+  }, [characterImage, bodyType, hairType, color])
 
   return (
     <div>
       <Row>
         <h1>Character Creation</h1>
-  <p>{characterImage}</p>
+        <p>{characterImage}</p>
       </Row>
       <Row>
         <Col>

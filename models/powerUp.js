@@ -7,9 +7,9 @@ module.exports = function (sequelize, DataTypes) {
     PowerUpType: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        isIn: ["HealthRecovery", "ExperienceBoost"]
-      }
+      // validate: {
+      //   isIn: ["HealthRecovery", "ExperienceBoost"]
+      // }
     },
     Description: {
       type: DataTypes.STRING,
@@ -18,9 +18,15 @@ module.exports = function (sequelize, DataTypes) {
     imageSrc: {
       type: DataTypes.STRING,
       allowNull: false
-    },
-
+    }
   },
     { freezeTableName: true });
+
+  // PowerUp.associate = function (models) {
+  //   PowerUp.belongsToMany('Character', { through: 'CharacterPowerUps' });
+  // }
+  PowerUp.associate = function (models) {
+  PowerUp.hasMany(models.CharacterPowerUps);
+}
   return PowerUp;
 };

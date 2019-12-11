@@ -8,8 +8,7 @@ import TaskContext from '../../utils/TaskContext';
 
 function NewTaskForm() {
     const context = useContext(TaskContext);
-    console.log(context.newTaskName);
-
+    // console.log(context.newTaskName);
     return (
         <div className='newTaskContainer'>
             <Row>

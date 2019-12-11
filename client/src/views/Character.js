@@ -7,12 +7,12 @@ import CharacterDashboard from "./CharacterDashboard";
 
 
 const Profile = () => {
-  const {userContext,setUserContext} = useContext(UserContext);
+  const { userContext, setUserContext } = useContext(UserContext);
 
   return (
     <Container className="mb-5">
-      <CharacterDashboard/>
-      <Inventory  user={userContext.User}/>
+      <CharacterDashboard />
+      <Inventory user={userContext.User} />
     </Container>
   );
 };
