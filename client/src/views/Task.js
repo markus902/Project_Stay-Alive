@@ -6,6 +6,7 @@ import { useAuth0 } from '../react-auth0-spa';
 import axios from 'axios';
 import NewTaskForm from '../components/NewTaskForm';
 import TaskItemsData from '../components/TaskItemsData';
+import Loading from "../components/Loading"
 import moment from 'moment'
 
 const Task = () => {
@@ -26,12 +27,12 @@ const Task = () => {
           let currentCharacterId = userContext.User.User.CharacterId;
           axios.get(`/api/gettasks/${currentCharacterId}`)
             .then(response => {
-              setUserContext({User:response.data[0]})
+              setUserContext({ User: response.data[0] })
             })
         };
       };
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
 
@@ -80,6 +81,9 @@ const Task = () => {
   // newTaskForm submit button handler
   const handleNewTaskSubmit = (event) => {
     event.preventDefault();
+    if (userContext.User === "None") {
+      return
+    }
     let exsistingTasks = userContext.User.ToDoTasks.map(task => task.taskName);
     console.log(exsistingTasks);
     if (newTaskName === '') {
@@ -112,63 +116,124 @@ const Task = () => {
         return res
       }).then((info) => {
         const completedTaskArray = info.data[0].ToDoTasks
-        const completed = completedTaskArray.filter((element)=>{
-            return element.id===task.id
+        const completed = completedTaskArray.filter((element) => {
+          return element.id === task.id
         })
         console.log(completed)
+        let health = userContext.User.health
+        let exp = userContext.User.experience
         switch (true) {
+          //Daily
           case task.taskFrequency === "Daily":
-            if(completed.complete!=="1980-01-01T17:00:00.000Z"){
+            if (completed.complete !== "1980-01-01T17:00:00.000Z") {
               const completedAt = moment(new Date(completed[0].complete))
               const created = moment(new Date(completed[0].createdAt))
-              const hours = completedAt.diff(created, "hours",true)
+              const hours = completedAt.diff(created, "hours", true)
               console.log("completed at " + moment(completedAt).format("MM/DD/YY HH:mm"))
               console.log("created at " + moment(created).format("MM/DD/YY HH:mm"))
-              if(hours>0 && hours<=24.00){
-                const itemId = Math.random()*20 + 1;
-                let exp=0;
-                switch(true){
-                  case completed[0].taskDifficulty===1:
-                  exp=10;
-                  break;
-                  case completed[0].taskDifficulty===2:
-                  exp=20;
-                  break;
-                  case completed[0].taskDifficulty===3:
-                  exp=30;
-                  break;
-                  case completed[0].taskDifficulty===4:
-                  exp=40
-                  break;
-                  case completed[0].taskDifficulty===5:
-                  exp=50
-                  break;
+              if (hours > 0 && hours <= 24.00) {
+                const itemId = Math.random() * 20 + 1;
+                let exp = 0;
+                switch (true) {
+                  case completed[0].taskDifficulty === 1:
+                    exp += 10;
+                    break;
+                  case completed[0].taskDifficulty === 2:
+                    exp += 20;
+                    break;
+                  case completed[0].taskDifficulty === 3:
+                    exp += 30;
+                    break;
+                  case completed[0].taskDifficulty === 4:
+                    exp += 40
+                    break;
+                  case completed[0].taskDifficulty === 5:
+                    exp += 50
+                    break;
                   default:
                     break;
                 }
-                //update experience
-
-                //update Inventory
-
-                //set UserContext
               }
-              else{
-                console.log("out of Time")
+              else {
+                health -= 10;
               }
             }
-            
-
             break;
+          //Weekly
           case task.taskFrequency === "Weekly":
-            console.log("Weekly Check")
-            break;
-          case task.taskFrequency === "Monthly":
-            console.log("Monthly Check")
-            break;
+            if (completed.complete !== "1980-01-01T17:00:00.000Z") {
+              const completedAt = moment(new Date(completed[0].complete))
+              const created = moment(new Date(completed[0].createdAt))
+              const hours = completedAt.diff(created, "hours", true)
 
+              if (hours > 0 && hours <= 168.00) {
+                const itemId = Math.random() * 20 + 1;
+                let exp = 0;
+                switch (true) {
+                  case completed[0].taskDifficulty === 1:
+                    exp += 10;
+                    break;
+                  case completed[0].taskDifficulty === 2:
+                    exp += 20;
+                    break;
+                  case completed[0].taskDifficulty === 3:
+                    exp += 30;
+                    break;
+                  case completed[0].taskDifficulty === 4:
+                    exp += 40
+                    break;
+                  case completed[0].taskDifficulty === 5:
+                    exp += 50
+                    break;
+                  default:
+                    break;
+                }
+              }
+              else {
+                health -= 10;
+              }
+            }
+            break;
+            //Monthly
+          case task.taskFrequency === "Monthly":
+            if (completed.complete !== "1980-01-01T17:00:00.000Z") {
+              const completedAt = moment(new Date(completed[0].complete))
+              const created = moment(new Date(completed[0].createdAt))
+              const hours = completedAt.diff(created, "hours", true)
+
+              if (hours > 0 && hours <= 720.00) {
+                const itemId = Math.random() * 20 + 1;
+                let exp = 0;
+                switch (true) {
+                  case completed[0].taskDifficulty === 1:
+                    exp += 10;
+                    break;
+                  case completed[0].taskDifficulty === 2:
+                    exp += 20;
+                    break;
+                  case completed[0].taskDifficulty === 3:
+                    exp += 30;
+                    break;
+                  case completed[0].taskDifficulty === 4:
+                    exp += 40
+                    break;
+                  case completed[0].taskDifficulty === 5:
+                    exp += 50
+                    break;
+                  default:
+                    break;
+                }
+              }
+              else {
+                health -= 10;
+              }
+            }
+            break;
           default:
             break;
         }
+
+        
       })
   }
 

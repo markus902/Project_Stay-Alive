@@ -50,10 +50,74 @@ function TaskItemsData(props) {
                         )}
                 </Col>
                 <Col>
-                    <WeeklyTasks />
+                    <Row>
+                        <Col>
+                            <h3>Weekly</h3>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <h6>To Do:</h6>
+                    </Row>
+                        {tasks ? 
+                        (tasks.map(element=>{
+                            return (element.taskFrequency==="Weekly" && element.complete === "1980-01-01T17:00:00.000Z") ? 
+                            <TaskInfo task={element}  key={element.id} handleTaskComplete={props.handleTaskComplete}/> : 
+                            <div key={Math.random()}></div>
+                        })):
+                        (
+                            <Row>
+                                <h5>No Task</h5>
+                            </Row>
+                        )}
+                    <Row>
+                        <h6>Completed:</h6>
+                    </Row>
+                    {tasks ? 
+                        (tasks.map(element=>{
+                            return (element.taskFrequency==="Weekly" && element.complete !== "1980-01-01T17:00:00.000Z") ? 
+                            <TaskInfo task={element}  key={element.id} handleNewTaskSubmit={props.handleNewTaskSubmit} /> : 
+                            <div key={Math.random()}></div>
+                        })):
+                        (
+                            <Row>
+                                <h5>No Task</h5>
+                            </Row>
+                        )}
                 </Col>
                 <Col>
-                    <MonthlyTasks />
+                    <Row>
+                        <Col>
+                            <h3>Monthly</h3>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <h6>To Do:</h6>
+                    </Row>
+                        {tasks ? 
+                        (tasks.map(element=>{
+                            return (element.taskFrequency==="Monthly" && element.complete === "1980-01-01T17:00:00.000Z") ? 
+                            <TaskInfo task={element}  key={element.id} handleTaskComplete={props.handleTaskComplete}/> : 
+                            <div key={Math.random()}></div>
+                        })):
+                        (
+                            <Row>
+                                <h5>No Task</h5>
+                            </Row>
+                        )}
+                    <Row>
+                        <h6>Completed:</h6>
+                    </Row>
+                    {tasks ? 
+                        (tasks.map(element=>{
+                            return (element.taskFrequency==="Monthly" && element.complete !== "1980-01-01T17:00:00.000Z") ? 
+                            <TaskInfo task={element}  key={element.id} handleNewTaskSubmit={props.handleNewTaskSubmit} /> : 
+                            <div key={Math.random()}></div>
+                        })):
+                        (
+                            <Row>
+                                <h5>No Task</h5>
+                            </Row>
+                        )}
                 </Col>
             </Row>
 
