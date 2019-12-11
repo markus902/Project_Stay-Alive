@@ -101,14 +101,42 @@ router.get("/inventory/", (req, res) => {
 
 // router.get("/inventory/:itemId", (req, res) => {
 //     console.log("getting inventory");
+<<<<<<< HEAD
+
+//     db.PowerUp.findAll({})
+//         .then(data => { res.json(data) })
+//         .catch(err => { console.log(err); });
+// });
+=======
 
 //     db.PowerUp.findAll({})
 //         .then(data => { res.json(data) })
 //         .catch(err => { console.log(err); });
 // });
 
+>>>>>>> 4744647e5344f51eea0fc2803ea9d0487fb8437f
 
 
+// router.get("/items/:itemid", (req, res) => {
+//     let item = req.params.itemid;
+//     db.PowerUp.findAll({ where: { id: item } })
+//         .then(response => { res.json(response) })
+// });
+
+router.get("/inventory/:characterId", (req, res) => {
+    console.log("getting character specific inventory");
+    db.CharacterPowerUps.findAll({
+        where: { CharacterId: req.params.characterId },
+        include: [{ model: db.PowerUp }]
+    })
+        .then(data => {
+            console.log(data);
+            res.json(data)
+        })
+        .catch(err => { console.log(err) })
+})
+
+<<<<<<< HEAD
 // router.get("/items/:itemid", (req, res) => {
 //     let item = req.params.itemid;
 //     db.PowerUp.findAll({ where: { id: item } })
@@ -137,11 +165,20 @@ router.post("/useItem/:characterId", (req, res) => {
             characterId: req.parms.characterId,
             powerUpId: req.params.itemId
         }
+=======
+// might not work, need to filter by 2 req.params
+router.post("/useItem/:characterId", (req, res) => {
+    console.log("posting item used to CharacterPowerUps table");
+    db.CharacterPowerUps.destroy({
+        where: {  characterId: req.parms.characterId,
+            powerUpId: req.params.itemId }
+>>>>>>> 4744647e5344f51eea0fc2803ea9d0487fb8437f
     })
         .then(data => { res.json(data) })
         .catch(err => { console.log(err) });
 });
 
+<<<<<<< HEAD
 // Route to award health or xp to character
 router.post("/ActivatePowerUp/:characterId", (req, res) => {
 console.log("Power up activated!"):
@@ -150,6 +187,8 @@ db.Character.update({
 })
 })
 
+=======
+>>>>>>> 4744647e5344f51eea0fc2803ea9d0487fb8437f
 // might not be needed
 
 // router.post("/addinventory/:characterId", (req, res) => {
