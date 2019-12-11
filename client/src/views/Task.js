@@ -8,6 +8,7 @@ import axios from 'axios';
 import NewTaskForm from '../components/NewTaskForm';
 import TaskItemsData from '../components/TaskItemsData';
 import { array } from 'prop-types';
+import moment from 'moment'
 
 const Task = () => {
   // const [state, setstate] = useState(initialState);
@@ -15,27 +16,26 @@ const Task = () => {
   const { userContext, setUserContext } = useContext(UserContext);
   const [newTaskName, setNewTaskName] = useState('');
   const [newTaskNotes, setNewTaskNotes] = useState('');
-  const [newTaskDifficulty, setNewTaskDifficulty] = useState('');
-  const [newTaskFrequency, setNewTaskFrequency] = useState('');
+  const [newTaskDifficulty, setNewTaskDifficulty] = useState(1);
+  const [newTaskFrequency, setNewTaskFrequency] = useState('Daily');
 
   // Get Task Data from DB
 
   const getTaskData = () => {
-    if (isAuthenticated) {
-      if (userContext.User.ToDoTasks.length != 0) {
-        console.log("get that character stuff", userContext);
-        console.log("Getting task data from DB", userContext.User.ToDoTasks);
+    if (userContext.User !== "None") {
+      console.log(userContext.User.ToDoTasks)
+      if (userContext.User.ToDoTasks.length !== 0) {
         let currentCharacterId = userContext.User.User.CharacterId;
-        console.log(currentCharacterId);
         axios.get(`/api/gettasks/${currentCharacterId}`)
           .then(response => {
-            console.log("TASKS FROM DB in response", response)
+            //nothing here
           })
       };
     };
   };
+
+
   useEffect(() => {
-    // console.log(userContext);
     if (isAuthenticated) {
       getTaskData();
     }
@@ -45,9 +45,7 @@ const Task = () => {
 
   // newTaskForm input change handler
   const handleNewTaskInput = (event) => {
-    console.log(event.target.id)
-    console.log(event.target)
-    console.log('set' + event.target.value)
+    console.log(event.target.value)
     switch (true) {
       case (event.target.id === 'newTaskName'):
         setNewTaskName(event.target.value)
@@ -74,9 +72,6 @@ const Task = () => {
       alert("Please enter a name for your task")
     }
     else {
-      console.log('submit');
-      // axios.get(`/api/getuserbyusername/${userContext.User.User.userName}`).then(response => {
-      // console.log(response);
       const newTask = {
         taskName: newTaskName,
         taskNotes: newTaskNotes,
@@ -85,15 +80,40 @@ const Task = () => {
         complete: "1980-01-01 12:00",
         CharacterId: userContext.User.User.CharacterId
       }
-      console.log(newTask);
       axios.post('/api/createtask', newTask).then(response => {
-        console.log(response);
-        // setFirstTime(false)
+        axios.get(`/api/character/${response.data[0].CharacterId}`).then((res) => {
+          setUserContext({ User: res.data[0] })
+        })
       })
     }
   };
 
+  const handleTaskComplete = (task) => {
+    axios.put(`/api/completeTask/${task.id}`, task)
+      .then(res => {
+        setUserContext({ User: res.data[0] })
+      }).then(() => {
+        switch (true) {
+          case task.taskFrequency === "Daily":
+            console.log("Daily Check")
+            if(task.complete!=="1980-01-01T17:00:00.000Z"){
+              console.log("time check")
+              console.log(moment("1980-01-01T17:00:00.000Z"))
+            }
 
+            break;
+          case task.taskFrequency === "Weekly":
+              console.log("Weekly Check")
+            break;
+          case task.taskFrequency === "Monthly":
+              console.log("Monthly Check")
+            break;
+
+          default:
+            break;
+        }
+      })
+  }
 
   return (
     <TaskContext.Provider
@@ -106,7 +126,7 @@ const Task = () => {
         <Row>
           <Col>
             <h1>Task Data Manager</h1>
-            {/* <h2>{JSON.stringify(userContext)}</h2> */}
+
           </Col>
         </Row>
         <Row>
@@ -116,24 +136,9 @@ const Task = () => {
         </Row>
         <Row>
           <Col>
-            <TaskItemsData />
+            <TaskItemsData tasks={userContext.User.ToDoTasks} handleTaskComplete={handleTaskComplete} />
           </Col>
         </Row>
-        {/* <Row>
-          <Col>
-            {array.filter(task => task.frequency === "Daily").map(taskDaily =>
-              <TaskItemsData 
-              data = {taskDaily}/>)}
-          </Col>
-          <Col>
-            {array.filter(task => task.frequency === "Weekly").map(taskWeekly =>
-              <TaskItemsData />)}
-          </Col>
-          <Col>
-            {array.filter(task => task.frequency === "Monthly").map(taskMonthly =>
-              <TaskItemsData />)}
-          </Col>
-        </Row> */}
       </Container>
 
     </TaskContext.Provider>
