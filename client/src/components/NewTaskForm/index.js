@@ -1,15 +1,11 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import './style.css';
-import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
-import TaskContext from '../../utils/TaskContext';
+import { Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 
 
 
 
-function NewTaskForm() {
-    const context = useContext(TaskContext);
-
-
+function NewTaskForm(props) {
     return (
         <div className='newTaskContainer'>
             <Row>
@@ -19,27 +15,19 @@ function NewTaskForm() {
             </Row>
             <Row>
                 <Col>
-                    <Form className='newTask' onSubmit={context.handleNewTaskSubmit}>
+                    <Form className='newTask' onSubmit={props.handleNewTaskSubmit}>
                         <Row>
 
                             <Col xs={12} md={6}>
                                 <FormGroup>
                                     <Label for='taskname'>Enter your Task name: </Label>
-                                    <Input
-                                        className='newTaskName'
-                                        id='newTaskName'
-                                        onChange={e => context.handleNewTaskInput(e)}
-                                        type='value'></Input>
+                                    <Input className='newTaskName' id='newTaskName' type='value' onChange={props.handleNewTaskInput}></Input>
                                 </FormGroup>
                             </Col>
                             <Col xs={12} md={6}>
                                 <FormGroup>
                                     <Label for='taskNotes'>Enter your Task Notes: </Label>
-                                    <Input
-                                        className='newTaskNotes'
-                                        id='newTaskNotes'
-                                        onChange={e => context.handleNewTaskInput(e)}
-                                        type='value'></Input>
+                                    <Input className='newTaskNotes' id='newTaskNotes' type='value'onChange={props.handleNewTaskInput}></Input>
                                 </FormGroup>
                             </Col>
                         </Row>
@@ -47,8 +35,8 @@ function NewTaskForm() {
                             <Col xs={12} md={6}>
                                 <FormGroup>
                                     <Label className='newTaskDifficulty' for='difficulty-choice'>Choose a Difficulty: </Label>
-                                    <Input type="select" id='newTaskDifficulty' onChange={e => context.handleNewTaskInput(e)}>
-                                        <option defautlValue='1'>Menial</option>
+                                    <Input type="select" id='newTaskDifficulty' onChange={props.handleNewTaskInput}>
+                                        <option defaultValue='1'>Menial</option>
                                         <option value='2'>Easy</option>
                                         <option value='3'>Medium</option>
                                         <option value='4'>Hard</option>
@@ -59,8 +47,8 @@ function NewTaskForm() {
                             <Col  xs={12} md={6}>
                                 <FormGroup>
                                     <Label className='newTaskFrequency' for='frequency-choice'>Choose a Frequency:</Label>
-                                    <Input type="select" id='newTaskFrequency' onChange={e => context.handleNewTaskInput(e)}>
-                                        <option defautlValue='Daily'>Daily</option>
+                                    <Input type="select" id='newTaskFrequency' onChange={props.handleNewTaskInput}>
+                                        <option defaultValue='Daily'>Daily</option>
                                         <option value='Weekly'>Weekly</option>
                                         <option value='Monthly'>Monthly</option>
                                     </Input>

@@ -168,8 +168,6 @@ router.put("/completeTask/:taskId", (req, res) => {
 
 router.post("/deletetask/:taskId", (req, res) => {
     console.log("getting tasks");
-
-    let task = req.body;
     db.ToDoTasks.destroy({
         where: { id: req.params.taskId }
     })

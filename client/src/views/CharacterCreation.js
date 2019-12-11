@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react'
 import UserContext from '../utils/UserContext'
-import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from "reactstrap";
+import { Row, Col, Form, FormGroup, Label, Input, Button } from "reactstrap";
 import axios from 'axios'
 
 export default function CharacterCreation() {

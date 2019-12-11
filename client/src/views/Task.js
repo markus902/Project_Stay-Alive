@@ -1,13 +1,11 @@
-import React, { useState, useRef, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import TaskContext from '../utils/TaskContext';
 import UserContext from '../utils/UserContext';
-import Loading from '../components/Loading';
 import { useAuth0 } from '../react-auth0-spa';
 import axios from 'axios';
 import NewTaskForm from '../components/NewTaskForm';
 import TaskItemsData from '../components/TaskItemsData';
-import { array } from 'prop-types';
 import moment from 'moment'
 
 const Task = () => {
@@ -21,31 +19,25 @@ const Task = () => {
 
   // Get Task Data from DB
 
-  const getTaskData = () => {
-    if (userContext.User !== "None") {
-      console.log(userContext.User.ToDoTasks)
-      if (userContext.User.ToDoTasks.length !== 0) {
-        let currentCharacterId = userContext.User.User.CharacterId;
-        axios.get(`/api/gettasks/${currentCharacterId}`)
-          .then(response => {
-            //nothing here
-          })
-      };
-    };
-  };
-
-
   useEffect(() => {
     if (isAuthenticated) {
-      getTaskData();
+      if (userContext.User !== "None") {
+        if (userContext.User.ToDoTasks !== undefined) {
+          let currentCharacterId = userContext.User.User.CharacterId;
+          axios.get(`/api/gettasks/${currentCharacterId}`)
+            .then(response => {
+              setUserContext({User:response.data[0]})
+            })
+        };
+      };
     }
-  }, [userContext])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
 
 
   // newTaskForm input change handler
   const handleNewTaskInput = (event) => {
-    console.log(event.target.value)
     switch (true) {
       case (event.target.id === 'newTaskName'):
         setNewTaskName(event.target.value)
@@ -96,17 +88,17 @@ const Task = () => {
         switch (true) {
           case task.taskFrequency === "Daily":
             console.log("Daily Check")
-            if(task.complete!=="1980-01-01T17:00:00.000Z"){
+            if (task.complete !== "1980-01-01T17:00:00.000Z") {
               console.log("time check")
               console.log(moment("1980-01-01T17:00:00.000Z"))
             }
 
             break;
           case task.taskFrequency === "Weekly":
-              console.log("Weekly Check")
+            console.log("Weekly Check")
             break;
           case task.taskFrequency === "Monthly":
-              console.log("Monthly Check")
+            console.log("Monthly Check")
             break;
 
           default:
@@ -117,7 +109,7 @@ const Task = () => {
 
   return (
     <TaskContext.Provider
-      value={{ newTaskName, newTaskNotes, newTaskDifficulty, newTaskFrequency, handleNewTaskInput, handleNewTaskSubmit }}
+      value={{ newTaskName, newTaskNotes, newTaskDifficulty, newTaskFrequency, }}
     >
       <h1>{JSON.stringify(TaskContext.value)}</h1>
 
@@ -131,7 +123,7 @@ const Task = () => {
         </Row>
         <Row>
           <Col>
-            <NewTaskForm />
+            <NewTaskForm handleNewTaskInput={handleNewTaskInput} handleNewTaskSubmit={handleNewTaskSubmit} />
           </Col>
         </Row>
         <Row>

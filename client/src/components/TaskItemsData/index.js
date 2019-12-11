@@ -1,8 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import './style.css';
 import { Row, Col } from 'reactstrap';
-import TaskContext from '../../utils/TaskContext';
-import UserContext from '../../utils/UserContext';
+
 import TaskInfo from "../../components/TaskInfo";
 
 function TaskItemsData(props) {
@@ -27,8 +26,8 @@ function TaskItemsData(props) {
                         {tasks ? 
                         (tasks.map(element=>{
                             return (element.taskFrequency==="Daily" && element.complete === "1980-01-01T17:00:00.000Z") ? 
-                            <TaskInfo task={element}  handleTaskComplete={props.handleTaskComplete}/> : 
-                            <div></div>
+                            <TaskInfo task={element}  key={element.id} handleTaskComplete={props.handleTaskComplete}/> : 
+                            <div key={Math.random()}></div>
                         })):
                         (
                             <Row>
@@ -41,8 +40,8 @@ function TaskItemsData(props) {
                     {tasks ? 
                         (tasks.map(element=>{
                             return (element.taskFrequency==="Daily" && element.complete !== "1980-01-01T17:00:00.000Z") ? 
-                            <TaskInfo task={element} handleNewTaskSubmit={props.handleNewTaskSubmit} /> : 
-                            <div></div>
+                            <TaskInfo task={element}  key={element.id} handleNewTaskSubmit={props.handleNewTaskSubmit} /> : 
+                            <div key={Math.random()}></div>
                         })):
                         (
                             <Row>
