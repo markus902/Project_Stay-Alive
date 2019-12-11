@@ -84,14 +84,54 @@ const Task = () => {
     axios.put(`/api/completeTask/${task.id}`, task)
       .then(res => {
         setUserContext({ User: res.data[0] })
-      }).then(() => {
+        return res
+      }).then((info) => {
+        const completedTaskArray = info.data[0].ToDoTasks
+        const completed = completedTaskArray.filter((element)=>{
+            return element.id===task.id
+        })
+        console.log(completed)
         switch (true) {
           case task.taskFrequency === "Daily":
-            console.log("Daily Check")
-            if (task.complete !== "1980-01-01T17:00:00.000Z") {
-              console.log("time check")
-              console.log(moment("1980-01-01T17:00:00.000Z"))
+            if(completed.complete!=="1980-01-01T17:00:00.000Z"){
+              const completedAt = moment(new Date(completed[0].complete))
+              const created = moment(new Date(completed[0].createdAt))
+              const hours = completedAt.diff(created, "hours",true)
+              console.log("completed at " + moment(completedAt).format("MM/DD/YY HH:mm"))
+              console.log("created at " + moment(created).format("MM/DD/YY HH:mm"))
+              if(hours>0 && hours<=24.00){
+                const itemId = Math.random()*20 + 1;
+                let exp=0;
+                switch(true){
+                  case completed[0].taskDifficulty===1:
+                  exp=10;
+                  break;
+                  case completed[0].taskDifficulty===2:
+                  exp=20;
+                  break;
+                  case completed[0].taskDifficulty===3:
+                  exp=30;
+                  break;
+                  case completed[0].taskDifficulty===4:
+                  exp=40
+                  break;
+                  case completed[0].taskDifficulty===5:
+                  exp=50
+                  break;
+                  default:
+                    break;
+                }
+                //update experience
+
+                //update Inventory
+
+                //set UserContext
+              }
+              else{
+                console.log("out of Time")
+              }
             }
+            
 
             break;
           case task.taskFrequency === "Weekly":

@@ -3,7 +3,6 @@ import { Row, Col, Button } from 'reactstrap';
 
 export default function TaskInfo(props) {
     const task = props.task
-    console.log(task)
     return (
         <Row className="border rounded m-3" key={Math.random()}>
             <Col key={Math.random()}>
