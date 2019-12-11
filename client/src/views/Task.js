@@ -35,6 +35,27 @@ const Task = () => {
   }, [])
 
 
+  // Get Task Data from userContext and from DB response at /api/gettasks/${currentCharacterId}
+  const getTaskData = () => {
+    // if (isAuthenticated) {
+    // if (userContext.User.ToDoTasks.length != 0) {
+    // if (userContext.User.ToDoTasks != 0) {
+    console.log("userContext: ", userContext);
+    console.log("TaskContext: ", TaskContext);
+    console.log("Task data from userContext.User.ToDoTasks: ", userContext.User.ToDoTasks);
+    let currentCharacterId = userContext.User.User.CharacterId;
+    console.log("currentCharacterId: ", currentCharacterId);
+    axios.get(`/api/gettasks/${currentCharacterId}`)
+      .then(response => {
+        console.log("TASKS FROM DB in axios getTaskData response: ", response);
+        axios.get(`/api/character/${response.CharacterId}`)
+          .then((response) => {
+            setUserContext({ user: response.data })
+          })
+      })
+    // };
+    // };
+  };
 
   // newTaskForm input change handler
   const handleNewTaskInput = (event) => {
@@ -59,9 +80,13 @@ const Task = () => {
   // newTaskForm submit button handler
   const handleNewTaskSubmit = (event) => {
     event.preventDefault();
+    let exsistingTasks = userContext.User.ToDoTasks.map(task => task.taskName);
+    console.log(exsistingTasks);
     if (newTaskName === '') {
-      // display alert
       alert("Please enter a name for your task")
+    }
+    if (exsistingTasks.includes(newTaskName)) { // doesn't pay attention to capital letters and needs to be refined further
+      alert("Task name already exsists")
     }
     else {
       const newTask = {
@@ -145,6 +170,11 @@ const Task = () => {
             break;
         }
       })
+  }
+
+  if (userContext.User === "None") {
+    // return isAuthenticated ? <Loading /> : <Welcome />
+    return <Loading />
   }
 
   return (

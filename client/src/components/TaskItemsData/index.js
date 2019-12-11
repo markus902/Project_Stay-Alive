@@ -50,10 +50,10 @@ function TaskItemsData(props) {
                         )}
                 </Col>
                 <Col>
-                    <h3>Weekly</h3>
+                    <WeeklyTasks />
                 </Col>
                 <Col>
-                    <h3>Monthly</h3>
+                    <MonthlyTasks />
                 </Col>
             </Row>
 
