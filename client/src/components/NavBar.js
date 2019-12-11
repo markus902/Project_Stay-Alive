@@ -34,8 +34,8 @@ const NavBar = () => {
     <div className="nav-container">
       <Navbar color="light" light expand="md">
         <Container>
-          <NavbarToggler onClick={toggle} />
-          <Collapse isOpen={isOpen} navbar><FontAwesomeIcon icon={faBiohazard} size='2x' />
+          <NavbarToggler onClick={toggle} /><FontAwesomeIcon icon={faBiohazard} style={{ color: '#B91D21' }}size='3x' />
+          <Collapse isOpen={isOpen} navbar>
             <Nav className="mr-auto" navbar>
               <NavItem>
               
