@@ -115,7 +115,6 @@ router.get("/inventory/", (req, res) => {
 //         .then(response => { res.json(response) })
 // });
 
-// GET Route for characterId specific powerups
 router.get("/inventory/:characterId", (req, res) => {
     console.log("getting character specific inventory");
     db.CharacterPowerUps.findAll({
@@ -158,17 +157,29 @@ router.post("/useItem/:characterId", (req, res) => {
             powerUpId: req.params.itemId
         }
     })
+});
+
+// might not work, need to filter by 2 req.params
+router.post("/useItem/:characterId", (req, res) => {
+    console.log("posting item used to CharacterPowerUps table");
+    db.CharacterPowerUps.destroy({
+        where: {
+            characterId: req.parms.characterId,
+            powerUpId: req.params.itemId
+        }
+
+    })
         .then(data => { res.json(data) })
         .catch(err => { console.log(err) });
 });
 
 // Route to award health or xp to character
 router.post("/ActivatePowerUp/:characterId", (req, res) => {
-console.log("Power up activated!"):
-db.Character.update({
-    where: {characterId: req.params.characterId}
-})
-})
+    console.log("Power up activated!");
+    db.Character.update({
+        where: { characterId: req.params.characterId }
+    })
+});
 
 // might not be needed
 
