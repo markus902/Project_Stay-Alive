@@ -99,21 +99,57 @@ router.get("/inventory/", (req, res) => {
 });
 
 
-router.get("/inventory/:itemId", (req, res) => {
-    console.log("getting inventory");
+// router.get("/inventory/:itemId", (req, res) => {
+//     console.log("getting inventory");
 
-    db.PowerUp.findAll({})
+//     db.PowerUp.findAll({})
+//         .then(data => { res.json(data) })
+//         .catch(err => { console.log(err); });
+// });
+
+
+
+// router.get("/items/:itemid", (req, res) => {
+//     let item = req.params.itemid;
+//     db.PowerUp.findAll({ where: { id: item } })
+//         .then(response => { res.json(response) })
+// });
+
+// Route to get character Specific inventory from db.CharacterPowerUps
+router.get("/inventory/:characterId", (req, res) => {
+    console.log("getting character specific inventory");
+    db.CharacterPowerUps.findAll({
+        where: { CharacterId: req.params.characterId },
+        include: [{ model: db.PowerUp }]
+    })
+        .then(data => {
+            console.log(data);
+            res.json(data)
+        })
+        .catch(err => { console.log(err) })
+})
+
+// Route to remove item from character. Might not work, need to filter by 2 req.params
+router.post("/useItem/:characterId", (req, res) => {
+    console.log("posting item used to CharacterPowerUps table");
+    db.CharacterPowerUps.destroy({
+        where: {
+            characterId: req.parms.characterId,
+            powerUpId: req.params.itemId
+        }
+    })
         .then(data => { res.json(data) })
-        .catch(err => { console.log(err); });
+        .catch(err => { console.log(err) });
 });
 
+// Route to award health or xp to character
+router.post("/ActivatePowerUp/:characterId", (req, res) => {
+console.log("Power up activated!"):
+db.Character.update({
+    where: {characterId: req.params.characterId}
+})
+})
 
-
-router.get("/items/:itemid", (req, res) => {
-        let item = req.params.itemid;
-        db.PowerUp.findAll({where:{id:item}})
-            .then(response => {res.json(response) })
-});
 // might not be needed
 
 // router.post("/addinventory/:characterId", (req, res) => {
