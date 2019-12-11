@@ -69,6 +69,8 @@ module.exports = function (sequelize, DataTypes) {
     Character.hasMany(models.ToDoTasks, {
       onDelete: "cascade"
     });
+    Character.hasMany(models.CharacterPowerUps);
+    // Character.belongsToMany('PowerUp', {through: 'CharacterPowerUps'});
   };
   return Character;
 };
