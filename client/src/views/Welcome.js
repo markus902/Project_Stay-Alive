@@ -7,7 +7,7 @@ export default function Welcome() {
       <Container >
         <Row className="d-flex justify-content-center align-items-lg-center">
           <Col >
-            <img src="https://via.placeholder.com/800x200" className="img-fluid"></img>
+            <img src="/assets/Logo.png" className="img-fluid"></img>
           </Col>
         </Row>
         <Row className="d-flex justify-content-center align-items-lg-center">

@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react'
 import UserContext from '../utils/UserContext'
 import { Row, Col } from "reactstrap";
-import Inventory from "./Inventory"
 import Loading from "../components/Loading"
 
 export default function CharacterDashboard() {
