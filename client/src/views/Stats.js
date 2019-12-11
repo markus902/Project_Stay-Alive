@@ -44,28 +44,38 @@ const Stats = () => {
             let curr = new Date
             let thisWeek = [];
             let lastWeek = [];
+            let thisWeekFormated = [];
             let tasksThisWeek = [0, 0, 0, 0, 0, 0, 0];
             let tasksLastWeek = [0, 0, 0, 0, 0, 0, 0];
 
             //Getting array with this weeks data
 
+            let startOfWeek = moment().startOf('week');
+            let endOfWeek = moment().endOf('week');
+            let day = startOfWeek;
 
-            for (let i = 1; i <= 7; i++) {
-                let first = curr.getDate() - curr.getDay() + i
-                let day = new Date(curr.setDate(first)).toISOString().slice(0, 10)
-                thisWeek.push(day)
+            while (day <= endOfWeek) {
+                thisWeek.push(day.toDate());
+                moment(day).toDate();
+                day = day.clone().add(1, 'd');
             }
 
-            for (let i = 1; i <= 7; i++) {
-                let first = curr.getDate() - curr.getDay() + i
-                let day = new Date(curr.setDate(first)).toISOString().slice(0, 10)
-                lastWeek.push(day)
-            }
+            thisWeekFormated = thisWeek.map(elem => {
+                return moment(elem).format('YYYY-MM-DD')
+            });
 
-            // var date = curr.getFullYear() + '-' + (curr.getMonth() + 1) + '-' + ("0" + curr.getDate()).slice(-2)
+            //Getting array with last weeks data
+
+
+            let lastWeekFormated = thisWeekFormated.map(elem => {
+                return moment(elem, 'YYYY-MM-DD').subtract(7, 'days').format('YYYY-MM-DD');
+            })
+
+            console.log(thisWeekFormated);
+            console.log(lastWeekFormated);
 
             userContext.User.ToDoTasks.forEach(elem => {
-                if (thisWeek.indexOf(elem.complete.slice(0, 10)) == -1) {
+                if (thisWeekFormated.indexOf(elem.complete.slice(0, 10)) == -1) {
                     console.log("not in there");
                 }
                 else {
@@ -93,7 +103,7 @@ const Stats = () => {
         setDataThisWeek(
             {
                 chartData: {
-                    labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+                    labels: moment.weekdays(),
                     datasets: [
                         {
                             label: "This Week",
@@ -108,7 +118,7 @@ const Stats = () => {
         setDataLastWeek(
             {
                 chartData: {
-                    labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+                    labels: moment.weekdays(),
                     datasets: [
                         {
                             label: "Last Week",
@@ -121,8 +131,8 @@ const Stats = () => {
 
     // let datapoints = [1, 3, 5, 40, 5, 4, 2];
 
-    console.log(chartInputThisWeek)
-    console.log(userContext.User.ToDoTasks)
+    // console.log(chartInputThisWeek)
+    // console.log(userContext.User.ToDoTasks)
 
     return (
         <div>
