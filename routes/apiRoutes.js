@@ -115,6 +115,26 @@ router.get("/inventory/", (req, res) => {
 //         .then(response => { res.json(response) })
 // });
 
+// GET Route for characterId specific powerups
+router.get("/inventory/:characterId", (req, res) => {
+    console.log("getting character specific inventory");
+    db.CharacterPowerUps.findAll({
+        where: { CharacterId: req.params.characterId },
+        include: [{ model: db.PowerUp }]
+    })
+        .then(data => {
+            console.log(data);
+            res.json(data)
+        })
+        .catch(err => { console.log(err) })
+})
+
+// router.get("/items/:itemid", (req, res) => {
+//     let item = req.params.itemid;
+//     db.PowerUp.findAll({ where: { id: item } })
+//         .then(response => { res.json(response) })
+// });
+
 // Route to get character Specific inventory from db.CharacterPowerUps
 router.get("/inventory/:characterId", (req, res) => {
     console.log("getting character specific inventory");
