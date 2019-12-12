@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "npm run server",
-    "build": "cd client && react-scripts build",
+    "build": "cd client && npm run build",
     "install": "cd client && npm install",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
