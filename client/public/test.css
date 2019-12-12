@@ -7,7 +7,7 @@ navbar-light.bg-light .nav-link {
   box-shadow: 0px 1px 2px 0px #dfe3ec; }
   .navbar .router-link-exact-active {
     color: white;
-    border-bottom: 3px solid #0066f9; }
+    border-bottom: 3px solid #B91D21; }
 
 .navbar-brand {
   margin-right: 60px; }
@@ -81,7 +81,7 @@ navbar-light.bg-light .nav-link {
       padding: 0 0 0 16px; }
       .nav-item .nav-link.router-link-exact-active {
         border-bottom: 0;
-        border-left: 3px solid #0066f9;
+        border-left: 3px solid #B91D21;
         padding-left: 13px !important;
         vertical-align: middle; }
   .navbar-brand {
@@ -217,11 +217,11 @@ h6.muted {
   font-size: 1rem; }
 
 a {
-  color: #0066f9; }
+  color: #B91D21; }
 
 .btn-primary {
-  background-color: #0066f9;
-  border: 1px solid #005ce0; }
+  background-color: #B91D21;
+  border: 1px solid #B91D21; }
 
 .btn {
   border-radius: 0.1rem; }

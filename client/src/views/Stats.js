@@ -1,80 +1,169 @@
-import React, { useState, useEffect } from "react";
-import Loading from "../components/Loading";
-import ChartDisplay from "../components/ChartDisplay"
+import React, { useContext, useState, useRef, useEffect } from 'react';
 import axios from 'axios';
-import { useAuth0 } from "../react-auth0-spa";
-// import Chart from "chart.js"
-import { Chart } from 'react-charts'
+import UserContext from '../utils/UserContext';
+import Chart from '../components/Chart';
+import moment from 'moment';
+import '../components/chartStyle.css';
+
 
 const Stats = () => {
 
-    const { loading, user } = useAuth0();
-    const [userData, setUserData] = useState();
-    const [loader, setLoader] = useState(true);
-    const [chart, setChart] = useState(true);
-
-    // Chart settings
-
-    const [data] = useState(React.useMemo(
-        () => [
-            {
-                label: 'Series 1',
-                data: [[0, 1], [1, 2], [2, 4], [3, 2], [4, 7]]
-            },
-            {
-                label: 'Series 2',
-                data: [[0, 3], [1, 1], [2, 5], [3, 6], [4, 4]]
+    //Getting Context
+    const { userContext, setUserContext } = useContext(UserContext);
+    const [chartInputThisWeek, setChartInputThisWeek] = useState();
+    const [chartInputLastWeek, setChartInputLastWeek] = useState();
+    const [dataThisWeek, setDataThisWeek] = useState(
+        {
+            chartData: {
+                labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+                datasets: [
+                    {
+                        label: "Days of the week",
+                        data: chartInputThisWeek
+                    }
+                ]
             }
-        ],
-        []
-    ))
+        });
 
-    const [axes] = useState(React.useMemo(
-        () => [
-            { primary: true, type: 'linear', position: 'bottom' },
-            { type: 'linear', position: 'left' }
-        ],
-        []
-    ))
+    const [dataLastWeek, setDataLastWeek] = useState(
+        {
+            chartData: {
+                labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+                datasets: [
+                    {
+                        label: "Days of the week",
+                        data: []
+                    }
+                ]
+            }
+        });
 
-    if (loading || !user) {
-        return <Loading />;
-    }
+    useEffect(() => {
+        if (userContext.User.ToDoTasks) {
 
-    if (loader) {
-        axios.get(`/api/getuserbyusername/${user.nickname}`)
-            .then(response => {
-                console.log(response);
-                setUserData(response.data[0]);
-                setLoader(false);
+            // Defining variables
+
+            let curr = new Date
+            let thisWeek = [];
+            let thisWeekFormated = [];
+            let tasksThisWeek = [0, 0, 0, 0, 0, 0, 0];
+            let tasksLastWeek = [0, 0, 0, 0, 0, 0, 0];
+
+            //Getting array with this weeks data
+
+            let startOfWeek = moment().startOf('week');
+            let endOfWeek = moment().endOf('week');
+            let day = startOfWeek;
+
+            while (day <= endOfWeek) {
+                thisWeek.push(day.toDate());
+                moment(day).toDate();
+                day = day.clone().add(1, 'd');
+            }
+
+            thisWeekFormated = thisWeek.map(elem => {
+                return moment(elem).format('YYYY-MM-DD')
             });
-    }
+
+            //Getting array with last weeks data
 
 
+            let lastWeekFormated = thisWeekFormated.map(elem => {
+                return moment(elem, 'YYYY-MM-DD').subtract(7, 'days').format('YYYY-MM-DD');
+            })
 
+            console.log(thisWeekFormated);
+            console.log(lastWeekFormated);
 
+            //Calculating task count for this week
+
+            userContext.User.ToDoTasks.forEach(elem => {
+                if (thisWeekFormated.indexOf(elem.complete.slice(0, 10)) == -1) {
+                    console.log("not in there");
+                }
+                else {
+                    console.log("in there");
+                    tasksThisWeek[moment(elem.complete).day()] = tasksThisWeek[moment(elem.complete).day()] + 1;
+                }
+            });
+            setChartInputThisWeek(tasksThisWeek);
+            console.log(tasksThisWeek);
+
+            //Calculating task count for last week
+
+            userContext.User.ToDoTasks.forEach(elem => {
+                if (lastWeekFormated.indexOf(elem.complete.slice(0, 10)) == -1) {
+                    console.log("not in there");
+                }
+                else {
+                    console.log("in there");
+                    tasksLastWeek[moment(elem.complete).day()] = tasksLastWeek[moment(elem.complete).day()] + 1;
+                }
+            })
+            setChartInputLastWeek(tasksLastWeek);
+            console.log(tasksLastWeek);
+        }
+    }, [userContext])
+
+    useEffect(() => {
+        setDataThisWeek(
+            {
+                chartData: {
+                    labels: moment.weekdays(),
+                    datasets: [
+                        {
+                            label: "This Week",
+                            data: chartInputThisWeek,
+                            backgroundColor: "#B91D21",
+
+                        }
+                    ]
+                }
+            })
+    }, [chartInputThisWeek])
+
+    useEffect(() => {
+        setDataLastWeek(
+            {
+                chartData: {
+                    labels: moment.weekdays(),
+                    datasets: [
+                        {
+                            label: "Last Week",
+                            data: chartInputLastWeek,
+                            backgroundColor: "#B91D21"
+                        }
+                    ]
+                }
+            })
+    }, [chartInputLastWeek])
+
+    // let datapoints = [1, 3, 5, 40, 5, 4, 2];
+
+    // console.log(chartInputThisWeek)
+    // console.log(userContext.User.ToDoTasks)
 
     return (
         <div>
-            <div>This is the stats page</div>
-
-            <div
-                style={{
-                    width: '400px',
-                    height: '300px'
-                }}
-            >
-                <Chart data={data} axes={axes} />
+            <div className="text-center" id="headline"><h3>Check out what you did!</h3></div>
+            <div className="row">
+                <div className="col-sm-12 text-center">
+                    <h5 className="headline2">This Week</h5>
+                    <Chart chartData={dataThisWeek.chartData}
+                    />
+                </div>
+                <div className="col-sm-12 text-center" id="chartEnd">
+                    <h5 className="headline2">Last Week</h5>
+                    <Chart chartData={dataLastWeek.chartData} />
+                </div>
+                {/* <div className="col-sm-12 text-center">
+                    <h5 className="headline2">This Month</h5>
+                </div>
+                <div className="col-sm-12 text-center">
+                    <h5 className="headline2">Last Month</h5> */}
+                <div ></div>
             </div>
-            )
-          }
-
-            {/* <ChartDisplay data={[
-                { argument: 1, value: 10 },
-                { argument: 2, value: 20 },
-                { argument: 3, value: 30 }
-            ]} /> */}
-        </div>
+        </div >
     )
 };
 

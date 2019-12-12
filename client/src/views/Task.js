@@ -1,13 +1,13 @@
-import React, { useState, useRef, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import TaskContext from '../utils/TaskContext';
 import UserContext from '../utils/UserContext';
-import Loading from '../components/Loading';
 import { useAuth0 } from '../react-auth0-spa';
 import axios from 'axios';
 import NewTaskForm from '../components/NewTaskForm';
 import TaskItemsData from '../components/TaskItemsData';
-import { array } from 'prop-types';
+import Loading from "../components/Loading"
+import moment from 'moment'
 
 const Task = () => {
   // const [state, setstate] = useState(initialState);
@@ -18,11 +18,23 @@ const Task = () => {
   const [newTaskDifficulty, setNewTaskDifficulty] = useState(1);
   const [newTaskFrequency, setNewTaskFrequency] = useState('Daily');
 
+  // Get Task Data from DB
+
   useEffect(() => {
     if (isAuthenticated) {
-      // getTaskData();
+      if (userContext.User !== "None") {
+        let currentCharacterId = userContext.User.CharacterId;
+        axios.get(`/api/character/${currentCharacterId}`)
+          .then(response => {
+            console.log(response)
+            if (response.data.length >= 1) {
+              setUserContext({ User: response.data[0] })
+            }
+          })
+      };
     }
-  }, [userContext])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
 
   // Get Task Data from userContext and from DB response at /api/gettasks/${currentCharacterId}
@@ -49,7 +61,6 @@ const Task = () => {
 
   // newTaskForm input change handler
   const handleNewTaskInput = (event) => {
-    // console.log('set ' + event.target.value);
     switch (true) {
       case (event.target.id === 'newTaskName'):
         setNewTaskName(event.target.value)
@@ -68,11 +79,24 @@ const Task = () => {
     }
   };
 
+  //Handle Removal of Task
+
+  const handleRemove = async (task) => {
+    console.log(task.id)
+    axios.put(`/api/removeTask/${task.id}`, { CharacterId: task.CharacterId })
+      .then((response) => {
+        console.log(response.data)
+        setUserContext({ User: response.data[0] })
+      })
+  }
+
   // newTaskForm submit button handler
   const handleNewTaskSubmit = (event) => {
     event.preventDefault();
+    if (userContext.User === "None") {
+      return
+    }
     let exsistingTasks = userContext.User.ToDoTasks.map(task => task.taskName);
-    console.log(exsistingTasks);
     if (newTaskName === '') {
       alert("Please enter a name for your task")
     }
@@ -80,9 +104,6 @@ const Task = () => {
       alert("Task name already exsists")
     }
     else {
-      console.log('submit');
-      // axios.get(`/api/getuserbyusername/${userContext.User.User.userName}`).then(response => {
-      // console.log(response);
       const newTask = {
         taskName: newTaskName,
         taskNotes: newTaskNotes,
@@ -91,40 +112,133 @@ const Task = () => {
         complete: "1980-01-01 12:00",
         CharacterId: userContext.User.User.CharacterId
       }
-      console.log(newTask);
-      axios.post('/api/createtask', newTask)
-        .then(response => {
-          console.log("response from submit: ", response);
-          getTaskData();
+      axios.post('/api/createtask', newTask).then(response => {
+        axios.get(`/api/character/${response.data[0].CharacterId}`).then((res) => {
+          setUserContext({ User: res.data[0] })
         })
+      })
     }
   };
 
-  // complete task btn
-  const completeTask = (event) => {
-    // event.preventDefault();
-    // check last completed date FUNC check lastCompletedDate
-    // check difficulty level FUNC checkTaskDifficulty
-    // award experience
-    alert("task completed");
-  };
-
-  // deleteTaskBtn
-  const deleteTask = (event) => {
-    // event.preventDefault();
-    let currentCharacterId = userContext.User.User.CharacterId;
-    axios.get(`/api/gettasks/${currentCharacterId}`)
-      .then(response => {
-        console.log("TASKS FROM DB in axios getTaskData response: ", response);
-
-        let taskId = 21; //to fake it for now, needs to get the id dynamically // let taskId = response.data[].id; 
-        axios.post(`api/deletetask/${taskId}`).then(response => {
-          console.log("response from delete: ", response);
-          getTaskData();
+  const handleTaskComplete = (task) => {
+    let health = userContext.User.health
+    let exp = userContext.User.experience
+    axios.put(`/api/completeTask/${task.id}`, task)
+      .then(res => {
+        setUserContext({ User: res.data[0] })
+        return res
+      }).then((info) => {
+        const completedTaskArray = info.data[0].ToDoTasks
+        const completed = completedTaskArray.filter((element) => {
+          return element.id === task.id
         })
+        switch (true) {
+          //Daily
+          case task.taskFrequency === "Daily":
+            if (completed.complete !== "1980-01-01T17:00:00.000Z") {
+              const completedAt = moment(new Date(completed[0].complete))
+              const created = moment(new Date(completed[0].createdAt))
+              const hours = completedAt.diff(created, "hours", true)
+              console.log("completed at " + moment(completedAt).format("MM/DD/YY HH:mm"))
+              console.log("created at " + moment(created).format("MM/DD/YY HH:mm"))
+              if (hours > 0 && hours <= 24.00) {
+                switch (true) {
+                  case completed[0].taskDifficulty === 1:
+                    exp += 10;
+                    break;
+                  case completed[0].taskDifficulty === 2:
+                    exp += 20;
+                    break;
+                  case completed[0].taskDifficulty === 3:
+                    exp += 30;
+                    break;
+                  case completed[0].taskDifficulty === 4:
+                    exp += 40
+                    break;
+                  case completed[0].taskDifficulty === 5:
+                    exp += 50
+                    break;
+                  default:
+                    break;
+                }
+              }
+              else {
+                health -= 10;
+              }
+            }
+            break;
+          //Weekly
+          case task.taskFrequency === "Weekly":
+            if (completed.complete !== "1980-01-01T17:00:00.000Z") {
+              const completedAt = moment(new Date(completed[0].complete))
+              const created = moment(new Date(completed[0].createdAt))
+              const hours = completedAt.diff(created, "hours", true)
+
+              if (hours > 0 && hours <= 168.00) {
+                switch (true) {
+                  case completed[0].taskDifficulty === 1:
+                    exp += 10;
+                    break;
+                  case completed[0].taskDifficulty === 2:
+                    exp += 20;
+                    break;
+                  case completed[0].taskDifficulty === 3:
+                    exp += 30;
+                    break;
+                  case completed[0].taskDifficulty === 4:
+                    exp += 40
+                    break;
+                  case completed[0].taskDifficulty === 5:
+                    exp += 50
+                    break;
+                  default:
+                    break;
+                }
+              }
+              else {
+                health -= 10;
+              }
+            }
+            break;
+          //Monthly
+          case task.taskFrequency === "Monthly":
+            if (completed.complete !== "1980-01-01T17:00:00.000Z") {
+              const completedAt = moment(new Date(completed[0].complete))
+              const created = moment(new Date(completed[0].createdAt))
+              const hours = completedAt.diff(created, "hours", true)
+
+              if (hours > 0 && hours <= 720.00) {
+                switch (true) {
+                  case completed[0].taskDifficulty === 1:
+                    exp += 10;
+                    break;
+                  case completed[0].taskDifficulty === 2:
+                    exp += 20;
+                    break;
+                  case completed[0].taskDifficulty === 3:
+                    exp += 30;
+                    break;
+                  case completed[0].taskDifficulty === 4:
+                    exp += 40
+                    break;
+                  case completed[0].taskDifficulty === 5:
+                    exp += 50
+                    break;
+                  default:
+                    break;
+                }
+              }
+              else {
+                health -= 10;
+              }
+            }
+            break;
+          default:
+            break;
+        }
+        axios.put(`/api/characterLevel/${task.CharacterId}`, { health: health, exp: exp }).then(response=>{setUserContext({User:response.data[0]})})
       })
   }
-
 
   if (userContext.User === "None") {
     // return isAuthenticated ? <Loading /> : <Welcome />
@@ -133,7 +247,7 @@ const Task = () => {
 
   return (
     <TaskContext.Provider
-      value={{ newTaskName, newTaskNotes, newTaskDifficulty, newTaskFrequency, handleNewTaskInput, handleNewTaskSubmit, completeTask, deleteTask }}
+      value={{ newTaskName, newTaskNotes, newTaskDifficulty, newTaskFrequency, }}
     >
       <h1>{JSON.stringify(TaskContext.value)}</h1>
 
@@ -142,32 +256,17 @@ const Task = () => {
         <Row>
           <Col>
             <h1>Task Data Manager</h1>
-            {/* <h2>{JSON.stringify(userContext)}</h2> */}
+
           </Col>
         </Row>
         <Row>
           <Col>
-            <NewTaskForm />
+            <NewTaskForm handleNewTaskInput={handleNewTaskInput} handleNewTaskSubmit={handleNewTaskSubmit} />
           </Col>
         </Row>
         <Row>
           <Col>
-            <TaskItemsData />
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            {/* {userContext.User.ToDoTasks.filter(task => task.taskFrequency === "Daily").map(taskDaily =>
-              <TaskItemsData 
-              data = {taskDaily}/>)}
-          </Col>
-          <Col>
-            {userContext.User.ToDoTasks.filter(task => task.taskFrequency === "Weekly").map(taskWeekly =>
-              <TaskItemsData />)}
-          </Col>
-          <Col>
-            {userContext.User.ToDoTasks.filter(task => task.taskFrequency === "Monthly").map(taskMonthly =>
-              <TaskItemsData />)} */}
+            <TaskItemsData tasks={userContext.User.ToDoTasks} handleRemove={handleRemove} handleTaskComplete={handleTaskComplete} />
           </Col>
         </Row>
       </Container>
