@@ -2,12 +2,11 @@
   "name": "stay_alive",
   "version": "0.1.0",
   "private": true,
+  "main": "server.js",
   "scripts": {
     "start": "npm run server",
     "build": "npm run build --prefix client",
-    "install": "cd client && npm install",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
+    "install": "npm install --prefix client",
     "spa": "cd client && react-scripts start",
     "server": "node server.js",
     "server:dev": "nodemon server.js",
@@ -47,6 +46,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "proxy": "http://localhost:3001"
+  }
 }
