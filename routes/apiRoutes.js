@@ -12,7 +12,8 @@ router.get("/character/:id", (req, res) => {
         where: { id: req.params.id },
         include: [
             { model: db.User },
-            { model: db.ToDoTasks }
+            { model: db.ToDoTasks },
+            { model: db.CharacterPowerUps }
         ]
 
     })
@@ -58,32 +59,41 @@ router.post("/addcharacter", (req, res) => {
 
 router.post("/characterupdate/:id", (req, res) => {
     console.log("updating character")
+    console.log("req.body in server: ", req.body);
 
     let character = req.body;
-    db.Character.update({
-        where: {
-            id: req.params.id
-        },
-        defaults: {
-            characterName: character.characterName,
+    db.Character.update(
+        {
             health: character.health,
             experience: character.experience,
             inventory: character.inventory,
-            bodyType: character.bodyType,
-            hairType: character.hairType,
-            color1: character.color1,
-            color2: character.color2
+        },
+        {
+            where: {
+                id: req.params.id
+            }
         }
-    })
+        // {
+        //     defaults: {
+        //         characterName: character.characterName,
+        //         health: character.health,
+        //         experience: character.experience,
+        //         inventory: character.inventory,
+        //         bodyType: character.bodyType,
+        //         hairType: character.hairType,
+        //         color1: character.color1,
+        //         color2: character.color2
+        //     }
+        // }
+    )
         .then(data => { res.json(data) })
         .catch(err => { console.log(err); });
-})
+});
 
 // Routes for inventory
 
 router.get("/inventory/", (req, res) => {
     console.log("getting inventory");
-
     db.PowerUp.findAll({})
         .then(data => { res.json(data) })
         .catch(err => { console.log(err); });
@@ -117,7 +127,7 @@ router.get("/inventory/:characterId", (req, res) => {
             res.json(data)
         })
         .catch(err => { console.log(err) })
-})
+});
 
 // router.get("/items/:itemid", (req, res) => {
 //     let item = req.params.itemid;
@@ -139,18 +149,19 @@ router.get("/inventory/:characterId", (req, res) => {
         .catch(err => { console.log(err) })
 })
 
-// Route to remove item from character. Might not work, need to filter by 2 req.params
-router.post("/useItem/:characterId", (req, res) => {
-    console.log("posting item used to CharacterPowerUps table");
-    db.CharacterPowerUps.destroy({
-        where: {
-            characterId: req.parms.characterId,
-            powerUpId: req.params.itemId
-        }
-    })
-});
+// // Route to remove item from character. Might not work, need to filter by 2 req.params
+// router.post("/useItem/:characterId", (req, res) => {
+//     console.log("posting item used to CharacterPowerUps table");
+//     db.CharacterPowerUps.destroy({
+//         where: {
+//             characterId: req.parms.characterId,
+//             powerUpId: req.params.itemId
+//         }
+//     })
+// });
 
 // might not work, need to filter by 2 req.params
+// route to use an item and remove it from their character on CharacterPowerUps
 router.post("/useItem/:characterId", (req, res) => {
     console.log("posting item used to CharacterPowerUps table");
     db.CharacterPowerUps.destroy({
@@ -158,17 +169,17 @@ router.post("/useItem/:characterId", (req, res) => {
             characterId: req.parms.characterId,
             powerUpId: req.params.itemId
         }
-
     })
         .then(data => { res.json(data) })
         .catch(err => { console.log(err) });
 });
 
 // Route to award health or xp to character
-router.post("/ActivatePowerUp/:characterId", (req, res) => {
+router.post("/activatePowerUp/:characterId", (req, res) => {
     console.log("Power up activated!");
     db.Character.update({
         where: { characterId: req.params.characterId }
+
     })
 });
 
@@ -198,12 +209,12 @@ router.put("/characterLevel/:id", (req, res) => {
         })
 
 // might not be needed
-
+// Route to add an item to a character
 // router.post("/addinventory/:characterId", (req, res) => {
 //     console.log("posting inventory");
 
 //     let inventory = req.body;
-//     db.PowerUp.create({
+//     db.CharacterPowerUps.create({
 //         PowerUpName: inventory.PowerUpName,
 //         PowerUpType: inventory.PowerUpType,
 //         characterId: req.params.characterId

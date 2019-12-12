@@ -9,8 +9,9 @@ import axios from 'axios';
 
 export default function Inventory() {
   const { userContext, setUserContext } = useContext(UserContext);
-  const [inventory, setInventory] = useState([]);
-  const [item, setItem] = useState([]);
+  const [inventory, setInventory] = useState(null);
+  const [item, setItem] = useState(null);
+  const [loading, setLoading] = useState(null);
 
   // console.log(userContext)
   // state = {
@@ -27,32 +28,97 @@ export default function Inventory() {
     }
   }, []);
 
-  useEffect(() => {
-    // console.log(inventory);
-  }, [inventory]);
-  useEffect(() => {
-    // console.log(inventory);
-  }, [item]);
+  // useEffect(() => {
+  //   // console.log(inventory);
+  // }, [inventory]);
+  // useEffect(() => {
+  //   // console.log(inventory);
+  // }, [item]);
+
 
 
   // then loop through the state of the inventory and create the visual UI of the inventory for the user
   const getCharacterPowerups = () => {
+    console.log(userContext.User)
     let currentCharacterId = userContext.User.User.CharacterId;
-    axios.get(`api/inventory/${currentCharacterId}`)
+    axios.get(`/api/inventory/${currentCharacterId}`)
       .then(res => {
         console.log("getting character specific items", res)
         if (res.data.length === 0) {
           alert("You have no items to show or something went wrong");
         }
-        else { setInventory(res.data); }
-
+        else {
+          console.log("before set inventory:", res.data);
+          setInventory(res.data);
+        }
+        console.log(inventory);
       });
   };
 
-  const handleUseItem = (event) => {
-    let itemType = event.target.id;
-    this.setItem(itemType);
-    console.log(this.state.item);
+  const getAllInventory = () => {
+    axios.get('/api/inventory/')
+      .then(res => {
+        console.log("getting full inventory", res)
+        if (res.data.length === 0) {
+          alert("something went wrong, the inventory is empty");
+        }
+        else {
+          console.log("before set inventory:", res.data);
+          setInventory(res.data);
+        }
+        console.log(inventory);
+      });
+  };
+
+  const handleUseItem = (PowerUpId, PowerUpType) => {
+    let currentCharacterId = userContext.User.User.CharacterId;
+    // set loading to true until the axios is done 
+    setLoading(true);
+    // Pull data to get the user health and experience 
+    let health = userContext.User.health;
+    let experience = userContext.User.experience;
+    let oldUserInventory = userContext.User.CharacterPowerups;
+    console.log('oldUserInventory:', oldUserInventory);
+    // let userInventory = oldUserInventory.filter((elem) => {
+    //   return elem !== PowerUpId;
+    // })
+    // write logic to add health or experience to that based on the PowerUpType
+    if (PowerUpType === "ExperienceBoost") { // PowerUpType ? reward giveHealth : reward giveExperience
+      // add experience experience + 50
+      experience = experience + 50;
+      // check for level up 
+    }
+    else {
+      // add health... health + 25
+      health = health + 25;
+    }
+    // update CharacterPowerUps to remove the item from their inventory
+    console.log("itemType:", PowerUpType);
+    console.log("PowerUpId:", PowerUpId);
+    axios.post(`/api/useItem/:characterId`).then(res => {
+
+    }).then(() => {
+      axios.post(`/api/characterupdate/${userContext.User.id}`, {
+        characterName: userContext.characterName,
+        health: health,
+        experience: experience,
+        // inventory: userInventory,
+        bodyType: userContext.bodyType,
+        hairType: userContext.hairType,
+        color1: userContext.color1,
+        color2: userContext.color2
+      })
+        .then(res => {
+          console.log(res);
+          // get("/character/:id")
+          // setUserContext but becareful.. might need to account for tasks
+        })
+        .catch(err => { console.log(err); });
+    });
+  };
+
+  const handleAddItem = (event) => {
+    // axios.post(`/api/`)
   };
 
 
@@ -73,13 +139,14 @@ export default function Inventory() {
     <div>
       <h4>Inventory:</h4>
       <button onClick={getCharacterPowerups}>Fetch your Items</button>
-      {inventory !== [] ?
+      <button onClick={getAllInventory}>See all Items</button>
+      {inventory ?
         inventory.map(elem =>
           <div>
             <p key={elem.PowerUpName}>{elem.PowerUpName}</p>
-            <p>{elem.PowerUp.Description}</p>
-            <button id={elem.PowerUpId} itemType={elem.PowerUp.PowerUpType} onClick={handleUseItem}>Use Item</button>
-            <p>{elem.PowerUp.PowerUpType}</p>
+            <p>{elem.Description || elem.PowerUp.Description}</p>
+            <button onClick={() => handleUseItem(elem.id, elem.PowerUpType || elem.PowerUp.PowerUpType)}>Use Item</button>
+            <button onClick={() => handleAddItem(elem.PowerUpId, elem.PowerUpType || elem.PowerUp.PowerUpType)}>Add Item to character</button>
             <p>-----</p>
           </div>)
         : <p>loading</p>
