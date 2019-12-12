@@ -114,7 +114,7 @@ const Stats = () => {
                         {
                             label: "This Week",
                             data: chartInputThisWeek,
-                            backgroundColor: "blue",
+                            backgroundColor: "#B91D21",
 
                         }
                     ]
@@ -131,7 +131,7 @@ const Stats = () => {
                         {
                             label: "Last Week",
                             data: chartInputLastWeek,
-                            backgroundColor: "blue"
+                            backgroundColor: "#B91D21"
                         }
                     ]
                 }
