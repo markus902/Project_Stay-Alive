@@ -30,7 +30,7 @@ export default function ContextProvider({children}) {
               }
               getUserData(userData);
         }
-    },[])
+    }, [setUserContext,isAuthenticated,user])
 
     return (
         <UserContext.Provider value={{userContext,setUserContext}}>{children}</UserContext.Provider>

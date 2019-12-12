@@ -1,5 +1,5 @@
-import React, { useState, useRef, useContext } from "react";
-import { Container, Row, Col } from "reactstrap";
+import React, { useContext } from "react";
+import { Container} from "reactstrap";
 import Inventory from "../components/Inventory";
 import UserContext from '../utils/UserContext';
 import CharacterDashboard from "./CharacterDashboard";
@@ -7,7 +7,7 @@ import CharacterDashboard from "./CharacterDashboard";
 
 
 const Profile = () => {
-  const { userContext, setUserContext } = useContext(UserContext);
+  const { userContext } = useContext(UserContext);
 
   return (
     <Container className="mb-5">
