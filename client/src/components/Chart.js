@@ -7,7 +7,37 @@ function Chart(props) {
         <div>
             <Bar
                 data={props.chartData}
-                options={{}}
+                options={{
+                    title: {
+                        display: false,
+                        text: "Tasks completed"
+                    },
+                    legend: {
+                        display: true,
+                        position: 'right',
+                        text: "Tasks completed",
+                        textColor: 'white'
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                display: true,
+                                beginAtZero: true,
+                                fontColor: 'white',
+                                gridLines: {
+                                    display: false,
+                                    drawBorder: false,
+                                }
+                            },
+                        }
+                        ],
+                        xAxes: [{
+                            ticks: {
+                                fontColor: 'white'
+                            },
+                        }]
+                    }
+                }}
             />
         </div>
     )

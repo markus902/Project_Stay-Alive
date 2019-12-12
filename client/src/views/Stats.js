@@ -3,6 +3,8 @@ import axios from 'axios';
 import UserContext from '../utils/UserContext';
 import Chart from '../components/Chart';
 import moment from 'moment';
+import '../components/chartStyle.css';
+
 
 const Stats = () => {
 
@@ -43,7 +45,6 @@ const Stats = () => {
 
             let curr = new Date
             let thisWeek = [];
-            let lastWeek = [];
             let thisWeekFormated = [];
             let tasksThisWeek = [0, 0, 0, 0, 0, 0, 0];
             let tasksLastWeek = [0, 0, 0, 0, 0, 0, 0];
@@ -74,6 +75,8 @@ const Stats = () => {
             console.log(thisWeekFormated);
             console.log(lastWeekFormated);
 
+            //Calculating task count for this week
+
             userContext.User.ToDoTasks.forEach(elem => {
                 if (thisWeekFormated.indexOf(elem.complete.slice(0, 10)) == -1) {
                     console.log("not in there");
@@ -84,9 +87,12 @@ const Stats = () => {
                 }
             });
             setChartInputThisWeek(tasksThisWeek);
+            console.log(tasksThisWeek);
+
+            //Calculating task count for last week
 
             userContext.User.ToDoTasks.forEach(elem => {
-                if (lastWeek.indexOf(elem.complete.slice(0, 10)) == -1) {
+                if (lastWeekFormated.indexOf(elem.complete.slice(0, 10)) == -1) {
                     console.log("not in there");
                 }
                 else {
@@ -95,7 +101,7 @@ const Stats = () => {
                 }
             })
             setChartInputLastWeek(tasksLastWeek);
-            console.log(tasksThisWeek);
+            console.log(tasksLastWeek);
         }
     }, [userContext])
 
@@ -107,7 +113,9 @@ const Stats = () => {
                     datasets: [
                         {
                             label: "This Week",
-                            data: chartInputThisWeek
+                            data: chartInputThisWeek,
+                            backgroundColor: "blue",
+
                         }
                     ]
                 }
@@ -122,7 +130,8 @@ const Stats = () => {
                     datasets: [
                         {
                             label: "Last Week",
-                            data: chartInputThisWeek
+                            data: chartInputLastWeek,
+                            backgroundColor: "blue"
                         }
                     ]
                 }
@@ -136,34 +145,25 @@ const Stats = () => {
 
     return (
         <div>
-            <div className="text-center"><h3>Check out what you did!</h3></div>
+            <div className="text-center" id="headline"><h3>Check out what you did!</h3></div>
             <div className="row">
                 <div className="col-sm-12 text-center">
-                    <h5>This Week</h5>
+                    <h5 className="headline2">This Week</h5>
+                    <Chart chartData={dataThisWeek.chartData}
+                    />
+                </div>
+                <div className="col-sm-12 text-center" id="chartEnd">
+                    <h5 className="headline2">Last Week</h5>
+                    <Chart chartData={dataLastWeek.chartData} />
+                </div>
+                {/* <div className="col-sm-12 text-center">
+                    <h5 className="headline2">This Month</h5>
                 </div>
                 <div className="col-sm-12 text-center">
-                    <h5>Last Week</h5>
-                </div>
-                <div className="col-sm-12 text-center">
-                    <h5>This Month</h5>
-                </div>
-                <div className="col-sm-12 text-center">
-                    <h5>Last Month</h5>
-                </div>
+                    <h5 className="headline2">Last Month</h5> */}
+                <div ></div>
             </div>
-
-            <Chart chartData={dataThisWeek.chartData} />
-            <Chart chartData={dataLastWeek.chartData} />
-
-
-            <div
-                style={{
-                    width: '600px',
-                    height: '300px'
-                }}
-            >
-            </div>
-        </div>
+        </div >
     )
 };
 
