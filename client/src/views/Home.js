@@ -9,7 +9,7 @@ import Loading from "../components/Loading"
 
 
 export default function Home(props) {
-  const { userContext, setUserContext } = useContext(UserContext)
+  const { userContext } = useContext(UserContext)
   const { isAuthenticated } = useAuth0();
 
   if (userContext.User === "None") {

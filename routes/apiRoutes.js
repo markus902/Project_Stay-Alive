@@ -18,15 +18,6 @@ router.get("/character/:id", (req, res) => {
     })
         .then(
             data => {
-                // Optional for organizing response in an object
-                // return Object.assign(
-                //     {},
-                //     {
-                //         characterName: data.characterName,
-                //         health: data.health,
-                //         email: data.email
-                //     }
-                // )
                 res.json(data);
             })
         .catch(err => { console.log(err) });
@@ -181,6 +172,31 @@ router.post("/ActivatePowerUp/:characterId", (req, res) => {
     })
 });
 
+
+router.put("/characterLevel/:id", (req, res) => {
+    const { health, exp } = req.body
+    db.Character.update({
+        health: health,
+        experience: exp
+    },
+        { where: { id: req.params.id } })
+        .then((data) => {
+            db.Character.findAll({
+                where: { id: req.params.Id },
+                include: [
+                    { model: db.User },
+                    { model: db.ToDoTasks }
+                ]
+
+            })
+                .then(
+                    data => {
+                        res.json(data);
+                    })
+        })
+            .catch(err => { console.log(err) })
+        })
+
 // might not be needed
 
 // router.post("/addinventory/:characterId", (req, res) => {
@@ -218,28 +234,59 @@ router.post("/createtask", (req, res) => {
         .catch(err => { console.log(err) });
 });
 
-router.post("/updatetask/:taskId", (req, res) => {
+router.put("/completeTask/:taskId", (req, res) => {
     console.log("getting tasks");
-
-    let task = req.body;
-    db.ToDoTasks.update({
-        taskName: task.taskName,
-        taskNotes: task.taskNotes,
-        frequency: task.taskFrequency, //task.Frequency might need just frequency
-        complete: task.taskComplete,
-        updatedAt: task.updatedAt,
-        cratedAt: task.createdAt
-    },
+    db.ToDoTasks.update(
+        { complete: new Date() },
         { where: { id: req.params.taskId } }
     )
-        .then(data => { res.json(data) })
+        .then(data => {
+            console.log(data)
+            db.Character.findAll({
+                where: { id: req.body.CharacterId },
+                include: [
+                    { model: db.User },
+                    { model: db.ToDoTasks }
+                ]
+
+            })
+                .then(
+                    data => {
+                        res.json(data);
+                    })
+        })
         .catch(err => { console.log(err) });
 });
 
-router.post("/deletetask/:taskId", (req, res) => {
-    console.log("getting tasks");
+router.put("/removeTask/:taskId", (req, res) => {
+    console.log("remove tasks");
+    const taskId = req.params.taskId
+    db.ToDoTasks.update(
+        { complete: "1980-01-02 12:00" },
+        { where: { id: taskId } }
+    )
+        .then(data => {
 
-    let task = req.body;
+            db.Character.findAll({
+                where: { id: req.body.CharacterId },
+                include: [
+                    { model: db.User },
+                    { model: db.ToDoTasks }
+                ]
+
+            })
+                .then(
+                    data => {
+                        console.log(data)
+                        res.json(data);
+                    })
+        })
+        .catch(err => { console.log(err) });
+});
+
+
+router.post("/deletetask/:taskId", (req, res) => {
+    console.log("delete tasks");
     db.ToDoTasks.destroy({
         where: { id: req.params.taskId }
     })
