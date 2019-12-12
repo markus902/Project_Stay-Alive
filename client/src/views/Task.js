@@ -23,13 +23,14 @@ const Task = () => {
   useEffect(() => {
     if (isAuthenticated) {
       if (userContext.User !== "None") {
-        if (userContext.User.ToDoTasks !== undefined) {
-          let currentCharacterId = userContext.User.User.CharacterId;
-          axios.get(`/api/gettasks/${currentCharacterId}`)
-            .then(response => {
+        let currentCharacterId = userContext.User.CharacterId;
+        axios.get(`/api/character/${currentCharacterId}`)
+          .then(response => {
+            console.log(response)
+            if (response.data.length >= 1) {
               setUserContext({ User: response.data[0] })
-            })
-        };
+            }
+          })
       };
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -78,6 +79,17 @@ const Task = () => {
     }
   };
 
+  //Handle Removal of Task
+
+  const handleRemove = async (task) => {
+    console.log(task.id)
+    axios.put(`/api/removeTask/${task.id}`, { CharacterId: task.CharacterId })
+      .then((response) => {
+        console.log(response.data)
+        setUserContext({ User: response.data[0] })
+      })
+  }
+
   // newTaskForm submit button handler
   const handleNewTaskSubmit = (event) => {
     event.preventDefault();
@@ -85,7 +97,6 @@ const Task = () => {
       return
     }
     let exsistingTasks = userContext.User.ToDoTasks.map(task => task.taskName);
-    console.log(exsistingTasks);
     if (newTaskName === '') {
       alert("Please enter a name for your task")
     }
@@ -110,6 +121,8 @@ const Task = () => {
   };
 
   const handleTaskComplete = (task) => {
+    let health = userContext.User.health
+    let exp = userContext.User.experience
     axios.put(`/api/completeTask/${task.id}`, task)
       .then(res => {
         setUserContext({ User: res.data[0] })
@@ -119,9 +132,6 @@ const Task = () => {
         const completed = completedTaskArray.filter((element) => {
           return element.id === task.id
         })
-        console.log(completed)
-        let health = userContext.User.health
-        let exp = userContext.User.experience
         switch (true) {
           //Daily
           case task.taskFrequency === "Daily":
@@ -132,8 +142,6 @@ const Task = () => {
               console.log("completed at " + moment(completedAt).format("MM/DD/YY HH:mm"))
               console.log("created at " + moment(created).format("MM/DD/YY HH:mm"))
               if (hours > 0 && hours <= 24.00) {
-                const itemId = Math.random() * 20 + 1;
-                let exp = 0;
                 switch (true) {
                   case completed[0].taskDifficulty === 1:
                     exp += 10;
@@ -167,8 +175,6 @@ const Task = () => {
               const hours = completedAt.diff(created, "hours", true)
 
               if (hours > 0 && hours <= 168.00) {
-                const itemId = Math.random() * 20 + 1;
-                let exp = 0;
                 switch (true) {
                   case completed[0].taskDifficulty === 1:
                     exp += 10;
@@ -194,7 +200,7 @@ const Task = () => {
               }
             }
             break;
-            //Monthly
+          //Monthly
           case task.taskFrequency === "Monthly":
             if (completed.complete !== "1980-01-01T17:00:00.000Z") {
               const completedAt = moment(new Date(completed[0].complete))
@@ -202,8 +208,6 @@ const Task = () => {
               const hours = completedAt.diff(created, "hours", true)
 
               if (hours > 0 && hours <= 720.00) {
-                const itemId = Math.random() * 20 + 1;
-                let exp = 0;
                 switch (true) {
                   case completed[0].taskDifficulty === 1:
                     exp += 10;
@@ -232,8 +236,7 @@ const Task = () => {
           default:
             break;
         }
-
-        
+        axios.put(`/api/characterLevel/${task.CharacterId}`, { health: health, exp: exp }).then(response=>{setUserContext({User:response.data[0]})})
       })
   }
 
@@ -263,7 +266,7 @@ const Task = () => {
         </Row>
         <Row>
           <Col>
-            <TaskItemsData tasks={userContext.User.ToDoTasks} handleTaskComplete={handleTaskComplete} />
+            <TaskItemsData tasks={userContext.User.ToDoTasks} handleRemove={handleRemove} handleTaskComplete={handleTaskComplete} />
           </Col>
         </Row>
       </Container>

@@ -172,6 +172,31 @@ router.post("/ActivatePowerUp/:characterId", (req, res) => {
     })
 });
 
+
+router.put("/characterLevel/:id", (req, res) => {
+    const { health, exp } = req.body
+    db.Character.update({
+        health: health,
+        experience: exp
+    },
+        { where: { id: req.params.id } })
+        .then((data) => {
+            db.Character.findAll({
+                where: { id: req.params.Id },
+                include: [
+                    { model: db.User },
+                    { model: db.ToDoTasks }
+                ]
+
+            })
+                .then(
+                    data => {
+                        res.json(data);
+                    })
+        })
+            .catch(err => { console.log(err) })
+        })
+
 // might not be needed
 
 // router.post("/addinventory/:characterId", (req, res) => {
@@ -212,10 +237,10 @@ router.post("/createtask", (req, res) => {
 router.put("/completeTask/:taskId", (req, res) => {
     console.log("getting tasks");
     db.ToDoTasks.update(
-        {complete: new Date()},
+        { complete: new Date() },
         { where: { id: req.params.taskId } }
     )
-        .then(data => { 
+        .then(data => {
             console.log(data)
             db.Character.findAll({
                 where: { id: req.body.CharacterId },
@@ -223,7 +248,7 @@ router.put("/completeTask/:taskId", (req, res) => {
                     { model: db.User },
                     { model: db.ToDoTasks }
                 ]
-        
+
             })
                 .then(
                     data => {
@@ -233,8 +258,35 @@ router.put("/completeTask/:taskId", (req, res) => {
         .catch(err => { console.log(err) });
 });
 
+router.put("/removeTask/:taskId", (req, res) => {
+    console.log("remove tasks");
+    const taskId = req.params.taskId
+    db.ToDoTasks.update(
+        { complete: "1980-01-02 12:00" },
+        { where: { id: taskId } }
+    )
+        .then(data => {
+
+            db.Character.findAll({
+                where: { id: req.body.CharacterId },
+                include: [
+                    { model: db.User },
+                    { model: db.ToDoTasks }
+                ]
+
+            })
+                .then(
+                    data => {
+                        console.log(data)
+                        res.json(data);
+                    })
+        })
+        .catch(err => { console.log(err) });
+});
+
+
 router.post("/deletetask/:taskId", (req, res) => {
-    console.log("getting tasks");
+    console.log("delete tasks");
     db.ToDoTasks.destroy({
         where: { id: req.params.taskId }
     })

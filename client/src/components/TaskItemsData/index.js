@@ -26,7 +26,7 @@ function TaskItemsData(props) {
                         {tasks ? 
                         (tasks.map(element=>{
                             return (element.taskFrequency==="Daily" && element.complete === "1980-01-01T17:00:00.000Z") ? 
-                            <TaskInfo task={element}  key={element.id} handleTaskComplete={props.handleTaskComplete}/> : 
+                            <TaskInfo task={element}  key={element.id} handleRemove={props.handleRemove}  handleTaskComplete={props.handleTaskComplete}/> : 
                             <div key={Math.random()}></div>
                         })):
                         (
@@ -40,7 +40,7 @@ function TaskItemsData(props) {
                     {tasks ? 
                         (tasks.map(element=>{
                             return (element.taskFrequency==="Daily" && element.complete !== "1980-01-01T17:00:00.000Z") ? 
-                            <TaskInfo task={element}  key={element.id} handleNewTaskSubmit={props.handleNewTaskSubmit} /> : 
+                            <TaskInfo task={element}  key={element.id} handleRemove={props.handleRemove}  handleNewTaskSubmit={props.handleNewTaskSubmit} /> : 
                             <div key={Math.random()}></div>
                         })):
                         (
@@ -61,7 +61,7 @@ function TaskItemsData(props) {
                         {tasks ? 
                         (tasks.map(element=>{
                             return (element.taskFrequency==="Weekly" && element.complete === "1980-01-01T17:00:00.000Z") ? 
-                            <TaskInfo task={element}  key={element.id} handleTaskComplete={props.handleTaskComplete}/> : 
+                            <TaskInfo task={element}  key={element.id}  handleRemove={props.handleRemove} handleTaskComplete={props.handleTaskComplete}/> : 
                             <div key={Math.random()}></div>
                         })):
                         (
@@ -75,7 +75,7 @@ function TaskItemsData(props) {
                     {tasks ? 
                         (tasks.map(element=>{
                             return (element.taskFrequency==="Weekly" && element.complete !== "1980-01-01T17:00:00.000Z") ? 
-                            <TaskInfo task={element}  key={element.id} handleNewTaskSubmit={props.handleNewTaskSubmit} /> : 
+                            <TaskInfo task={element}  key={element.id}  handleRemove={props.handleRemove}  handleNewTaskSubmit={props.handleNewTaskSubmit} /> : 
                             <div key={Math.random()}></div>
                         })):
                         (
@@ -96,7 +96,7 @@ function TaskItemsData(props) {
                         {tasks ? 
                         (tasks.map(element=>{
                             return (element.taskFrequency==="Monthly" && element.complete === "1980-01-01T17:00:00.000Z") ? 
-                            <TaskInfo task={element}  key={element.id} handleTaskComplete={props.handleTaskComplete}/> : 
+                            <TaskInfo task={element}  key={element.id}  handleRemove={props.handleRemove} handleTaskComplete={props.handleTaskComplete}/> : 
                             <div key={Math.random()}></div>
                         })):
                         (
@@ -110,7 +110,7 @@ function TaskItemsData(props) {
                     {tasks ? 
                         (tasks.map(element=>{
                             return (element.taskFrequency==="Monthly" && element.complete !== "1980-01-01T17:00:00.000Z") ? 
-                            <TaskInfo task={element}  key={element.id} handleNewTaskSubmit={props.handleNewTaskSubmit} /> : 
+                            <TaskInfo task={element}  key={element.id} handleRemove={props.handleRemove} handleNewTaskSubmit={props.handleNewTaskSubmit} /> : 
                             <div key={Math.random()}></div>
                         })):
                         (
