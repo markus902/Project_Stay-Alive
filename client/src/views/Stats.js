@@ -12,10 +12,12 @@ const Stats = () => {
     const { userContext, setUserContext } = useContext(UserContext);
     const [chartInputThisWeek, setChartInputThisWeek] = useState();
     const [chartInputLastWeek, setChartInputLastWeek] = useState();
+
+    //Chart data
     const [dataThisWeek, setDataThisWeek] = useState(
         {
             chartData: {
-                labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+                labels: moment.weekdays(),
                 datasets: [
                     {
                         label: "Days of the week",
@@ -28,11 +30,24 @@ const Stats = () => {
     const [dataLastWeek, setDataLastWeek] = useState(
         {
             chartData: {
-                labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+                labels: moment.weekdays(),
                 datasets: [
                     {
                         label: "Days of the week",
                         data: []
+                    }
+                ]
+            }
+        });
+
+    const [dataThisMonth, setDataThisMonth] = useState(
+        {
+            chartData: {
+                labels: [],
+                datasets: [
+                    {
+                        label: "Days of the week",
+                        data: moment.months()
                     }
                 ]
             }
@@ -43,11 +58,11 @@ const Stats = () => {
 
             // Defining variables
 
-            let curr = new Date
             let thisWeek = [];
             let thisWeekFormated = [];
             let tasksThisWeek = [0, 0, 0, 0, 0, 0, 0];
             let tasksLastWeek = [0, 0, 0, 0, 0, 0, 0];
+            let tasksThisMonth = [];
 
             //Getting array with this weeks data
 
@@ -67,13 +82,15 @@ const Stats = () => {
 
             //Getting array with last weeks data
 
-
             let lastWeekFormated = thisWeekFormated.map(elem => {
                 return moment(elem, 'YYYY-MM-DD').subtract(7, 'days').format('YYYY-MM-DD');
             })
 
-            console.log(thisWeekFormated);
-            console.log(lastWeekFormated);
+            //Getting array with this months data
+
+            // console.log(daysInCurrentMonth);
+
+            // moment("2012-02", "YYYY-MM").daysInMonth()
 
             //Calculating task count for this week
 
@@ -112,7 +129,7 @@ const Stats = () => {
                     labels: moment.weekdays(),
                     datasets: [
                         {
-                            label: "This Week",
+                            label: "Number of Tasks",
                             data: chartInputThisWeek,
                             backgroundColor: "#B91D21",
 
@@ -129,7 +146,7 @@ const Stats = () => {
                     labels: moment.weekdays(),
                     datasets: [
                         {
-                            label: "Last Week",
+                            label: "Number of Tasks",
                             data: chartInputLastWeek,
                             backgroundColor: "#B91D21"
                         }
@@ -137,11 +154,6 @@ const Stats = () => {
                 }
             })
     }, [chartInputLastWeek])
-
-    // let datapoints = [1, 3, 5, 40, 5, 4, 2];
-
-    // console.log(chartInputThisWeek)
-    // console.log(userContext.User.ToDoTasks)
 
     return (
         <div>
