@@ -12,6 +12,7 @@ export default function ContextProvider({children}) {
         let res = await Axios.post('/api/adduser', userData)
         if(res.data.CharacterId){
             let char = await Axios.get(`/api/character/${res.data.CharacterId}`)
+            console.log(char)
             setUserContext({User: char.data[0]})
         }
         else{
