@@ -1,6 +1,7 @@
 {
   "development": {
     "use_env_variable": "JAWSDB_URL",
+    "logging": false,
     "dialect": "mysql",
     "operatorsAliases": false,
     "dialectOptions": {
@@ -11,6 +12,7 @@
   "test": {
     "use_env_variable": "JAWSDB_URL",
     "dialect": "mysql",
+    "logging": false,
     "operatorsAliases": false,
     "dialectOptions": {
       "useUTC": false
@@ -20,6 +22,7 @@
   "production": {
     "use_env_variable": "JAWSDB_URL",
     "dialect": "mysql",
+    "logging": false,
     "operatorsAliases": false,
     "dialectOptions": {
       "useUTC": false
