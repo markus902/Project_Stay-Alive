@@ -24,10 +24,6 @@ function Chart(props) {
                                 display: true,
                                 beginAtZero: true,
                                 fontColor: 'white',
-                                gridLines: {
-                                    display: false,
-                                    drawBorder: false,
-                                }
                             },
                         }
                         ],
