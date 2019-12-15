@@ -9,17 +9,20 @@ export default function CharacterDashboard() {
     if(userContext.User==="None"){
         return <Loading />
     }
-    const characterImage="/assets/character/B"+userContext.User.bodyType+"H"+userContext.User.hairType+"C"+userContext.User.color1+".png"
+    let characterImage="/assets/character/B"+userContext.User.bodyType+"H"+userContext.User.hairType+"C"+userContext.User.color1+".png"
+    if(userContext.User.health<0){
+        characterImage='/assets/character/B'+userContext.User.bodyType+"Zombie.png"
+    }
     console.log(characterImage)
-    let nextLevel = (400-userContext.User.experience)+userContext.User.experience
+    let nextLevel = (Math.floor(userContext.User.experience / 400) + 1)*400
+    
     return (
-
 
         <div>
             <h1>Character Dashboard</h1>
             <Row className="bg-success p-3 border rounded">
                 <Col>
-                    <img src={characterImage} alt={"Char portrait"} />
+                    <img src={characterImage} className="img-fluid" alt={"Char portrait"} />
                 </Col>
                 <Col>
                     <Row>

@@ -26,7 +26,6 @@ const Task = () => {
         let currentCharacterId = userContext.User.CharacterId;
         axios.get(`/api/character/${currentCharacterId}`)
           .then(response => {
-            console.log(response)
             if (response.data.length >= 1) {
               setUserContext({ User: response.data[0] })
             }
@@ -39,24 +38,14 @@ const Task = () => {
 
   // Get Task Data from userContext and from DB response at /api/gettasks/${currentCharacterId}
   const getTaskData = () => {
-    // if (isAuthenticated) {
-    // if (userContext.User.ToDoTasks.length != 0) {
-    // if (userContext.User.ToDoTasks != 0) {
-    console.log("userContext: ", userContext);
-    console.log("TaskContext: ", TaskContext);
-    console.log("Task data from userContext.User.ToDoTasks: ", userContext.User.ToDoTasks);
     let currentCharacterId = userContext.User.User.CharacterId;
-    console.log("currentCharacterId: ", currentCharacterId);
     axios.get(`/api/gettasks/${currentCharacterId}`)
       .then(response => {
-        console.log("TASKS FROM DB in axios getTaskData response: ", response);
         axios.get(`/api/character/${response.CharacterId}`)
           .then((response) => {
             setUserContext({ user: response.data })
           })
       })
-    // };
-    // };
   };
 
   // newTaskForm input change handler
@@ -82,10 +71,8 @@ const Task = () => {
   //Handle Removal of Task
 
   const handleRemove = async (task) => {
-    console.log(task.id)
     axios.put(`/api/removeTask/${task.id}`, { CharacterId: task.CharacterId })
       .then((response) => {
-        console.log(response.data)
         setUserContext({ User: response.data[0] })
       })
   }
@@ -109,7 +96,7 @@ const Task = () => {
         taskNotes: newTaskNotes,
         taskFrequency: newTaskFrequency,
         taskDifficulty: newTaskDifficulty,
-        complete: "1980-01-01 12:00",
+        complete: moment("1980-01-01 12:00").format("YYYY-MM-DDTHH:mm:ss.SSSSZ"),
         CharacterId: userContext.User.User.CharacterId
       }
       axios.post('/api/createtask', newTask).then(response => {
@@ -123,10 +110,9 @@ const Task = () => {
   const handleTaskComplete = (task) => {
     let health = userContext.User.health
     let exp = userContext.User.experience
-    console.log(task.id)
+    const currentLvl = Math.floor(userContext.User.experience / 400) + 1
     axios.put(`/api/completeTask/${task.id}`, task)
       .then(res => {
-        console.log(res.data)
         setUserContext({ User: res.data[0] })
         return res
       }).then((info) => {
@@ -134,124 +120,139 @@ const Task = () => {
         const completed = completedTaskArray.filter((element) => {
           return element.id === task.id
         })
-        switch (true) {
-          //Daily
-          case task.taskFrequency === "Daily":
-            console.log(task.complete)
-            if (task.complete.split("T")[0] !== "1980-01-01") {
-              const completedAt = moment(new Date(completed[0].complete))
-              const created = moment(new Date(completed[0].createdAt))
-              const hours = completedAt.diff(created, "hours", true)
-              console.log(hours)
-              if (hours >= 0 && hours <= 24.00) {
-                switch (true) {
-                  case completed[0].taskDifficulty === 1:
-                    exp += 10;
-                    console.log(exp + "10pts")
-                    break;
-                  case completed[0].taskDifficulty === 2:
-                    exp += 20;
-                    console.log(exp + "20pts")
-                    break;
-                  case completed[0].taskDifficulty === 3:
-                    exp += 30;
-                    console.log(exp + "30pts")
-                    break;
-                  case completed[0].taskDifficulty === 4:
-                    exp += 40
-                    console.log(exp + "40pts")
-                    break;
-                  case completed[0].taskDifficulty === 5:
-                    exp += 50
-                    console.log(exp + "50pts")
-                    break;
-                  default:
-                    break;
-                }
-              }
-              else {
-                health -= 10;
+        const updatedTask = completed[0]
+        if (updatedTask.complete.split("T")[0] !== "1980-01-01") {
+          //creates dates to compare
+          const completedAt = moment(updatedTask.complete)
+          const created = moment(updatedTask.createdAt)
+          //difference
+          const hours = completedAt.diff(created, "hours", true)
+          //Adds or remvoes Health or Experience
+          if (updatedTask.taskFrequency === "Daily") {
+            if (hours >= 0 && hours <= 24.00) {
+              switch (true) {
+                case updatedTask.taskDifficulty === 1:
+                  exp += 10;
+                  break;
+                case updatedTask.taskDifficulty === 2:
+                  exp += 20;
+                  break;
+                case updatedTask.taskDifficulty === 3:
+                  exp += 30;
+                  break;
+                case updatedTask.taskDifficulty === 4:
+                  exp += 40
+                  break;
+                case updatedTask.taskDifficulty === 5:
+                  exp += 50
+                  break;
+                default:
+                  break;
               }
             }
-            break;
-          //Weekly
-          case task.taskFrequency === "Weekly":
-            console.log(task.complete)
-            if (task.complete.split("T")[0] !== "1980-01-01"){
-              const completedAt = moment(new Date(completed[0].complete))
-              const created = moment(new Date(completed[0].createdAt))
-              const hours = completedAt.diff(created, "hours", true)
+            else {
+              health -= 10;
+              if(health<0){
+                health=100;
+                exp=exp-200;
+                if(exp<0){
+                  exp=0
+                }
+              }
+            }
+          }
+          else if (updatedTask.taskFrequency === "Weekly") {
+            if (hours >= 0 && hours <= 168.00) {
+              switch (true) {
+                case updatedTask.taskDifficulty === 1:
+                  exp += 50;
+                  break;
+                case updatedTask.taskDifficulty === 2:
+                  exp += 60;
+                  break;
+                case updatedTask.taskDifficulty === 3:
+                  exp += 70;
+                  break;
+                case updatedTask.taskDifficulty === 4:
+                  exp += 80
+                  break;
+                case updatedTask.taskDifficulty === 5:
+                  exp += 90
+                  break;
+                default:
+                  break;
+              }
+            }
+            else {
+              health -= 20;
+              if(health<0){
+                health=100;
+                exp=exp-200;
+                if(exp<0){
+                  exp=0
+                }
+              }
+            }
+          }
+          else if (updatedTask.taskFrequency === "Monthly") {
+            if (hours >= 0 && hours <= 720.00) {
+              switch (true) {
+                case updatedTask.taskDifficulty === 1:
+                  exp += 100;
+                  break;
+                case updatedTask.taskDifficulty === 2:
+                  exp += 110;
+                  break;
+                case updatedTask.taskDifficulty === 3:
+                  exp += 120;
+                  break;
+                case updatedTask.taskDifficulty === 4:
+                  exp += 130
+                  break;
+                case updatedTask.taskDifficulty === 5:
+                  exp += 140
+                  break;
+                default:
+                  break;
+              }
+            }
+            else {
+              health -= 30;
+              if(health<0){
+                health=100;
+                exp=exp-200;
+                if(exp<0){
+                  exp=0
+                }
+              }
+            }
+          }
+          console.log(currentLvl)
+          console.log(Math.floor(exp/400) +1)
+          if(Math.floor(exp/400) +1 > currentLvl){
+            const randomItem = Math.floor(Math.random()*19)+1
+            axios.get(`/api/itembyid/${randomItem}`).then((itemData)=>{
+              console.log(itemData)
+              console.log(updatedTask)
+              const gift = {
+                CharacterId: updatedTask.CharacterId,
+                PowerUpId:randomItem,
+                PowerUpName: itemData.data.PowerUpName
+              }
+              console.log(gift)
+              axios.post("/api/addinventory/", gift)
+            })
+          }
 
-              if (hours > 0 && hours <= 168.00) {
-                switch (true) {
-                  case completed[0].taskDifficulty === 1:
-                    exp += 10;
-                    break;
-                  case completed[0].taskDifficulty === 2:
-                    exp += 20;
-                    break;
-                  case completed[0].taskDifficulty === 3:
-                    exp += 30;
-                    break;
-                  case completed[0].taskDifficulty === 4:
-                    exp += 40
-                    break;
-                  case completed[0].taskDifficulty === 5:
-                    exp += 50
-                    break;
-                  default:
-                    break;
-                }
-              }
-              else {
-                health -= 10;
-              }
-            }
-            break;
-          //Monthly
-          case task.taskFrequency === "Monthly":
-            console.log(task.complete.split("T")[0])
-            if (task.complete.split("T")[0] !== "1980-01-01") {
-              const completedAt = moment(new Date(completed[0].complete))
-              const created = moment(new Date(completed[0].createdAt))
-              const hours = completedAt.diff(created, "hours", true)
-
-              if (hours > 0 && hours <= 720.00) {
-                switch (true) {
-                  case completed[0].taskDifficulty === 1:
-                    exp += 10;
-                    break;
-                  case completed[0].taskDifficulty === 2:
-                    exp += 20;
-                    break;
-                  case completed[0].taskDifficulty === 3:
-                    exp += 30;
-                    break;
-                  case completed[0].taskDifficulty === 4:
-                    exp += 40
-                    break;
-                  case completed[0].taskDifficulty === 5:
-                    exp += 50
-                    break;
-                  default:
-                    break;
-                }
-              }
-              else {
-                health -= 10;
-              }
-            }
-            break;
-          default:
-            break;
+          axios.put(`/api/characterLevel/${updatedTask.CharacterId}`, { health: health, exp: exp })
+            .then(response => {
+              setUserContext({ User: response.data[0] })
+            })
         }
-        console.log(health, exp)
-        axios.put(`/api/characterLevel/${task.CharacterId}`, { health: health, exp: exp }).then(response=>{setUserContext({User:response.data[0]})})
       })
   }
 
   if (userContext.User === "None") {
-    // return isAuthenticated ? <Loading /> : <Welcome />
     return <Loading />
   }
 

@@ -1,10 +1,4 @@
 {
-<<<<<<< HEAD
-  "domain": "dev-rh9lpgdj.auth0.com",
-  "clientId": "0aHQkAr9Ff2hTlheRyqLoAg7aF15cTcb"
-}
-=======
   "domain": "criticalcode.auth0.com",
   "clientId": "mPrU6FNRSi2LkmfLEkq8H5me4PewAVGG"
 }
->>>>>>> 114785ef0f5c737f324dea2cb5b60432fad86ca5
