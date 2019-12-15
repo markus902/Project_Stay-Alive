@@ -6,10 +6,7 @@ module.exports = function (sequelize, DataTypes) {
     },
     PowerUpType: {
       type: DataTypes.STRING,
-      allowNull: false,
-      // validate: {
-      //   isIn: ["HealthRecovery", "ExperienceBoost"]
-      // }
+      allowNull: false
     },
     Description: {
       type: DataTypes.STRING,
