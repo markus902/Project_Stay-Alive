@@ -9,12 +9,16 @@ export default function CharacterDashboard() {
     if(userContext.User==="None"){
         return <Loading />
     }
+    const characterImage="/assets/character/B"+userContext.User.bodyType+"H"+userContext.User.hairType+"C"+userContext.User.color1+".png"
+    console.log(characterImage)
     return (
+
+
         <div>
             <h1>Character Dashboard</h1>
             <Row className="bg-success p-3 border rounded">
                 <Col>
-                    <img src="https://via.placeholder.com/250x250" alt={"Char portrait"} />
+                    <img src={characterImage} alt={"Char portrait"} />
                 </Col>
                 <Col>
                     <Row>

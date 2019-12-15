@@ -135,7 +135,8 @@ const Task = () => {
         switch (true) {
           //Daily
           case task.taskFrequency === "Daily":
-            if (completed.complete !== "1980-01-01T17:00:00.000Z") {
+            console.log(task.complete)
+            if (task.complete.split("T")[0] !== "1980-01-01") {
               const completedAt = moment(new Date(completed[0].complete))
               const created = moment(new Date(completed[0].createdAt))
               const hours = completedAt.diff(created, "hours", true)
@@ -169,7 +170,8 @@ const Task = () => {
             break;
           //Weekly
           case task.taskFrequency === "Weekly":
-            if (completed.complete !== "1980-01-01T17:00:00.000Z") {
+            console.log(task.complete)
+            if (task.complete.split("T")[0] !== "1980-01-01"){
               const completedAt = moment(new Date(completed[0].complete))
               const created = moment(new Date(completed[0].createdAt))
               const hours = completedAt.diff(created, "hours", true)
@@ -202,7 +204,8 @@ const Task = () => {
             break;
           //Monthly
           case task.taskFrequency === "Monthly":
-            if (completed.complete !== "1980-01-01T17:00:00.000Z") {
+            console.log(task.complete.split("T")[0])
+            if (task.complete.split("T")[0] !== "1980-01-01") {
               const completedAt = moment(new Date(completed[0].complete))
               const created = moment(new Date(completed[0].createdAt))
               const hours = completedAt.diff(created, "hours", true)

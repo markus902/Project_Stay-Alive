@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../models");
+const moment = require('moment')
 
 // GET Routes characters
 
@@ -236,8 +237,9 @@ router.post("/createtask", (req, res) => {
 
 router.put("/completeTask/:taskId", (req, res) => {
     console.log("getting tasks");
+    rightNow = moment().format("YYYY-MM-DD hh:mm")
     db.ToDoTasks.update(
-        { complete: new Date() },
+        { complete: rightNow },
         { where: { id: req.params.taskId } }
     )
         .then(data => {
