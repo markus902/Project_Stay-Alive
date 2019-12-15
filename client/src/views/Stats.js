@@ -12,46 +12,16 @@ const Stats = () => {
     const { userContext, setUserContext } = useContext(UserContext);
     const [chartInputThisWeek, setChartInputThisWeek] = useState();
     const [chartInputLastWeek, setChartInputLastWeek] = useState();
+    const [chartInputThisMonth, setChartInputThisMonth] = useState();
+    const [chartInputLastMonth, setChartInputLastMonth] = useState();
 
     //Chart data
-    const [dataThisWeek, setDataThisWeek] = useState(
-        {
-            chartData: {
-                labels: moment.weekdays(),
-                datasets: [
-                    {
-                        label: "Days of the week",
-                        data: chartInputThisWeek
-                    }
-                ]
-            }
-        });
-
-    const [dataLastWeek, setDataLastWeek] = useState(
-        {
-            chartData: {
-                labels: moment.weekdays(),
-                datasets: [
-                    {
-                        label: "Days of the week",
-                        data: []
-                    }
-                ]
-            }
-        });
-
-    const [dataThisMonth, setDataThisMonth] = useState(
-        {
-            chartData: {
-                labels: [],
-                datasets: [
-                    {
-                        label: "Days of the week",
-                        data: moment.months()
-                    }
-                ]
-            }
-        });
+    const [dataThisWeek, setDataThisWeek] = useState({});
+    const [dataLastWeek, setDataLastWeek] = useState({});
+    const [dataThisMonth, setDataThisMonth] = useState({});
+    const [dataLastMonth, setDataLastMonth] = useState({});
+    const [labelThisMonth, setLabelThisMonth] = useState();
+    const [labelLastMonth, setLabelLastMonth] = useState();
 
     useEffect(() => {
         if (userContext.User.ToDoTasks) {
@@ -60,11 +30,13 @@ const Stats = () => {
 
             let thisWeek = [];
             let thisWeekFormated = [];
+            let lastWeekFormated = [];
             let tasksThisWeek = [0, 0, 0, 0, 0, 0, 0];
             let tasksLastWeek = [0, 0, 0, 0, 0, 0, 0];
             let tasksThisMonth = [];
+            let tasksLastMonth = [];
 
-            //Getting array with this weeks data
+            //Getting array with this and weeks dates
 
             let startOfWeek = moment().startOf('week');
             let endOfWeek = moment().endOf('week');
@@ -80,18 +52,32 @@ const Stats = () => {
                 return moment(elem).format('YYYY-MM-DD')
             });
 
-            //Getting array with last weeks data
+            //Getting array with last weeks dates
 
-            let lastWeekFormated = thisWeekFormated.map(elem => {
+            lastWeekFormated = thisWeekFormated.map(elem => {
                 return moment(elem, 'YYYY-MM-DD').subtract(7, 'days').format('YYYY-MM-DD');
-            })
+            });
 
-            //Getting array with this months data
+            // console.log(thisWeekFormated, lastWeekFormated)
 
-            // console.log(daysInCurrentMonth);
+            //Getting array with this and last months dates
 
-            // moment("2012-02", "YYYY-MM").daysInMonth()
+            let thisMonth = [];
+            for (let i = 1; i < moment().daysInMonth() + 1; i++) {
+                thisMonth.push(i);
+                tasksThisMonth.push(0); // Setting up empty array for this months tasks
+            }
 
+            let lastMonth = [];
+            let monthHelper = moment().month() - 1;
+            for (let i = 1; i < moment().month(monthHelper).daysInMonth() + 1; i++) {
+                lastMonth.push(i);
+                tasksLastMonth.push(0); // Setting up empty array for last months tasks
+            }
+            setLabelThisMonth(thisMonth);
+            setLabelLastMonth(lastMonth);
+            console.log(thisMonth)
+            console.log(lastMonth)
             //Calculating task count for this week
 
             userContext.User.ToDoTasks.forEach(elem => {
@@ -119,6 +105,26 @@ const Stats = () => {
             })
             setChartInputLastWeek(tasksLastWeek);
             console.log(tasksLastWeek);
+
+            //Calculating task count for this and last month
+
+            userContext.User.ToDoTasks.forEach(elem => {
+                if (moment(elem.complete).month() == moment().month()) {
+                    console.log("this is this month");
+                    tasksThisMonth[moment(elem.complete).date()] = tasksThisMonth[moment(elem.complete).date()] + 1;
+                }
+                else {
+                    if (moment(elem.complete).month() === moment().month() - 1) {
+                        tasksLastMonth[moment(elem.complete).date()] = tasksLastMonth[moment(elem.complete).date()] + 1
+                    }
+                    console.log("this is not this month");
+                }
+            });
+            setChartInputThisMonth(tasksThisMonth);
+            setChartInputLastMonth(tasksLastMonth);
+            console.log(tasksThisMonth);
+
+            console.log(userContext.User.ToDoTasks);
         }
     }, [userContext])
 
@@ -137,7 +143,7 @@ const Stats = () => {
                     ]
                 }
             })
-    }, [chartInputThisWeek])
+    }, [chartInputThisWeek]);
 
     useEffect(() => {
         setDataLastWeek(
@@ -153,7 +159,39 @@ const Stats = () => {
                     ]
                 }
             })
-    }, [chartInputLastWeek])
+    }, [chartInputLastWeek]);
+
+    useEffect(() => {
+        setDataThisMonth(
+            {
+                chartData: {
+                    labels: labelThisMonth,
+                    datasets: [
+                        {
+                            label: "Number of Tasks",
+                            data: chartInputThisMonth,
+                            backgroundColor: "#B91D21"
+                        }
+                    ]
+                }
+            })
+    }, [chartInputThisMonth]);
+
+    useEffect(() => {
+        setDataLastMonth(
+            {
+                chartData: {
+                    labels: labelLastMonth,
+                    datasets: [
+                        {
+                            label: "Number of Tasks",
+                            data: chartInputLastMonth,
+                            backgroundColor: "#B91D21"
+                        }
+                    ]
+                }
+            })
+    }, [chartInputLastMonth]);
 
     return (
         <div>
@@ -168,14 +206,16 @@ const Stats = () => {
                     <h5 className="headline2">Last Week</h5>
                     <Chart chartData={dataLastWeek.chartData} />
                 </div>
-                {/* <div className="col-sm-12 text-center">
+                <div className="col-sm-12 text-center">
                     <h5 className="headline2">This Month</h5>
+                    <Chart chartData={dataThisMonth.chartData} />
                 </div>
                 <div className="col-sm-12 text-center">
-                    <h5 className="headline2">Last Month</h5> */}
-                <div ></div>
-            </div>
-        </div >
+                    <h5 className="headline2">Last Month</h5>
+                    <Chart chartData={dataLastMonth.chartData} />
+                </div>
+            </div >
+        </div>
     )
 };
 
