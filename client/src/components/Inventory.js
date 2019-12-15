@@ -147,6 +147,7 @@ export default function Inventory() {
         inventory.map(elem =>
           <div>
             <p key={elem.PowerUpName}>{elem.PowerUpName}</p>
+            <img src='http://via.placeholder.com/150x150'></img>
             <p>{elem.Description || elem.PowerUp.Description}</p>
             <button onClick={() => handleUseItem(elem.id, elem.PowerUpType || elem.PowerUp.PowerUpType)}>Use Item</button>
             <button onClick={() => handleAddItem(elem.id, elem.PowerUpName, elem.PowerUpType || elem.PowerUp.PowerUpType)}>Add Item to character</button>
