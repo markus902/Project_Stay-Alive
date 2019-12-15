@@ -247,7 +247,6 @@ router.post("/createtask", (req, res) => {
 });
 
 router.put("/completeTask/:taskId", (req, res) => {
-    console.log("getting tasks");
     rightNow = moment().format("YYYY-MM-DD hh:mm")
     db.ToDoTasks.update(
         { complete: rightNow },
@@ -265,6 +264,7 @@ router.put("/completeTask/:taskId", (req, res) => {
             })
                 .then(
                     data => {
+                        console.log(data)
                         res.json(data);
                     })
         })

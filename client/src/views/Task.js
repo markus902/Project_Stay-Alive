@@ -123,8 +123,10 @@ const Task = () => {
   const handleTaskComplete = (task) => {
     let health = userContext.User.health
     let exp = userContext.User.experience
+    console.log(task.id)
     axios.put(`/api/completeTask/${task.id}`, task)
       .then(res => {
+        console.log(res.data)
         setUserContext({ User: res.data[0] })
         return res
       }).then((info) => {
@@ -140,24 +142,28 @@ const Task = () => {
               const completedAt = moment(new Date(completed[0].complete))
               const created = moment(new Date(completed[0].createdAt))
               const hours = completedAt.diff(created, "hours", true)
-              console.log("completed at " + moment(completedAt).format("MM/DD/YY HH:mm"))
-              console.log("created at " + moment(created).format("MM/DD/YY HH:mm"))
-              if (hours > 0 && hours <= 24.00) {
+              console.log(hours)
+              if (hours >= 0 && hours <= 24.00) {
                 switch (true) {
                   case completed[0].taskDifficulty === 1:
                     exp += 10;
+                    console.log(exp + "10pts")
                     break;
                   case completed[0].taskDifficulty === 2:
                     exp += 20;
+                    console.log(exp + "20pts")
                     break;
                   case completed[0].taskDifficulty === 3:
                     exp += 30;
+                    console.log(exp + "30pts")
                     break;
                   case completed[0].taskDifficulty === 4:
                     exp += 40
+                    console.log(exp + "40pts")
                     break;
                   case completed[0].taskDifficulty === 5:
                     exp += 50
+                    console.log(exp + "50pts")
                     break;
                   default:
                     break;
@@ -239,6 +245,7 @@ const Task = () => {
           default:
             break;
         }
+        console.log(health, exp)
         axios.put(`/api/characterLevel/${task.CharacterId}`, { health: health, exp: exp }).then(response=>{setUserContext({User:response.data[0]})})
       })
   }

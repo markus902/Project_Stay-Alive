@@ -11,6 +11,7 @@ export default function CharacterDashboard() {
     }
     const characterImage="/assets/character/B"+userContext.User.bodyType+"H"+userContext.User.hairType+"C"+userContext.User.color1+".png"
     console.log(characterImage)
+    let nextLevel = (400-userContext.User.experience)+userContext.User.experience
     return (
 
 
@@ -25,7 +26,7 @@ export default function CharacterDashboard() {
                         <h2>Name: {userContext.User.characterName}</h2>
                     </Row>
                     <Row>
-                        <h4>Experience: {userContext.User.experience}/{userContext.User.experience + 400}</h4>
+                        <h4>Experience: {userContext.User.experience}/{nextLevel}</h4>
                     </Row>
                     <Row>
                         <h4>Health: {userContext.User.health}</h4>
