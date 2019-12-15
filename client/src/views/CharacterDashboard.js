@@ -9,23 +9,27 @@ export default function CharacterDashboard() {
     if(userContext.User==="None"){
         return <Loading />
     }
-    const characterImage="/assets/character/B"+userContext.User.bodyType+"H"+userContext.User.hairType+"C"+userContext.User.color1+".png"
+    let characterImage="/assets/character/B"+userContext.User.bodyType+"H"+userContext.User.hairType+"C"+userContext.User.color1+".png"
+    if(userContext.User.health<0){
+        characterImage='/assets/character/B'+userContext.User.bodyType+"Zombie.png"
+    }
     console.log(characterImage)
+    let nextLevel = (Math.floor(userContext.User.experience / 400) + 1)*400
+    
     return (
-
 
         <div>
             <h1>Character Dashboard</h1>
             <Row className="bg-success p-3 border rounded">
                 <Col>
-                    <img src={characterImage} alt={"Char portrait"} />
+                    <img src={characterImage} className="img-fluid" alt={"Char portrait"} />
                 </Col>
                 <Col>
                     <Row>
                         <h2>Name: {userContext.User.characterName}</h2>
                     </Row>
                     <Row>
-                        <h4>Experience: {userContext.User.experience}/{userContext.User.experience + 400}</h4>
+                        <h4>Experience: {userContext.User.experience}/{nextLevel}</h4>
                     </Row>
                     <Row>
                         <h4>Health: {userContext.User.health}</h4>
