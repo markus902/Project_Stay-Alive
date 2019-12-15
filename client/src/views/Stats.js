@@ -1,5 +1,4 @@
-import React, { useContext, useState, useRef, useEffect } from 'react';
-import axios from 'axios';
+import React, { useContext, useState, useEffect } from 'react';
 import UserContext from '../utils/UserContext';
 import Chart from '../components/Chart';
 import moment from 'moment';
