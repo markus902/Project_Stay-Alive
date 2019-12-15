@@ -14,7 +14,7 @@ function Chart(props) {
                     },
                     legend: {
                         display: true,
-                        position: 'right',
+                        position: 'bottom',
                         text: "Tasks completed",
                         textColor: 'white'
                     },
@@ -24,6 +24,7 @@ function Chart(props) {
                                 display: true,
                                 beginAtZero: true,
                                 fontColor: 'white',
+                                precision: 0,
                             },
                         }
                         ],
