@@ -7,8 +7,7 @@ export default function TaskInfo(props) {
         <Col key={Math.random()}>
             <Row key={Math.random()}>
                 <Col key={Math.random()}>
-                    <Button key={Math.random()} onClick={() => { props.handleTaskComplete(task) }}>Complete</Button>
-                    <Button onClick={() => props.handleRemove(task)}>X</Button>
+                    Name: {task.taskName}
                 </Col>
                 <Col key={Math.random()}>
                     Task Note: {task.taskNotes}
