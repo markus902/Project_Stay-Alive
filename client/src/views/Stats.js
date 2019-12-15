@@ -58,8 +58,6 @@ const Stats = () => {
                 return moment(elem, 'YYYY-MM-DD').subtract(7, 'days').format('YYYY-MM-DD');
             });
 
-            // console.log(thisWeekFormated, lastWeekFormated)
-
             //Getting array with this and last months dates
 
             let thisMonth = [];
@@ -76,55 +74,42 @@ const Stats = () => {
             }
             setLabelThisMonth(thisMonth);
             setLabelLastMonth(lastMonth);
-            console.log(thisMonth)
-            console.log(lastMonth)
             //Calculating task count for this week
 
             userContext.User.ToDoTasks.forEach(elem => {
                 if (thisWeekFormated.indexOf(elem.complete.slice(0, 10)) == -1) {
-                    console.log("not in there");
                 }
                 else {
-                    console.log("in there");
                     tasksThisWeek[moment(elem.complete).day()] = tasksThisWeek[moment(elem.complete).day()] + 1;
                 }
             });
             setChartInputThisWeek(tasksThisWeek);
-            console.log(tasksThisWeek);
 
             //Calculating task count for last week
 
             userContext.User.ToDoTasks.forEach(elem => {
                 if (lastWeekFormated.indexOf(elem.complete.slice(0, 10)) == -1) {
-                    console.log("not in there");
                 }
                 else {
-                    console.log("in there");
                     tasksLastWeek[moment(elem.complete).day()] = tasksLastWeek[moment(elem.complete).day()] + 1;
                 }
             })
             setChartInputLastWeek(tasksLastWeek);
-            console.log(tasksLastWeek);
 
             //Calculating task count for this and last month
 
             userContext.User.ToDoTasks.forEach(elem => {
                 if (moment(elem.complete).month() == moment().month()) {
-                    console.log("this is this month");
                     tasksThisMonth[moment(elem.complete).date()] = tasksThisMonth[moment(elem.complete).date()] + 1;
                 }
                 else {
                     if (moment(elem.complete).month() === moment().month() - 1) {
                         tasksLastMonth[moment(elem.complete).date()] = tasksLastMonth[moment(elem.complete).date()] + 1
                     }
-                    console.log("this is not this month");
                 }
             });
             setChartInputThisMonth(tasksThisMonth);
             setChartInputLastMonth(tasksLastMonth);
-            console.log(tasksThisMonth);
-
-            console.log(userContext.User.ToDoTasks);
         }
     }, [userContext])
 
@@ -135,7 +120,7 @@ const Stats = () => {
                     labels: moment.weekdays(),
                     datasets: [
                         {
-                            label: "Number of Tasks",
+                            label: "Number of completed Tasks",
                             data: chartInputThisWeek,
                             backgroundColor: "#B91D21",
 
@@ -152,7 +137,7 @@ const Stats = () => {
                     labels: moment.weekdays(),
                     datasets: [
                         {
-                            label: "Number of Tasks",
+                            label: "Number of completed Tasks",
                             data: chartInputLastWeek,
                             backgroundColor: "#B91D21"
                         }
@@ -168,7 +153,7 @@ const Stats = () => {
                     labels: labelThisMonth,
                     datasets: [
                         {
-                            label: "Number of Tasks",
+                            label: "Number of completed Tasks",
                             data: chartInputThisMonth,
                             backgroundColor: "#B91D21"
                         }
@@ -184,7 +169,7 @@ const Stats = () => {
                     labels: labelLastMonth,
                     datasets: [
                         {
-                            label: "Number of Tasks",
+                            label: "Number of completed Tasks",
                             data: chartInputLastMonth,
                             backgroundColor: "#B91D21"
                         }
