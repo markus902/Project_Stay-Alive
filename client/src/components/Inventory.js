@@ -72,10 +72,8 @@ export default function Inventory() {
 
   const handleUseItem = (PowerUpId, PowerUpType) => {
     let currentCharacterId = userContext.User.User.CharacterId;
-
     console.log("current charid", currentCharacterId)
-
-    setLoading(true); // set loading to true until the axios is done 
+    // setLoading(true); // set loading to true until the axios is done 
     // Pull data to get the user health and experience 
     let health = userContext.User.health;
     let experience = userContext.User.experience;
@@ -149,8 +147,8 @@ export default function Inventory() {
             <p key={elem.PowerUpName}>{elem.PowerUpName}</p>
             <img src='http://via.placeholder.com/150x150'></img>
             <p>{elem.Description || elem.PowerUp.Description}</p>
-            <button onClick={() => handleUseItem(elem.id, elem.PowerUpType || elem.PowerUp.PowerUpType)}>Use Item</button>
-            <button onClick={() => handleAddItem(elem.id, elem.PowerUpName, elem.PowerUpType || elem.PowerUp.PowerUpType)}>Add Item to character</button>
+            <Button onClick={() => handleUseItem(elem.id, elem.PowerUpType || elem.PowerUp.PowerUpType)}>Use Item</Button>
+            <Button onClick={() => handleAddItem(elem.id, elem.PowerUpName, elem.PowerUpType || elem.PowerUp.PowerUpType)}>Add Item to character</Button>
             <p>-----</p>
           </div>)
         : <p>loading</p>
