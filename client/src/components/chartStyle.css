@@ -9,3 +9,7 @@ h5.headline2{
 #chartEnd{
     margin-bottom: 45px;
 }
+
+.chartHeight{
+    max-width: 500px;
+}

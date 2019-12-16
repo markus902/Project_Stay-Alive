@@ -76,7 +76,7 @@ const Stats = () => {
             //Calculating task count for this week
 
             userContext.User.ToDoTasks.forEach(elem => {
-                if (thisWeekFormated.indexOf(elem.complete.slice(0, 10)) === -1) {
+                if (thisWeekFormated.indexOf(elem.complete.slice(0, 10)) == -1) {
                 }
                 else {
                     tasksThisWeek[moment(elem.complete).day()] = tasksThisWeek[moment(elem.complete).day()] + 1;
@@ -87,7 +87,7 @@ const Stats = () => {
             //Calculating task count for last week
 
             userContext.User.ToDoTasks.forEach(elem => {
-                if (lastWeekFormated.indexOf(elem.complete.slice(0, 10)) === -1) {
+                if (lastWeekFormated.indexOf(elem.complete.slice(0, 10)) == -1) {
                 }
                 else {
                     tasksLastWeek[moment(elem.complete).day()] = tasksLastWeek[moment(elem.complete).day()] + 1;
@@ -98,7 +98,7 @@ const Stats = () => {
             //Calculating task count for this and last month
 
             userContext.User.ToDoTasks.forEach(elem => {
-                if (moment(elem.complete).month() === moment().month()) {
+                if (moment(elem.complete).month() == moment().month()) {
                     tasksThisMonth[moment(elem.complete).date()] = tasksThisMonth[moment(elem.complete).date()] + 1;
                 }
                 else {
@@ -119,7 +119,7 @@ const Stats = () => {
                     labels: moment.weekdays(),
                     datasets: [
                         {
-                            label: "Number of Tasks",
+                            label: "Number of completed Tasks",
                             data: chartInputThisWeek,
                             backgroundColor: "#B91D21",
 
@@ -136,7 +136,7 @@ const Stats = () => {
                     labels: moment.weekdays(),
                     datasets: [
                         {
-                            label: "Number of Tasks",
+                            label: "Number of completed Tasks",
                             data: chartInputLastWeek,
                             backgroundColor: "#B91D21"
                         }
@@ -152,7 +152,7 @@ const Stats = () => {
                     labels: labelThisMonth,
                     datasets: [
                         {
-                            label: "Number of Tasks",
+                            label: "Number of completed Tasks",
                             data: chartInputThisMonth,
                             backgroundColor: "#B91D21"
                         }
@@ -169,7 +169,7 @@ const Stats = () => {
                     labels: labelLastMonth,
                     datasets: [
                         {
-                            label: "Number of Tasks",
+                            label: "Number of completed Tasks",
                             data: chartInputLastMonth,
                             backgroundColor: "#B91D21"
                         }
@@ -182,21 +182,21 @@ const Stats = () => {
     return (
         <div>
             <div className="text-center" id="headline"><h3>Check out what you did!</h3></div>
-            <div className="row">
-                <div className="col-sm-12 text-center">
+            <div className="row justify-content-center">
+                <div className="col-sm-12 col-md-6 col-lg-6 text-center chartHeight mb-4">
                     <h5 className="headline2">This Week</h5>
                     <Chart chartData={dataThisWeek.chartData}
                     />
                 </div>
-                <div className="col-sm-12 text-center" id="chartEnd">
+                <div className="col-sm-12 col-md-6 col-lg-6 text-center chartHeight mb-4">
                     <h5 className="headline2">Last Week</h5>
                     <Chart chartData={dataLastWeek.chartData} />
                 </div>
-                <div className="col-sm-12 text-center">
+                <div className="col-sm-12 col-md-6 col-lg-6 text-center chartHeight mb-4">
                     <h5 className="headline2">This Month</h5>
                     <Chart chartData={dataThisMonth.chartData} />
                 </div>
-                <div className="col-sm-12 text-center">
+                <div className="col-sm-12 col-md-6 col-lg-6 text-center chartHeight" id="chartEnd">
                     <h5 className="headline2">Last Month</h5>
                     <Chart chartData={dataLastMonth.chartData} />
                 </div>
