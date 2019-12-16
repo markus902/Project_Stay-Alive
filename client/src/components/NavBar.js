@@ -34,11 +34,11 @@ const NavBar = () => {
     <div className="nav-container">
       <Navbar color="light" light expand="md">
         <Container>
-          <NavbarToggler onClick={toggle} /><FontAwesomeIcon icon={faBiohazard} style={{ color: '#B91D21' }}size='3x' />
+          <NavbarToggler onClick={toggle} ><FontAwesomeIcon icon={faBiohazard} style={{ color: '#B91D21' }} size='3x' /></NavbarToggler>
           <Collapse isOpen={isOpen} navbar>
             <Nav className="mr-auto" navbar>
               <NavItem>
-              
+
                 <NavLink
                   tag={RouterNavLink}
                   to="/"

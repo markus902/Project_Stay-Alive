@@ -13,16 +13,7 @@ if (config.use_env_variable) {
 } else {
     sequelize = new Sequelize(process.env[config.use_env_variable], { logging: false });
 }
-// if (config.use_env_variable) {
-//     var sequelize = new Sequelize({
-//         username: process.env.DBUSERNAME,
-//         host: process.env.DBHOST,
-//         database: process.env.DBNAME,
-//         password: process.env.DBPASSWORD,
-//         { logging: false });
-// } else {
-//     var sequelize = new Sequelize(process.env[config.use_env_variable], { logging: false });
-// }
+
 
 fs
     .readdirSync(__dirname)
