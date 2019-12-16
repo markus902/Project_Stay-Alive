@@ -13,7 +13,6 @@ router.get("/character/:id", (req, res) => {
             { model: db.ToDoTasks },
             { model: db.CharacterPowerUps }
         ]
-
     })
         .then(
             data => {
@@ -156,13 +155,13 @@ router.put("/characterLevel/:id", (req, res) => {
         .catch(err => { console.log(err) })
 })
 
-router.get("/itembyid/:itemid", (req,res)=>{
+router.get("/itembyid/:itemid", (req, res) => {
     db.PowerUp.findOne({
-        where:{ id:req.params.itemid}
-    }).then((itemData)=>{
+        where: { id: req.params.itemid }
+    }).then((itemData) => {
         console.log(itemData)
         res.json(itemData)
-    }).catch(err=>res.json(err))
+    }).catch(err => res.json(err))
 })
 
 
@@ -179,7 +178,7 @@ router.get("/gettasks/:characterId", (req, res) => {
 router.post("/createtask", (req, res) => {
     let task = req.body;
     db.ToDoTasks.findOrCreate(
-        { where: {taskName: req.body.taskName, CharacterId: req.body.CharacterId}, defaults: req.body }
+        { where: { taskName: req.body.taskName, CharacterId: req.body.CharacterId }, defaults: req.body }
     )
         .then(data => { res.json(data) })
         .catch(err => { console.log(err) });
