@@ -12,10 +12,6 @@ export default function CharacterCreation() {
   const [characterImage, setCharacterImage] = useState(`B${bodyType}H${hairType}C${color}.png`)
 
   const handleChange = (e) => {
-    let body = "B"+bodyType
-    let hair = "H"+hairType
-    let c1 = "O"+color
-    console.log(body,hair,c1)
     switch (true) {
       case (e.target.id === "bodyType"):
         setBodyType(e.target.value)
@@ -32,8 +28,7 @@ export default function CharacterCreation() {
       default:
         break;
     }
-    console.log(characterImage, "Inside the handlechange " + e.target.value)
-    
+
     setCharacterImage(`B${bodyType}H${hairType}C${color}.png`)
   }
 
@@ -52,22 +47,19 @@ export default function CharacterCreation() {
       .then((userResponse) => {
         axios.get(`/api/character/${userResponse.id}`)
           .then((char) => {
-            console.log(char)
             setUserContext({ User: char.data[0] })
           })
       })
   }
 
   useEffect(() => {
-   console.log("Inside the Use Effect" + characterImage)
-   setCharacterImage(`B${bodyType}H${hairType}C${color}.png`)
-  }, [characterImage,bodyType,hairType,color])
+    setCharacterImage(`B${bodyType}H${hairType}C${color}.png`)
+  }, [characterImage, bodyType, hairType, color])
 
   return (
     <div>
       <Row>
         <h1>Character Creation</h1>
-  <p>{characterImage}</p>
       </Row>
       <Row>
         <Col>

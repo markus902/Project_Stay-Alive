@@ -13,7 +13,6 @@ export default function CharacterDashboard() {
     if(userContext.User.health<0){
         characterImage='/assets/character/B'+userContext.User.bodyType+"Zombie.png"
     }
-    console.log(characterImage)
     let nextLevel = (Math.floor(userContext.User.experience / 400) + 1)*400
     
     return (

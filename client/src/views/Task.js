@@ -36,18 +36,6 @@ const Task = () => {
   }, [])
 
 
-  // Get Task Data from userContext and from DB response at /api/gettasks/${currentCharacterId}
-  const getTaskData = () => {
-    let currentCharacterId = userContext.User.User.CharacterId;
-    axios.get(`/api/gettasks/${currentCharacterId}`)
-      .then(response => {
-        axios.get(`/api/character/${response.CharacterId}`)
-          .then((response) => {
-            setUserContext({ user: response.data })
-          })
-      })
-  };
-
   // newTaskForm input change handler
   const handleNewTaskInput = (event) => {
     switch (true) {
@@ -152,11 +140,11 @@ const Task = () => {
             }
             else {
               health -= 10;
-              if(health<0){
-                health=100;
-                exp=exp-200;
-                if(exp<0){
-                  exp=0
+              if (health < 0) {
+                health = 100;
+                exp = exp - 200;
+                if (exp < 0) {
+                  exp = 0
                 }
               }
             }
@@ -185,11 +173,11 @@ const Task = () => {
             }
             else {
               health -= 20;
-              if(health<0){
-                health=100;
-                exp=exp-200;
-                if(exp<0){
-                  exp=0
+              if (health < 0) {
+                health = 100;
+                exp = exp - 200;
+                if (exp < 0) {
+                  exp = 0
                 }
               }
             }
@@ -218,25 +206,25 @@ const Task = () => {
             }
             else {
               health -= 30;
-              if(health<0){
-                health=100;
-                exp=exp-200;
-                if(exp<0){
-                  exp=0
+              if (health < 0) {
+                health = 100;
+                exp = exp - 200;
+                if (exp < 0) {
+                  exp = 0
                 }
               }
             }
           }
           console.log(currentLvl)
-          console.log(Math.floor(exp/400) +1)
-          if(Math.floor(exp/400) +1 > currentLvl){
-            const randomItem = Math.floor(Math.random()*19)+1
-            axios.get(`/api/itembyid/${randomItem}`).then((itemData)=>{
+          console.log(Math.floor(exp / 400) + 1)
+          if (Math.floor(exp / 400) + 1 > currentLvl) {
+            const randomItem = Math.floor(Math.random() * 19) + 1
+            axios.get(`/api/itembyid/${randomItem}`).then((itemData) => {
               console.log(itemData)
               console.log(updatedTask)
               const gift = {
                 CharacterId: updatedTask.CharacterId,
-                PowerUpId:randomItem,
+                PowerUpId: randomItem,
                 PowerUpName: itemData.data.PowerUpName
               }
               console.log(gift)

@@ -8,7 +8,7 @@ import '../components/chartStyle.css';
 const Stats = () => {
 
     //Getting Context
-    const { userContext, setUserContext } = useContext(UserContext);
+    const { userContext } = useContext(UserContext);
     const [chartInputThisWeek, setChartInputThisWeek] = useState();
     const [chartInputLastWeek, setChartInputLastWeek] = useState();
     const [chartInputThisMonth, setChartInputThisMonth] = useState();
@@ -159,6 +159,7 @@ const Stats = () => {
                     ]
                 }
             })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [chartInputThisMonth]);
 
     useEffect(() => {
@@ -175,6 +176,7 @@ const Stats = () => {
                     ]
                 }
             })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [chartInputLastMonth]);
 
     return (

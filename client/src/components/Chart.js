@@ -1,5 +1,5 @@
 import React from 'react';
-import { Bar, Line, Pie } from 'react-chartjs-2';
+import { Bar } from 'react-chartjs-2';
 
 
 function Chart(props) {
@@ -26,8 +26,7 @@ function Chart(props) {
                                 fontColor: 'white',
                                 precision: 0,
                             },
-                        }
-                        ],
+                        }],
                         xAxes: [{
                             ticks: {
                                 fontColor: 'white'
