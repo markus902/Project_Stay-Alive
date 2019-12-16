@@ -1,4 +1,4 @@
-import React, { useContext} from 'react'
+import React, { useContext } from 'react'
 import UserContext from '../utils/UserContext'
 import { Row, Col } from "reactstrap";
 import Loading from "../components/Loading"
@@ -6,7 +6,7 @@ import Loading from "../components/Loading"
 export default function CharacterDashboard() {
     const { userContext } = useContext(UserContext)
 
-    if(userContext.User==="None"){
+    if (userContext.User === "None") {
         return <Loading />
     }
     let characterImage="/assets/character/B"+userContext.User.bodyType+"H"+userContext.User.hairType+"C"+userContext.User.color1+".png"
@@ -19,7 +19,7 @@ export default function CharacterDashboard() {
 
         <div>
             <h1>Character Dashboard</h1>
-            <Row className="bg-success p-3 border rounded">
+            <Row className="bg-success p-3 border rounded mb-4">
                 <Col>
                     <img src={characterImage} className="img-fluid" alt={"Char portrait"} />
                 </Col>
