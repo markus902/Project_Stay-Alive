@@ -3,6 +3,7 @@
 Link: https://stay-alive-critical-code.herokuapp.com/
 
 Test user: tester@test.com
+
 Test login: Testapp1
 
 ### *Stay Alive!* is a fun app with an apocalyptic twist designed to gamify your life. Create your own avatar and make those boring old chores and tasks you dread into something worthwhile! Reward yourself for taking out the trash, going to the gym all week, or even taking your car to get an oil change. Defend yourself with a baseball bat, sport some nice shades, and even unlock a set of chainmail armor to protect you from dangers of the wasteland. Life is not fair (especially in the apocalypse)! Will you stay on task and survive?
